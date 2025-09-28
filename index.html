@@ -10,6 +10,46 @@
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5448739142718011" crossorigin="anonymous"></script>
     
+    <!-- Firebase -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, doc, setDoc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDulwJp9F-IRnPuKwmlgj_63W1E7G34drM",
+            authDomain: "g-x-4678a.firebaseapp.com",
+            projectId: "g-x-4678a",
+            storageBucket: "g-x-4678a.firebasestorage.app",
+            messagingSenderId: "222697143577",
+            appId: "1:222697143577:web:a5f20bade8168ff7a69988"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Make available globally
+        window.auth = auth;
+        window.db = db;
+        window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
+        window.signInWithEmailAndPassword = signInWithEmailAndPassword;
+        window.signOut = signOut;
+        window.sendPasswordResetEmail = sendPasswordResetEmail;
+        window.onAuthStateChanged = onAuthStateChanged;
+        window.addDoc = addDoc;
+        window.collection = collection;
+        window.onSnapshot = onSnapshot;
+        window.query = query;
+        window.orderBy = orderBy;
+        window.serverTimestamp = serverTimestamp;
+        window.doc = doc;
+        window.setDoc = setDoc;
+        window.getDoc = getDoc;
+        window.updateDoc = updateDoc;
+        window.increment = increment;
+    </script>
+
     <title>G-X | Community Platform</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -61,42 +101,6 @@
             padding: 0 20px;
         }
 
-        /* AdSense Styles */
-        .adsense-container {
-            margin: 1.5rem 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 90px;
-            background-color: var(--body-bg);
-            border-radius: var(--radius);
-            border: 1px dashed var(--gray);
-        }
-
-        .adsense-banner {
-            width: 100%;
-            max-width: 728px;
-            height: 90px;
-        }
-
-        .adsense-sidebar {
-            width: 100%;
-            height: 600px;
-        }
-
-        .adsense-in-article {
-            width: 100%;
-            max-width: 300px;
-            height: 250px;
-            margin: 1rem auto;
-        }
-
-        .adsense-mobile {
-            width: 100%;
-            height: 100px;
-            margin: 1rem 0;
-        }
-
         /* Auth Pages */
         .auth-container {
             min-height: 100vh;
@@ -106,20 +110,6 @@
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             position: relative;
             overflow: hidden;
-        }
-
-        .auth-container::before {
-            content: '';
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="%23ffffff" opacity="0.05"><circle cx="50" cy="50" r="4"/></svg>') repeat;
-            animation: float 20s infinite linear;
-        }
-
-        @keyframes float {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            100% { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
         .auth-card {
@@ -214,13 +204,31 @@
             color: white;
         }
 
-        .btn-primary:hover {
+        .btn-primary:hover:not(:disabled) {
             background-color: var(--secondary);
             transform: translateY(-2px);
         }
 
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
         .btn-block {
             width: 100%;
+        }
+
+        .btn-text {
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            padding: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .btn-text:hover {
+            text-decoration: underline;
         }
 
         .auth-link {
@@ -236,19 +244,6 @@
         }
 
         .auth-link a:hover {
-            text-decoration: underline;
-        }
-
-        .forgot-password {
-            display: block;
-            text-align: right;
-            margin-top: 0.5rem;
-            color: var(--primary);
-            text-decoration: none;
-            font-size: 0.9rem;
-        }
-
-        .forgot-password:hover {
             text-decoration: underline;
         }
 
@@ -287,6 +282,7 @@
             align-items: center;
             gap: 0.5rem;
             transition: color 0.3s ease;
+            cursor: pointer;
         }
 
         .nav-link:hover, .nav-link.active {
@@ -347,6 +343,7 @@
             color: var(--dark);
             text-decoration: none;
             transition: all 0.3s ease;
+            cursor: pointer;
         }
 
         .sidebar-link:hover, .sidebar-link.active {
@@ -376,6 +373,7 @@
             color: var(--dark);
             resize: none;
             margin-bottom: 1rem;
+            font-family: inherit;
         }
 
         .post-actions {
@@ -428,12 +426,7 @@
 
         .post-content {
             margin-bottom: 1rem;
-        }
-
-        .post-image, .post-video {
-            width: 100%;
-            border-radius: var(--radius);
-            margin-bottom: 1rem;
+            line-height: 1.6;
         }
 
         .post-stats {
@@ -474,13 +467,6 @@
             top: 90px;
         }
 
-        .section-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: var(--dark);
-        }
-
         .points-card, .followers-card {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
@@ -496,31 +482,38 @@
             margin: 0.5rem 0;
         }
 
-        .verification-badge {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            margin-left: 0.5rem;
-            font-size: 0.7rem;
+        .message {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .success {
+            background-color: var(--success);
             color: white;
         }
 
-        .verification-ve {
-            background-color: var(--success);
+        .error {
+            background-color: var(--danger);
+            color: white;
         }
 
-        .verification-ajan {
-            background-color: var(--warning);
-        }
-
-        .verification-ble {
+        .info {
             background-color: var(--primary);
+            color: white;
         }
 
-        /* Chat */
+        .welcome {
+            background-color: var(--accent);
+            color: white;
+            padding: 15px;
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        /* Chat Styles */
         .chat-container {
             position: fixed;
             bottom: 20px;
@@ -587,10 +580,11 @@
             gap: 0.75rem;
         }
 
-        .message {
+        .chat-message {
             max-width: 80%;
             padding: 0.75rem;
             border-radius: var(--radius);
+            word-wrap: break-word;
         }
 
         .message-sent {
@@ -619,22 +613,10 @@
             border-radius: var(--radius);
             background-color: var(--body-bg);
             color: var(--dark);
+            font-family: inherit;
         }
 
-        .voice-message-btn {
-            background-color: var(--accent);
-            color: white;
-            border: none;
-            border-radius: var(--radius);
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-
-        /* Admin Dashboard */
+        /* Admin Page */
         .admin-container {
             display: none;
             min-height: 100vh;
@@ -679,100 +661,24 @@
             color: var(--primary);
         }
 
-        .admin-table {
-            background-color: var(--card-bg);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            padding: 1.5rem;
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid var(--gray);
-        }
-
-        th {
-            font-weight: 600;
-            color: var(--dark);
-        }
-
-        .action-btn {
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: var(--radius);
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-success {
-            background-color: var(--success);
-            color: white;
-        }
-
-        .btn-warning {
-            background-color: var(--warning);
-            color: white;
-        }
-
-        /* About Page */
-        .about-container {
-            display: none;
-            min-height: 100vh;
-            background-color: var(--body-bg);
-            padding: 2rem 0;
-        }
-
-        .creator-profile {
-            background-color: var(--card-bg);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            padding: 2rem;
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .creator-photo {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin: 0 auto 1.5rem;
-            border: 5px solid var(--primary);
-            background-color: #f0f0f0;
-            display: flex;
+        .verification-badge {
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            color: var(--gray);
-            font-size: 0.9rem;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-left: 0.5rem;
+            font-size: 0.7rem;
+            color: white;
         }
 
-        .creator-name {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--dark);
+        .verification-ve {
+            background-color: var(--success);
         }
 
-        .creator-title {
-            font-size: 1.2rem;
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-        }
-
-        .creator-bio {
-            text-align: left;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-            color: var(--dark);
+        .admin-only {
+            display: none;
         }
     </style>
 </head>
@@ -786,7 +692,8 @@
                 <p>Connect with the community</p>
             </div>
             
-            <form id="login-form">
+            <!-- Login Form -->
+            <div id="login-form">
                 <div class="form-group">
                     <label for="email">Email</label>
                     <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
@@ -797,14 +704,63 @@
                     <input type="password" id="password" class="form-control" placeholder="Enter your password" required>
                 </div>
                 
-                <button type="button" class="btn btn-primary btn-block" onclick="login()">
+                <button class="btn btn-primary btn-block" onclick="login()" id="login-btn">
                     <i class="fas fa-sign-in-alt"></i> Login
                 </button>
-            </form>
-            
-            <div class="auth-link">
-                Don't have an account? <a href="#" onclick="showRegister()">Create one</a>
+
+                <div style="text-align: center; margin: 1rem 0;">
+                    <button class="btn-text" onclick="showForgotPassword()">Forgot Password?</button>
+                </div>
+                
+                <div class="auth-link">
+                    Don't have an account? <a href="#" onclick="showRegisterForm()">Create one</a>
+                </div>
             </div>
+
+            <!-- Register Form -->
+            <div id="register-form" style="display: none;">
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <input type="email" id="register-email" class="form-control" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" class="form-control" placeholder="Create a password (min. 6 characters)" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" id="confirm-password" class="form-control" placeholder="Confirm your password" required>
+                </div>
+                
+                <button class="btn btn-primary btn-block" onclick="register()" id="register-btn">
+                    <i class="fas fa-user-plus"></i> Create Account
+                </button>
+                
+                <div class="auth-link">
+                    Already have an account? <a href="#" onclick="showLoginForm()">Login here</a>
+                </div>
+            </div>
+
+            <!-- Forgot Password Form -->
+            <div id="forgot-password-form" style="display: none;">
+                <div class="form-group">
+                    <label for="reset-email">Email</label>
+                    <input type="email" id="reset-email" class="form-control" placeholder="Enter your email" required>
+                </div>
+                
+                <button class="btn btn-primary btn-block" onclick="resetPassword()" id="reset-btn">
+                    <i class="fas fa-key"></i> Reset Password
+                </button>
+                
+                <div class="auth-link">
+                    Remember your password? <a href="#" onclick="showLoginForm()">Login here</a>
+                </div>
+            </div>
+
+            <!-- Message Display -->
+            <div id="auth-message"></div>
         </div>
     </div>
 
@@ -819,203 +775,147 @@
                 </div>
                 
                 <nav class="nav-links">
-                    <a href="#" class="nav-link active">
+                    <a href="#" class="nav-link active" onclick="showSection('main')">
                         <i class="fas fa-home"></i> Home
                     </a>
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-compass"></i> Explore
-                    </a>
-                    <a href="#" class="nav-link" onclick="showAdmin()">
+                    <a href="#" class="nav-link admin-only" onclick="showSection('admin')" id="admin-link">
                         <i class="fas fa-cog"></i> Admin
-                    </a>
-                    <a href="#" class="nav-link" onclick="showAbout()">
-                        <i class="fas fa-info-circle"></i> About
                     </a>
                     
                     <div class="user-profile" onclick="logout()">
-                        <div class="avatar">DG</div>
-                        <span>Dave G.</span>
+                        <div class="avatar" id="user-avatar">U</div>
+                        <span id="user-name">User</span>
                     </div>
                 </nav>
             </div>
         </header>
 
-        <!-- Main Content -->
-        <main class="container main-content">
-            <!-- Sidebar -->
-            <aside class="sidebar">
-                <ul class="sidebar-menu">
-                    <li class="sidebar-item">
-                        <a href="#" class="sidebar-link active">
-                            <i class="fas fa-home"></i> News Feed
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a href="#" class="sidebar-link">
-                            <i class="fas fa-rocket"></i> Popular
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a href="#" class="sidebar-link">
-                            <i class="fas fa-users"></i> Communities
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a href="#" class="sidebar-link">
-                            <i class="fas fa-gamepad"></i> Games
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a href="#" class="sidebar-link">
-                            <i class="fas fa-store"></i> Shop
-                        </a>
-                    </li>
-                </ul>
-                
-                <!-- AdSense Sidebar -->
-                <div class="adsense-container">
-                    <div class="adsense-sidebar">
-                        <!-- AdSense ad will appear here -->
-                    </div>
-                </div>
-            </aside>
+        <!-- Welcome Message -->
+        <div id="welcome-message" class="welcome" style="display: none;"></div>
 
-            <!-- Feed -->
-            <section class="feed">
-                <!-- Create Post -->
-                <div class="create-post">
-                    <textarea class="post-input" placeholder="What's on your mind?..."></textarea>
-                    <div class="post-actions">
-                        <div class="post-types">
-                            <div class="post-type">
-                                <i class="fas fa-image"></i> Photo
+        <!-- Main App Content -->
+        <div id="main-content">
+            <main class="container main-content">
+                <!-- Sidebar -->
+                <aside class="sidebar">
+                    <ul class="sidebar-menu">
+                        <li class="sidebar-item">
+                            <a href="#" class="sidebar-link active">
+                                <i class="fas fa-home"></i> News Feed
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="#" class="sidebar-link">
+                                <i class="fas fa-rocket"></i> Popular
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="#" class="sidebar-link">
+                                <i class="fas fa-users"></i> Communities
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="#" class="sidebar-link">
+                                <i class="fas fa-gamepad"></i> Games
+                            </a>
+                        </li>
+                    </ul>
+                </aside>
+
+                <!-- Feed -->
+                <section class="feed">
+                    <!-- Create Post -->
+                    <div class="create-post">
+                        <textarea class="post-input" placeholder="What's on your mind?..." id="post-content"></textarea>
+                        <div class="post-actions">
+                            <div class="post-types">
+                                <div class="post-type">
+                                    <i class="fas fa-image"></i> Photo
+                                </div>
+                                <div class="post-type">
+                                    <i class="fas fa-video"></i> Video
+                                </div>
                             </div>
-                            <div class="post-type">
-                                <i class="fas fa-video"></i> Video
-                            </div>
-                            <div class="post-type">
-                                <i class="fas fa-poll"></i> Poll
-                            </div>
+                            <button class="btn btn-primary" onclick="createPost()">Publish</button>
                         </div>
-                        <button class="btn btn-primary">Publish</button>
                     </div>
-                </div>
 
-                <!-- AdSense Banner -->
-                <div class="adsense-container">
-                    <div class="adsense-banner">
-                        <!-- AdSense ad will appear here -->
-                    </div>
-                </div>
+                    <!-- Posts will appear here -->
+                    <div id="posts-container"></div>
+                </section>
 
-                <!-- Sample Posts -->
-                <div class="post">
-                    <div class="post-header">
-                        <div class="avatar">JD</div>
-                        <div>
-                            <div class="post-user">
-                                Jean D. <span class="verification-badge verification-ve">VE</span>
-                            </div>
-                            <div class="post-time">2 hours ago</div>
-                        </div>
+                <!-- Right Sidebar -->
+                <aside class="right-sidebar">
+                    <div class="points-card">
+                        <h3>Your Points</h3>
+                        <div class="points-value" id="points-display">0</div>
+                        <p>Start posting to earn points!</p>
                     </div>
-                    <div class="post-content">
-                        G-X is an incredible platform! I love how I can connect with people who share my interests.
-                    </div>
-                    <div class="post-stats">
-                        <span>125 Likes</span>
-                        <span>23 Comments</span>
-                        <span>5 Shares</span>
-                    </div>
-                    <div class="post-actions-bottom">
-                        <div class="post-action">
-                            <i class="fas fa-thumbs-up"></i> Like
-                        </div>
-                        <div class="post-action">
-                            <i class="fas fa-comment"></i> Comment
-                        </div>
-                        <div class="post-action">
-                            <i class="fas fa-share"></i> Share
-                        </div>
-                    </div>
-                </div>
 
-                <!-- AdSense In-Article -->
-                <div class="adsense-container">
-                    <div class="adsense-in-article">
-                        <!-- AdSense ad will appear here -->
+                    <div class="followers-card">
+                        <h3>Followers</h3>
+                        <div class="followers-value" id="followers-display">0</div>
+                        <p>Connect with others to grow</p>
                     </div>
-                </div>
+                    
+                    <div class="post" style="margin-top: 1rem;">
+                        <h3>Welcome to G-X! 🎉</h3>
+                        <p>Share your thoughts, connect with friends, and explore new communities.</p>
+                        <div style="margin-top: 1rem;">
+                            <button class="btn btn-primary" onclick="toggleChat()">
+                                <i class="fas fa-comments"></i> Open Chat
+                            </button>
+                        </div>
+                    </div>
+                </aside>
+            </main>
+        </div>
 
-                <!-- Another Sample Post -->
-                <div class="post">
-                    <div class="post-header">
-                        <div class="avatar">MS</div>
-                        <div>
-                            <div class="post-user">
-                                Marie S. <span class="verification-badge verification-ajan">AJ</span>
-                            </div>
-                            <div class="post-time">5 hours ago</div>
+        <!-- Admin Content -->
+        <div id="admin-content" style="display: none;">
+            <div class="admin-container">
+                <header class="admin-header">
+                    <div class="container admin-nav">
+                        <div class="logo">
+                            <span class="logo-icon">GX</span>
+                            <h1>G-X Admin</h1>
                         </div>
+                        <button class="btn btn-primary" onclick="showSection('main')">
+                            <i class="fas fa-arrow-left"></i> Back to App
+                        </button>
                     </div>
-                    <div class="post-content">
-                        Just earned 500 points by completing my daily challenges! The reward system on G-X is amazing! 🎉
-                    </div>
-                    <div class="post-stats">
-                        <span>89 Likes</span>
-                        <span>15 Comments</span>
-                        <span>3 Shares</span>
-                    </div>
-                    <div class="post-actions-bottom">
-                        <div class="post-action">
-                            <i class="fas fa-thumbs-up"></i> Like
-                        </div>
-                        <div class="post-action">
-                            <i class="fas fa-comment"></i> Comment
-                        </div>
-                        <div class="post-action">
-                            <i class="fas fa-share"></i> Share
-                        </div>
-                    </div>
-                </div>
-            </section>
+                </header>
 
-            <!-- Right Sidebar -->
-            <aside class="right-sidebar">
-                <!-- Points Card -->
-                <div class="points-card">
-                    <h3>Your Points</h3>
-                    <div class="points-value">1,250</div>
-                    <p>Level 5 - Explorer</p>
-                </div>
-
-                <!-- Followers Card -->
-                <div class="followers-card">
-                    <h3>Followers</h3>
-                    <div class="followers-value">456</div>
-                    <p>People following you</p>
-                </div>
-
-                <!-- Trending Communities -->
-                <div class="section-title">Trending Communities</div>
-                <div style="display: flex; flex-direction: column; gap: 1rem;">
-                    <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: var(--body-bg); border-radius: var(--radius);">
-                        <div class="avatar" style="width: 35px; height: 35px; font-size: 0.9rem;">T</div>
-                        <div>
-                            <div style="font-weight: 600;">Tech Enthusiasts</div>
-                            <div style="font-size: 0.8rem; color: var(--gray);">12.5k members</div>
+                <main class="container admin-main">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h3>Total Users</h3>
+                            <div class="stat-value" id="total-users">1</div>
+                            <p>Registered users</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Active Now</h3>
+                            <div class="stat-value" id="active-users">1</div>
+                            <p>Online users</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Total Posts</h3>
+                            <div class="stat-value" id="total-posts">0</div>
+                            <p>All posts</p>
                         </div>
                     </div>
-                    <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: var(--body-bg); border-radius: var(--radius);">
-                        <div class="avatar" style="width: 35px; height: 35px; font-size: 0.9rem;">G</div>
-                        <div>
-                            <div style="font-weight: 600;">Gamers Hub</div>
-                            <div style="font-size: 0.8rem; color: var(--gray);">8.7k members</div>
+
+                    <div class="post">
+                        <h3>Admin Information</h3>
+                        <div class="post-content">
+                            <p><strong>Email:</strong> <span id="admin-user-email"></span></p>
+                            <p><strong>Role:</strong> Administrator</p>
+                            <p><strong>Access Level:</strong> Full Access</p>
                         </div>
                     </div>
-                </div>
-            </aside>
-        </main>
+                </main>
+            </div>
+        </div>
 
         <!-- Chat Widget -->
         <div class="chat-container">
@@ -1024,137 +924,20 @@
             </div>
             <div id="chatWindow" class="chat-window">
                 <div class="chat-header">
-                    <div class="chat-title">Chat</div>
+                    <div class="chat-title">Community Chat</div>
                     <div class="chat-close" onclick="toggleChat()">
                         <i class="fas fa-times"></i>
                     </div>
                 </div>
-                <div class="chat-body">
-                    <div class="message message-received">
-                        Hello! Welcome to G-X support.
-                    </div>
-                    <div class="message message-sent">
-                        Hi! I need help with my account.
-                    </div>
-                    <div class="message message-received">
-                        How can I assist you today?
+                <div class="chat-body" id="chat-body">
+                    <div class="chat-message message-received">
+                        Welcome to G-X Chat! Start a conversation with the community.
                     </div>
                 </div>
                 <div class="chat-footer">
-                    <input type="text" class="chat-input" placeholder="Type a message...">
-                    <button class="voice-message-btn">
-                        <i class="fas fa-microphone"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Admin Dashboard -->
-    <div id="admin-container" class="admin-container">
-        <header class="admin-header">
-            <div class="container admin-nav">
-                <div class="logo">
-                    <span class="logo-icon">GX</span>
-                    <h1>G-X Admin</h1>
-                </div>
-                <button class="btn btn-primary" onclick="backToApp()">
-                    <i class="fas fa-arrow-left"></i> Back to App
-                </button>
-            </div>
-        </header>
-
-        <main class="container admin-main">
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <h3>Total Users</h3>
-                    <div class="stat-value">12,458</div>
-                    <p>+245 this week</p>
-                </div>
-                <div class="stat-card">
-                    <h3>Active Now</h3>
-                    <div class="stat-value">3,247</div>
-                    <p>Online users</p>
-                </div>
-                <div class="stat-card">
-                    <h3>Posts Today</h3>
-                    <div class="stat-value">1,893</div>
-                    <p>+12% from yesterday</p>
-                </div>
-                <div class="stat-card">
-                    <h3>Revenue</h3>
-                    <div class="stat-value">$4,258</div>
-                    <p>This month</p>
-                </div>
-            </div>
-
-            <div class="admin-table">
-                <h3 class="section-title">User Management</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>User</th>
-                            <th>Email</th>
-                            <th>Status</th>
-                            <th>Points</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Jean Dupont</td>
-                            <td>jean@example.com</td>
-                            <td>Verified</td>
-                            <td>1,250</td>
-                            <td>
-                                <button class="action-btn btn-warning">Edit</button>
-                                <button class="action-btn btn-success">Message</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Marie Smith</td>
-                            <td>marie@example.com</td>
-                            <td>Agent</td>
-                            <td>3,450</td>
-                            <td>
-                                <button class="action-btn btn-warning">Edit</button>
-                                <button class="action-btn btn-success">Message</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </main>
-    </div>
-
-    <!-- About Page -->
-    <div id="about-container" class="about-container">
-        <div class="container">
-            <button class="btn btn-primary" onclick="backToApp()" style="margin-bottom: 2rem;">
-                <i class="fas fa-arrow-left"></i> Back to App
-            </button>
-            
-            <div class="creator-profile">
-                <div class="creator-photo">
-                    Creator Photo
-                </div>
-                <h2 class="creator-name">Dave Gallioth</h2>
-                <div class="creator-title">Founder & CEO of G-X Platform</div>
-                
-                <div class="creator-bio">
-                    <p>Dave Gallioth is the visionary creator behind G-X, a revolutionary social platform designed to bring people together while rewarding meaningful interactions.</p>
-                    
-                    <p>With a passion for technology and community building, Dave has dedicated years to developing a platform that not only connects people but also values their contributions through an innovative points system.</p>
-                    
-                    <p>G-X represents Dave's commitment to creating digital spaces that prioritize user experience, security, and genuine human connection over algorithms and advertising.</p>
-                </div>
-                
-                <div style="display: flex; gap: 1rem; justify-content: center;">
-                    <button class="btn btn-primary">
-                        <i class="fas fa-envelope"></i> Contact
-                    </button>
-                    <button class="btn" style="background: var(--body-bg); color: var(--dark);">
-                        <i class="fas fa-share"></i> Share
+                    <input type="text" class="chat-input" placeholder="Type a message..." id="chat-input">
+                    <button class="btn btn-primary" onclick="sendMessage()">
+                        <i class="fas fa-paper-plane"></i>
                     </button>
                 </div>
             </div>
@@ -1162,91 +945,436 @@
     </div>
 
     <script>
-        // Login function
-        function login() {
-            document.getElementById('auth-container').style.display = 'none';
-            document.getElementById('app-container').style.display = 'block';
+        // Admin email - Change this to your admin email
+        const ADMIN_EMAIL = "davemo1ine0@gmail.com";
+
+        // Auth Functions
+        function showRegisterForm() {
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('register-form').style.display = 'block';
+            document.getElementById('forgot-password-form').style.display = 'none';
+            clearMessage();
         }
-        
-        // Logout function
+
+        function showLoginForm() {
+            document.getElementById('register-form').style.display = 'none';
+            document.getElementById('login-form').style.display = 'block';
+            document.getElementById('forgot-password-form').style.display = 'none';
+            clearMessage();
+        }
+
+        function showForgotPassword() {
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('register-form').style.display = 'none';
+            document.getElementById('forgot-password-form').style.display = 'block';
+            clearMessage();
+        }
+
+        function showMessage(message, type) {
+            const messageDiv = document.getElementById('auth-message');
+            messageDiv.innerHTML = `<div class="message ${type}">${message}</div>`;
+        }
+
+        function clearMessage() {
+            document.getElementById('auth-message').innerHTML = '';
+        }
+
+        function showWelcomeMessage(message) {
+            const welcomeDiv = document.getElementById('welcome-message');
+            welcomeDiv.innerHTML = message;
+            welcomeDiv.style.display = 'block';
+            
+            // Hide welcome message after 5 seconds
+            setTimeout(() => {
+                welcomeDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        function validateForm(email, password) {
+            if (!email || !password) {
+                showMessage('Please fill in all fields!', 'error');
+                return false;
+            }
+            if (password.length < 6) {
+                showMessage('Password must be at least 6 characters!', 'error');
+                return false;
+            }
+            return true;
+        }
+
+        // Create user profile in Firestore
+        async function createUserProfile(user) {
+            const userRef = doc(db, 'users', user.uid);
+            const userDoc = await getDoc(userRef);
+            
+            if (!userDoc.exists()) {
+                await setDoc(userRef, {
+                    email: user.email,
+                    points: 0,
+                    followers: 0,
+                    following: 0,
+                    createdAt: serverTimestamp(),
+                    username: user.email.split('@')[0]
+                });
+            }
+        }
+
+        // Get user data
+        async function getUserData(userId) {
+            const userRef = doc(db, 'users', userId);
+            const userDoc = await getDoc(userRef);
+            return userDoc.exists() ? userDoc.data() : null;
+        }
+
+        // Update points display
+        function updatePointsDisplay(points) {
+            document.getElementById('points-display').textContent = points;
+        }
+
+        // Update followers display
+        function updateFollowersDisplay(followers) {
+            document.getElementById('followers-display').textContent = followers;
+        }
+
+        async function register() {
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const btn = document.getElementById('register-btn');
+
+            if (!validateForm(email, password)) return;
+
+            if (password !== confirmPassword) {
+                showMessage('Passwords do not match!', 'error');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating...';
+
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+                
+                // Create user profile
+                await createUserProfile(user);
+                
+                showMessage('Account created successfully! Welcome to G-X! 🎉', 'success');
+                
+                // Show welcome message
+                const username = email.split('@')[0];
+                showWelcomeMessage(`🎉 Welcome to G-X site, ${username}! Start exploring the community.`);
+                
+                // Clear form
+                document.getElementById('register-email').value = '';
+                document.getElementById('register-password').value = '';
+                document.getElementById('confirm-password').value = '';
+                
+                // Auto login after successful registration
+                setTimeout(() => {
+                    showLoginForm();
+                }, 2000);
+                
+            } catch (error) {
+                showMessage('Error creating account: ' + error.message, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-user-plus"></i> Create Account';
+            }
+        }
+
+        async function login() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const btn = document.getElementById('login-btn');
+
+            if (!validateForm(email, password)) return;
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                // Login successful - handled by onAuthStateChanged
+                
+                // Show welcome back message
+                const username = email.split('@')[0];
+                showWelcomeMessage(`👋 Welcome back to G-X site, ${username}! Good to see you again.`);
+                
+            } catch (error) {
+                showMessage('Error logging in: ' + error.message, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+            }
+        }
+
+        async function resetPassword() {
+            const email = document.getElementById('reset-email').value;
+            const btn = document.getElementById('reset-btn');
+
+            if (!email) {
+                showMessage('Please enter your email address!', 'error');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+
+            try {
+                await sendPasswordResetEmail(auth, email);
+                showMessage('Password reset email sent! Check your inbox.', 'success');
+                showLoginForm();
+            } catch (error) {
+                showMessage('Error sending reset email: ' + error.message, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-key"></i> Reset Password';
+            }
+        }
+
         function logout() {
-            document.getElementById('auth-container').style.display = 'flex';
-            document.getElementById('app-container').style.display = 'none';
-            document.getElementById('admin-container').style.display = 'none';
-            document.getElementById('about-container').style.display = 'none';
+            signOut(auth);
         }
-        
-        // Show register form
-        function showRegister() {
-            alert('Registration feature coming soon!');
+
+        function showSection(section) {
+            if (section === 'main') {
+                document.getElementById('main-content').style.display = 'block';
+                document.getElementById('admin-content').style.display = 'none';
+            } else if (section === 'admin') {
+                document.getElementById('main-content').style.display = 'none';
+                document.getElementById('admin-content').style.display = 'block';
+            }
         }
-        
-        // Chat functions
+
+        // Chat Functions
         function toggleChat() {
             const chatWindow = document.getElementById('chatWindow');
             chatWindow.style.display = chatWindow.style.display === 'none' ? 'flex' : 'none';
         }
-        
+
         function sendMessage() {
-            const input = document.querySelector('.chat-input');
+            const input = document.getElementById('chat-input');
             const message = input.value.trim();
             
             if (message) {
-                const chatBody = document.querySelector('.chat-body');
+                const chatBody = document.getElementById('chat-body');
                 const messageDiv = document.createElement('div');
-                messageDiv.className = 'message message-sent';
+                messageDiv.className = 'chat-message message-sent';
                 messageDiv.textContent = message;
                 chatBody.appendChild(messageDiv);
                 
                 input.value = '';
                 chatBody.scrollTop = chatBody.scrollHeight;
-                
-                // Auto reply
-                setTimeout(() => {
-                    const autoReply = document.createElement('div');
-                    autoReply.className = 'message message-received';
-                    autoReply.textContent = 'Thanks for your message! How can I help you further?';
-                    chatBody.appendChild(autoReply);
-                    chatBody.scrollTop = chatBody.scrollHeight;
-                }, 1000);
+
+                // Save message to Firestore
+                if (window.currentUser) {
+                    addDoc(collection(db, 'chat'), {
+                        user: window.currentUser.email,
+                        message: message,
+                        timestamp: serverTimestamp()
+                    });
+                }
             }
         }
-        
-        // Admin functions
-        function showAdmin() {
-            document.getElementById('app-container').style.display = 'none';
-            document.getElementById('admin-container').style.display = 'block';
-        }
-        
-        // About functions
-        function showAbout() {
-            document.getElementById('app-container').style.display = 'none';
-            document.getElementById('about-container').style.display = 'block';
-        }
-        
-        // Back to main app
-        function backToApp() {
-            document.getElementById('admin-container').style.display = 'none';
-            document.getElementById('about-container').style.display = 'none';
-            document.getElementById('app-container').style.display = 'block';
-        }
-        
-        // Dark mode toggle
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-        }
-        
-        // Event listeners
-        document.addEventListener('DOMContentLoaded', function() {
-            // Enter key for chat
-            document.querySelector('.chat-input').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    sendMessage();
-                }
-            });
+
+        // Post Functions
+        async function createPost() {
+            const content = document.getElementById('post-content').value.trim();
             
-            // Initialize AdSense
-            (adsbygoogle = window.adsbygoogle || []).push({});
+            if (!content) {
+                alert('Please write something to post!');
+                return;
+            }
+
+            if (!window.currentUser) {
+                alert('Please login to post!');
+                return;
+            }
+
+            try {
+                await addDoc(collection(db, 'posts'), {
+                    user: window.currentUser.email,
+                    content: content,
+                    timestamp: serverTimestamp(),
+                    likes: 0,
+                    comments: 0
+                });
+                
+                // Award points for posting
+                if (window.currentUser) {
+                    const userRef = doc(db, 'users', window.currentUser.uid);
+                    await updateDoc(userRef, {
+                        points: increment(10)
+                    });
+                }
+                
+                document.getElementById('post-content').value = '';
+                showMessage('Post published successfully! +10 points', 'success');
+            } catch (error) {
+                showMessage('Error creating post: ' + error.message, 'error');
+            }
+        }
+
+        // Load Posts
+        function loadPosts() {
+            const postsContainer = document.getElementById('posts-container');
+            const q = query(collection(db, 'posts'), orderBy('timestamp', 'desc'));
+            
+            onSnapshot(q, (snapshot) => {
+                postsContainer.innerHTML = '';
+                snapshot.forEach((doc) => {
+                    const post = doc.data();
+                    const postElement = document.createElement('div');
+                    postElement.className = 'post';
+                    postElement.innerHTML = `
+                        <div class="post-header">
+                            <div class="avatar">${post.user.charAt(0).toUpperCase()}</div>
+                            <div>
+                                <div class="post-user">${post.user}</div>
+                                <div class="post-time">${new Date(post.timestamp?.toDate()).toLocaleString()}</div>
+                            </div>
+                        </div>
+                        <div class="post-content">${post.content}</div>
+                        <div class="post-stats">
+                            <span>${post.likes || 0} Likes</span>
+                            <span>${post.comments || 0} Comments</span>
+                        </div>
+                        <div class="post-actions-bottom">
+                            <div class="post-action" onclick="likePost('${doc.id}')">
+                                <i class="fas fa-thumbs-up"></i> Like
+                            </div>
+                            <div class="post-action">
+                                <i class="fas fa-comment"></i> Comment
+                            </div>
+                            <div class="post-action">
+                                <i class="fas fa-share"></i> Share
+                            </div>
+                        </div>
+                    `;
+                    postsContainer.appendChild(postElement);
+                });
+            });
+        }
+
+        async function likePost(postId) {
+            if (!window.currentUser) {
+                alert('Please login to like posts!');
+                return;
+            }
+
+            try {
+                // Award points for liking
+                const userRef = doc(db, 'users', window.currentUser.uid);
+                await updateDoc(userRef, {
+                    points: increment(1)
+                });
+                
+                showMessage('+1 point for liking!', 'info');
+            } catch (error) {
+                console.error('Error liking post:', error);
+            }
+        }
+
+        // Load Chat Messages
+        function loadChatMessages() {
+            const q = query(collection(db, 'chat'), orderBy('timestamp', 'asc'));
+            
+            onSnapshot(q, (snapshot) => {
+                const chatBody = document.getElementById('chat-body');
+                chatBody.innerHTML = '<div class="chat-message message-received">Welcome to G-X Chat! Start a conversation with the community.</div>';
+                
+                snapshot.forEach((doc) => {
+                    const message = doc.data();
+                    const messageDiv = document.createElement('div');
+                    const isCurrentUser = message.user === window.currentUser?.email;
+                    
+                    messageDiv.className = `chat-message ${isCurrentUser ? 'message-sent' : 'message-received'}`;
+                    messageDiv.innerHTML = `
+                        <div><strong>${isCurrentUser ? 'You' : message.user}:</strong> ${message.message}</div>
+                        <small>${new Date(message.timestamp?.toDate()).toLocaleTimeString()}</small>
+                    `;
+                    
+                    chatBody.appendChild(messageDiv);
+                });
+                
+                chatBody.scrollTop = chatBody.scrollHeight;
+            });
+        }
+
+        // Load User Data
+        async function loadUserData(user) {
+            const userData = await getUserData(user.uid);
+            if (userData) {
+                updatePointsDisplay(userData.points || 0);
+                updateFollowersDisplay(userData.followers || 0);
+            }
+        }
+
+        // Auth State Listener
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in
+                window.currentUser = user;
+                document.getElementById('auth-container').style.display = 'none';
+                document.getElementById('app-container').style.display = 'block';
+                
+                // Update user info
+                const userEmail = user.email;
+                document.getElementById('user-name').textContent = userEmail;
+                document.getElementById('user-avatar').textContent = userEmail.charAt(0).toUpperCase();
+                
+                // Update admin info
+                document.getElementById('admin-user-email').textContent = userEmail;
+
+                // Show admin link only for admin user
+                if (userEmail === ADMIN_EMAIL) {
+                    document.getElementById('admin-link').style.display = 'flex';
+                } else {
+                    document.getElementById('admin-link').style.display = 'none';
+                }
+                
+                // Load user data
+                loadUserData(user);
+                
+                // Load data
+                loadPosts();
+                loadChatMessages();
+                
+            } else {
+                // User is signed out
+                window.currentUser = null;
+                document.getElementById('auth-container').style.display = 'flex';
+                document.getElementById('app-container').style.display = 'none';
+                
+                // Clear forms
+                document.getElementById('email').value = '';
+                document.getElementById('password').value = '';
+                clearMessage();
+            }
+        });
+
+        // Initialize AdSense
+        (adsbygoogle = window.adsbygoogle || []).push({});
+
+        // Enter key support
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                if (document.getElementById('login-form').style.display !== 'none') {
+                    login();
+                } else if (document.getElementById('register-form').style.display !== 'none') {
+                    register();
+                } else if (document.getElementById('forgot-password-form').style.display !== 'none') {
+                    resetPassword();
+                }
+            }
+        });
+
+        // Chat input enter key
+        document.getElementById('chat-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
         });
     </script>
 </body>
