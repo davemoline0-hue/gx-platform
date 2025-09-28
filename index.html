@@ -17,12 +17,12 @@
         import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, doc, setDoc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
-            apiKey: "AIzaSyDulwJp9F-IRnPuKwmlgj_63W1E7G34drM",
+            apiKey: "AIzaSyDuLwJp9F-IRnPuKwmUgj_63W1E7034drM",
             authDomain: "g-x-4678a.firebaseapp.com",
             projectId: "g-x-4678a",
             storageBucket: "g-x-4678a.firebasestorage.app",
             messagingSenderId: "222697143577",
-            appId: "1:222697143577:web:a5f20bade8168ff7a69988"
+            appId: "1:222697143577:web:106c769400b01514a69988"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -48,6 +48,152 @@
         window.getDoc = getDoc;
         window.updateDoc = updateDoc;
         window.increment = increment;
+
+        // Auth state management
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                document.getElementById('auth-container').style.display = 'none';
+                document.getElementById('app-container').style.display = 'block';
+                document.getElementById('user-name').textContent = user.email.split('@')[0];
+                document.getElementById('user-avatar').textContent = user.email[0].toUpperCase();
+                loadPosts();
+            } else {
+                document.getElementById('auth-container').style.display = 'flex';
+                document.getElementById('app-container').style.display = 'none';
+            }
+        });
+
+        // Auth functions
+        window.handleSignUp = async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                await setDoc(doc(db, "users", userCredential.user.uid), {
+                    email: email,
+                    createdAt: serverTimestamp(),
+                    points: 0,
+                    displayName: email.split('@')[0]
+                });
+                alert('Account created successfully!');
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        };
+
+        window.handleLogin = async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        };
+
+        window.handleLogout = async () => {
+            try {
+                await signOut(auth);
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        };
+
+        window.handleForgotPassword = async () => {
+            const email = prompt('Enter your email address:');
+            if (email) {
+                try {
+                    await sendPasswordResetEmail(auth, email);
+                    alert('Password reset email sent!');
+                } catch (error) {
+                    alert('Error: ' + error.message);
+                }
+            }
+        };
+
+        // Post functions
+        window.handleCreatePost = async (e) => {
+            e.preventDefault();
+            const content = document.getElementById('post-content').value;
+            const user = auth.currentUser;
+
+            if (!content.trim()) {
+                alert('Please enter some content');
+                return;
+            }
+
+            try {
+                await addDoc(collection(db, "posts"), {
+                    content: content,
+                    userId: user.uid,
+                    userEmail: user.email,
+                    createdAt: serverTimestamp(),
+                    likes: 0,
+                    comments: 0
+                });
+                document.getElementById('post-content').value = '';
+                alert('Post created successfully!');
+            } catch (error) {
+                alert('Error creating post: ' + error.message);
+            }
+        };
+
+        function loadPosts() {
+            const postsQuery = query(collection(db, "posts"), orderBy("createdAt", "desc"));
+            
+            onSnapshot(postsQuery, (snapshot) => {
+                const postsContainer = document.getElementById('posts-container');
+                postsContainer.innerHTML = '';
+                
+                snapshot.forEach((doc) => {
+                    const post = doc.data();
+                    const postElement = document.createElement('div');
+                    postElement.className = 'post';
+                    postElement.innerHTML = `
+                        <div class="post-header">
+                            <div class="avatar">${post.userEmail[0].toUpperCase()}</div>
+                            <div>
+                                <div class="post-user">${post.userEmail.split('@')[0]}</div>
+                                <div class="post-time">${post.createdAt?.toDate?.().toLocaleDateString() || 'Recently'}</div>
+                            </div>
+                        </div>
+                        <div class="post-content">${post.content}</div>
+                        <div class="post-stats">
+                            <div class="post-likes">
+                                <i class="fas fa-heart"></i>
+                                <span>${post.likes || 0}</span>
+                            </div>
+                            <div class="post-comments">
+                                <i class="fas fa-comment"></i>
+                                <span>${post.comments || 0}</span>
+                            </div>
+                        </div>
+                    `;
+                    postsContainer.appendChild(postElement);
+                });
+            });
+        }
+
+        // Toggle auth forms
+        window.showSignUp = () => {
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('signup-form').style.display = 'block';
+        };
+
+        window.showLogin = () => {
+            document.getElementById('signup-form').style.display = 'none';
+            document.getElementById('login-form').style.display = 'block';
+        };
     </script>
 
     <title>G-X | Community Platform</title>
@@ -405,6 +551,7 @@
             border-radius: var(--radius);
             box-shadow: var(--shadow);
             padding: 1.5rem;
+            margin-bottom: 1rem;
         }
 
         .post-header {
@@ -434,26 +581,16 @@
             justify-content: space-between;
             color: var(--gray);
             font-size: 0.9rem;
-            margin-bottom: 0.75rem;
         }
 
-        .post-actions-bottom {
-            display: flex;
-            gap: 1rem;
-            border-top: 1px solid var(--gray);
-            padding-top: 0.75rem;
-        }
-
-        .post-action {
+        .post-likes, .post-comments {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            color: var(--gray);
             cursor: pointer;
-            transition: color 0.3s ease;
         }
 
-        .post-action:hover {
+        .post-likes:hover, .post-comments:hover {
             color: var(--primary);
         }
 
@@ -467,218 +604,73 @@
             top: 90px;
         }
 
-        .points-card, .followers-card {
+        .stats-card {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            border-radius: var(--radius);
             padding: 1.5rem;
+            border-radius: var(--radius);
+            text-align: center;
             margin-bottom: 1.5rem;
-            text-align: center;
         }
 
-        .points-value, .followers-value {
-            font-size: 2.5rem;
+        .points {
+            font-size: 2rem;
             font-weight: 700;
-            margin: 0.5rem 0;
+            margin-bottom: 0.5rem;
         }
 
-        .message {
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            text-align: center;
+        .online-users {
+            margin-top: 1.5rem;
         }
 
-        .success {
-            background-color: var(--success);
-            color: white;
-        }
-
-        .error {
-            background-color: var(--danger);
-            color: white;
-        }
-
-        .info {
-            background-color: var(--primary);
-            color: white;
-        }
-
-        .welcome {
-            background-color: var(--accent);
-            color: white;
-            padding: 15px;
-            border-radius: var(--radius);
+        .online-users h3 {
             margin-bottom: 1rem;
-            text-align: center;
-        }
-
-        /* Chat Styles */
-        .chat-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
-        }
-
-        .chat-button {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background-color: var(--primary);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            box-shadow: var(--shadow);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .chat-button:hover {
-            transform: scale(1.1);
-        }
-
-        .chat-window {
-            position: absolute;
-            bottom: 70px;
-            right: 0;
-            width: 350px;
-            height: 450px;
-            background-color: var(--card-bg);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            display: none;
-            flex-direction: column;
-        }
-
-        .chat-header {
-            padding: 1rem;
-            border-bottom: 1px solid var(--gray);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .chat-title {
-            font-weight: 600;
             color: var(--dark);
         }
 
-        .chat-close {
-            color: var(--gray);
-            cursor: pointer;
-        }
-
-        .chat-body {
-            flex: 1;
-            padding: 1rem;
-            overflow-y: auto;
+        .user-list {
             display: flex;
             flex-direction: column;
             gap: 0.75rem;
         }
 
-        .chat-message {
-            max-width: 80%;
-            padding: 0.75rem;
-            border-radius: var(--radius);
-            word-wrap: break-word;
-        }
-
-        .message-sent {
-            align-self: flex-end;
-            background-color: var(--primary);
-            color: white;
-        }
-
-        .message-received {
-            align-self: flex-start;
-            background-color: var(--body-bg);
-            color: var(--dark);
-        }
-
-        .chat-footer {
-            padding: 1rem;
-            border-top: 1px solid var(--gray);
+        .user-item {
             display: flex;
-            gap: 0.5rem;
-        }
-
-        .chat-input {
-            flex: 1;
-            padding: 0.75rem;
-            border: 1px solid var(--gray);
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem;
             border-radius: var(--radius);
-            background-color: var(--body-bg);
-            color: var(--dark);
-            font-family: inherit;
+            transition: background-color 0.3s ease;
         }
 
-        /* Admin Page */
-        .admin-container {
-            display: none;
-            min-height: 100vh;
+        .user-item:hover {
             background-color: var(--body-bg);
         }
 
-        .admin-header {
-            background-color: var(--card-bg);
-            box-shadow: var(--shadow);
-            padding: 1rem 0;
-        }
-
-        .admin-nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .admin-main {
-            padding: 2rem 0;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background-color: var(--card-bg);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            padding: 1.5rem;
-            text-align: center;
-        }
-
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            margin: 0.5rem 0;
-            color: var(--primary);
-        }
-
-        .verification-badge {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 20px;
-            height: 20px;
+        .user-status {
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
-            margin-left: 0.5rem;
-            font-size: 0.7rem;
-            color: white;
-        }
-
-        .verification-ve {
             background-color: var(--success);
         }
 
-        .admin-only {
-            display: none;
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar, .right-sidebar {
+                display: none;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                justify-content: center;
+            }
         }
     </style>
 </head>
@@ -687,80 +679,50 @@
     <div id="auth-container" class="auth-container">
         <div class="auth-card">
             <div class="logo">
-                <span class="logo-icon">GX</span>
+                <div class="logo-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
                 <h1>G-X</h1>
-                <p>Connect with the community</p>
-            </div>
-            
-            <!-- Login Form -->
-            <div id="login-form">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" class="form-control" placeholder="Enter your password" required>
-                </div>
-                
-                <button class="btn btn-primary btn-block" onclick="login()" id="login-btn">
-                    <i class="fas fa-sign-in-alt"></i> Login
-                </button>
-
-                <div style="text-align: center; margin: 1rem 0;">
-                    <button class="btn-text" onclick="showForgotPassword()">Forgot Password?</button>
-                </div>
-                
-                <div class="auth-link">
-                    Don't have an account? <a href="#" onclick="showRegisterForm()">Create one</a>
-                </div>
             </div>
 
-            <!-- Register Form -->
-            <div id="register-form" style="display: none;">
+            <!-- Sign Up Form -->
+            <form id="signup-form" onsubmit="handleSignUp(event)">
                 <div class="form-group">
-                    <label for="register-email">Email</label>
-                    <input type="email" id="register-email" class="form-control" placeholder="Enter your email" required>
+                    <label for="signup-email">Email</label>
+                    <input type="email" id="signup-email" class="form-control" required>
                 </div>
-                
                 <div class="form-group">
-                    <label for="register-password">Password</label>
-                    <input type="password" id="register-password" class="form-control" placeholder="Create a password (min. 6 characters)" required>
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" class="form-control" required minlength="6">
                 </div>
-
                 <div class="form-group">
                     <label for="confirm-password">Confirm Password</label>
-                    <input type="password" id="confirm-password" class="form-control" placeholder="Confirm your password" required>
+                    <input type="password" id="confirm-password" class="form-control" required minlength="6">
                 </div>
-                
-                <button class="btn btn-primary btn-block" onclick="register()" id="register-btn">
-                    <i class="fas fa-user-plus"></i> Create Account
-                </button>
-                
+                <button type="submit" class="btn btn-primary btn-block">Create Account</button>
                 <div class="auth-link">
-                    Already have an account? <a href="#" onclick="showLoginForm()">Login here</a>
+                    Already have an account? <a href="#" onclick="showLogin()">Login here</a>
                 </div>
-            </div>
+            </form>
 
-            <!-- Forgot Password Form -->
-            <div id="forgot-password-form" style="display: none;">
+            <!-- Login Form -->
+            <form id="login-form" onsubmit="handleLogin(event)" style="display: none;">
                 <div class="form-group">
-                    <label for="reset-email">Email</label>
-                    <input type="email" id="reset-email" class="form-control" placeholder="Enter your email" required>
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" class="form-control" required>
                 </div>
-                
-                <button class="btn btn-primary btn-block" onclick="resetPassword()" id="reset-btn">
-                    <i class="fas fa-key"></i> Reset Password
-                </button>
-                
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
                 <div class="auth-link">
-                    Remember your password? <a href="#" onclick="showLoginForm()">Login here</a>
+                    <button type="button" class="btn-text" onclick="handleForgotPassword()">Forgot Password?</button>
                 </div>
-            </div>
-
-            <!-- Message Display -->
-            <div id="auth-message"></div>
+                <div class="auth-link">
+                    Don't have an account? <a href="#" onclick="showSignUp()">Sign up here</a>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -768,613 +730,162 @@
     <div id="app-container" class="app-container">
         <!-- Header -->
         <header class="header">
-            <div class="container header-content">
-                <div class="logo">
-                    <span class="logo-icon">GX</span>
-                    <h1>G-X</h1>
-                </div>
-                
-                <nav class="nav-links">
-                    <a href="#" class="nav-link active" onclick="showSection('main')">
-                        <i class="fas fa-home"></i> Home
-                    </a>
-                    <a href="#" class="nav-link admin-only" onclick="showSection('admin')" id="admin-link">
-                        <i class="fas fa-cog"></i> Admin
-                    </a>
-                    
-                    <div class="user-profile" onclick="logout()">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo">
+                        <h1>G-X</h1>
+                    </div>
+                    <div class="nav-links">
+                        <div class="nav-link active">
+                            <i class="fas fa-home"></i>
+                            <span>Home</span>
+                        </div>
+                        <div class="nav-link">
+                            <i class="fas fa-compass"></i>
+                            <span>Explore</span>
+                        </div>
+                        <div class="nav-link">
+                            <i class="fas fa-bell"></i>
+                            <span>Notifications</span>
+                        </div>
+                        <div class="nav-link">
+                            <i class="fas fa-envelope"></i>
+                            <span>Messages</span>
+                        </div>
+                    </div>
+                    <div class="user-profile" onclick="handleLogout()">
                         <div class="avatar" id="user-avatar">U</div>
                         <span id="user-name">User</span>
                     </div>
-                </nav>
+                </div>
             </div>
         </header>
 
-        <!-- Welcome Message -->
-        <div id="welcome-message" class="welcome" style="display: none;"></div>
-
-        <!-- Main App Content -->
-        <div id="main-content">
-            <main class="container main-content">
-                <!-- Sidebar -->
+        <!-- Main Content -->
+        <div class="container">
+            <div class="main-content">
+                <!-- Left Sidebar -->
                 <aside class="sidebar">
                     <ul class="sidebar-menu">
                         <li class="sidebar-item">
-                            <a href="#" class="sidebar-link active">
-                                <i class="fas fa-home"></i> News Feed
-                            </a>
+                            <div class="sidebar-link active">
+                                <i class="fas fa-home"></i>
+                                <span>Home</span>
+                            </div>
                         </li>
                         <li class="sidebar-item">
-                            <a href="#" class="sidebar-link">
-                                <i class="fas fa-rocket"></i> Popular
-                            </a>
+                            <div class="sidebar-link">
+                                <i class="fas fa-user-friends"></i>
+                                <span>Friends</span>
+                            </div>
                         </li>
                         <li class="sidebar-item">
-                            <a href="#" class="sidebar-link">
-                                <i class="fas fa-users"></i> Communities
-                            </a>
+                            <div class="sidebar-link">
+                                <i class="fas fa-users"></i>
+                                <span>Groups</span>
+                            </div>
                         </li>
                         <li class="sidebar-item">
-                            <a href="#" class="sidebar-link">
-                                <i class="fas fa-gamepad"></i> Games
-                            </a>
+                            <div class="sidebar-link">
+                                <i class="fas fa-store"></i>
+                                <span>Marketplace</span>
+                            </div>
+                        </li>
+                        <li class="sidebar-item">
+                            <div class="sidebar-link">
+                                <i class="fas fa-video"></i>
+                                <span>Videos</span>
+                            </div>
+                        </li>
+                        <li class="sidebar-item">
+                            <div class="sidebar-link">
+                                <i class="fas fa-gamepad"></i>
+                                <span>Games</span>
+                            </div>
+                        </li>
+                        <li class="sidebar-item">
+                            <div class="sidebar-link">
+                                <i class="fas fa-cog"></i>
+                                <span>Settings</span>
+                            </div>
                         </li>
                     </ul>
                 </aside>
 
-                <!-- Feed -->
-                <section class="feed">
+                <!-- Main Feed -->
+                <main class="feed">
                     <!-- Create Post -->
                     <div class="create-post">
-                        <textarea class="post-input" placeholder="What's on your mind?..." id="post-content"></textarea>
-                        <div class="post-actions">
-                            <div class="post-types">
-                                <div class="post-type">
-                                    <i class="fas fa-image"></i> Photo
+                        <form onsubmit="handleCreatePost(event)">
+                            <textarea 
+                                id="post-content" 
+                                class="post-input" 
+                                placeholder="What's on your mind?" 
+                                rows="3"
+                                required
+                            ></textarea>
+                            <div class="post-actions">
+                                <div class="post-types">
+                                    <div class="post-type">
+                                        <i class="fas fa-image"></i>
+                                        <span>Photo</span>
+                                    </div>
+                                    <div class="post-type">
+                                        <i class="fas fa-video"></i>
+                                        <span>Video</span>
+                                    </div>
+                                    <div class="post-type">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <span>Location</span>
+                                    </div>
                                 </div>
-                                <div class="post-type">
-                                    <i class="fas fa-video"></i> Video
-                                </div>
+                                <button type="submit" class="btn btn-primary">Post</button>
                             </div>
-                            <button class="btn btn-primary" onclick="createPost()">Publish</button>
-                        </div>
+                        </form>
                     </div>
 
-                    <!-- Posts will appear here -->
-                    <div id="posts-container"></div>
-                </section>
+                    <!-- Posts Container -->
+                    <div id="posts-container">
+                        <!-- Posts will be loaded here dynamically -->
+                    </div>
+                </main>
 
                 <!-- Right Sidebar -->
                 <aside class="right-sidebar">
-                    <div class="points-card">
-                        <h3>Your Points</h3>
-                        <div class="points-value" id="points-display">0</div>
-                        <p>Start posting to earn points!</p>
-                    </div>
-
-                    <div class="followers-card">
-                        <h3>Followers</h3>
-                        <div class="followers-value" id="followers-display">0</div>
-                        <p>Connect with others to grow</p>
+                    <div class="stats-card">
+                        <div class="points">0</div>
+                        <div>Points Earned</div>
                     </div>
                     
-                    <div class="post" style="margin-top: 1rem;">
-                        <h3>Welcome to G-X! 🎉</h3>
-                        <p>Share your thoughts, connect with friends, and explore new communities.</p>
-                        <div style="margin-top: 1rem;">
-                            <button class="btn btn-primary" onclick="toggleChat()">
-                                <i class="fas fa-comments"></i> Open Chat
-                            </button>
+                    <div class="online-users">
+                        <h3>Online Now</h3>
+                        <div class="user-list">
+                            <div class="user-item">
+                                <div class="avatar">A</div>
+                                <span>Alex</span>
+                                <div class="user-status"></div>
+                            </div>
+                            <div class="user-item">
+                                <div class="avatar">M</div>
+                                <span>Maria</span>
+                                <div class="user-status"></div>
+                            </div>
+                            <div class="user-item">
+                                <div class="avatar">J</div>
+                                <span>John</span>
+                                <div class="user-status"></div>
+                            </div>
                         </div>
                     </div>
                 </aside>
-            </main>
-        </div>
-
-        <!-- Admin Content -->
-        <div id="admin-content" style="display: none;">
-            <div class="admin-container">
-                <header class="admin-header">
-                    <div class="container admin-nav">
-                        <div class="logo">
-                            <span class="logo-icon">GX</span>
-                            <h1>G-X Admin</h1>
-                        </div>
-                        <button class="btn btn-primary" onclick="showSection('main')">
-                            <i class="fas fa-arrow-left"></i> Back to App
-                        </button>
-                    </div>
-                </header>
-
-                <main class="container admin-main">
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <h3>Total Users</h3>
-                            <div class="stat-value" id="total-users">1</div>
-                            <p>Registered users</p>
-                        </div>
-                        <div class="stat-card">
-                            <h3>Active Now</h3>
-                            <div class="stat-value" id="active-users">1</div>
-                            <p>Online users</p>
-                        </div>
-                        <div class="stat-card">
-                            <h3>Total Posts</h3>
-                            <div class="stat-value" id="total-posts">0</div>
-                            <p>All posts</p>
-                        </div>
-                    </div>
-
-                    <div class="post">
-                        <h3>Admin Information</h3>
-                        <div class="post-content">
-                            <p><strong>Email:</strong> <span id="admin-user-email"></span></p>
-                            <p><strong>Role:</strong> Administrator</p>
-                            <p><strong>Access Level:</strong> Full Access</p>
-                        </div>
-                    </div>
-                </main>
-            </div>
-        </div>
-
-        <!-- Chat Widget -->
-        <div class="chat-container">
-            <div class="chat-button" onclick="toggleChat()">
-                <i class="fas fa-comments"></i>
-            </div>
-            <div id="chatWindow" class="chat-window">
-                <div class="chat-header">
-                    <div class="chat-title">Community Chat</div>
-                    <div class="chat-close" onclick="toggleChat()">
-                        <i class="fas fa-times"></i>
-                    </div>
-                </div>
-                <div class="chat-body" id="chat-body">
-                    <div class="chat-message message-received">
-                        Welcome to G-X Chat! Start a conversation with the community.
-                    </div>
-                </div>
-                <div class="chat-footer">
-                    <input type="text" class="chat-input" placeholder="Type a message..." id="chat-input">
-                    <button class="btn btn-primary" onclick="sendMessage()">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
-                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Admin email - Change this to your admin email
-        const ADMIN_EMAIL = "davemo1ine0@gmail.com";
-
-        // Auth Functions
-        function showRegisterForm() {
-            document.getElementById('login-form').style.display = 'none';
-            document.getElementById('register-form').style.display = 'block';
-            document.getElementById('forgot-password-form').style.display = 'none';
-            clearMessage();
-        }
-
-        function showLoginForm() {
-            document.getElementById('register-form').style.display = 'none';
-            document.getElementById('login-form').style.display = 'block';
-            document.getElementById('forgot-password-form').style.display = 'none';
-            clearMessage();
-        }
-
-        function showForgotPassword() {
-            document.getElementById('login-form').style.display = 'none';
-            document.getElementById('register-form').style.display = 'none';
-            document.getElementById('forgot-password-form').style.display = 'block';
-            clearMessage();
-        }
-
-        function showMessage(message, type) {
-            const messageDiv = document.getElementById('auth-message');
-            messageDiv.innerHTML = `<div class="message ${type}">${message}</div>`;
-        }
-
-        function clearMessage() {
-            document.getElementById('auth-message').innerHTML = '';
-        }
-
-        function showWelcomeMessage(message) {
-            const welcomeDiv = document.getElementById('welcome-message');
-            welcomeDiv.innerHTML = message;
-            welcomeDiv.style.display = 'block';
-            
-            // Hide welcome message after 5 seconds
-            setTimeout(() => {
-                welcomeDiv.style.display = 'none';
-            }, 5000);
-        }
-
-        function validateForm(email, password) {
-            if (!email || !password) {
-                showMessage('Please fill in all fields!', 'error');
-                return false;
-            }
-            if (password.length < 6) {
-                showMessage('Password must be at least 6 characters!', 'error');
-                return false;
-            }
-            return true;
-        }
-
-        // Create user profile in Firestore
-        async function createUserProfile(user) {
-            const userRef = doc(db, 'users', user.uid);
-            const userDoc = await getDoc(userRef);
-            
-            if (!userDoc.exists()) {
-                await setDoc(userRef, {
-                    email: user.email,
-                    points: 0,
-                    followers: 0,
-                    following: 0,
-                    createdAt: serverTimestamp(),
-                    username: user.email.split('@')[0]
-                });
-            }
-        }
-
-        // Get user data
-        async function getUserData(userId) {
-            const userRef = doc(db, 'users', userId);
-            const userDoc = await getDoc(userRef);
-            return userDoc.exists() ? userDoc.data() : null;
-        }
-
-        // Update points display
-        function updatePointsDisplay(points) {
-            document.getElementById('points-display').textContent = points;
-        }
-
-        // Update followers display
-        function updateFollowersDisplay(followers) {
-            document.getElementById('followers-display').textContent = followers;
-        }
-
-        async function register() {
-            const email = document.getElementById('register-email').value;
-            const password = document.getElementById('register-password').value;
-            const confirmPassword = document.getElementById('confirm-password').value;
-            const btn = document.getElementById('register-btn');
-
-            if (!validateForm(email, password)) return;
-
-            if (password !== confirmPassword) {
-                showMessage('Passwords do not match!', 'error');
-                return;
-            }
-
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating...';
-
-            try {
-                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                const user = userCredential.user;
-                
-                // Create user profile
-                await createUserProfile(user);
-                
-                showMessage('Account created successfully! Welcome to G-X! 🎉', 'success');
-                
-                // Show welcome message
-                const username = email.split('@')[0];
-                showWelcomeMessage(`🎉 Welcome to G-X site, ${username}! Start exploring the community.`);
-                
-                // Clear form
-                document.getElementById('register-email').value = '';
-                document.getElementById('register-password').value = '';
-                document.getElementById('confirm-password').value = '';
-                
-                // Auto login after successful registration
-                setTimeout(() => {
-                    showLoginForm();
-                }, 2000);
-                
-            } catch (error) {
-                showMessage('Error creating account: ' + error.message, 'error');
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-user-plus"></i> Create Account';
-            }
-        }
-
-        async function login() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const btn = document.getElementById('login-btn');
-
-            if (!validateForm(email, password)) return;
-
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
-
-            try {
-                await signInWithEmailAndPassword(auth, email, password);
-                // Login successful - handled by onAuthStateChanged
-                
-                // Show welcome back message
-                const username = email.split('@')[0];
-                showWelcomeMessage(`👋 Welcome back to G-X site, ${username}! Good to see you again.`);
-                
-            } catch (error) {
-                showMessage('Error logging in: ' + error.message, 'error');
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
-            }
-        }
-
-        async function resetPassword() {
-            const email = document.getElementById('reset-email').value;
-            const btn = document.getElementById('reset-btn');
-
-            if (!email) {
-                showMessage('Please enter your email address!', 'error');
-                return;
-            }
-
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-
-            try {
-                await sendPasswordResetEmail(auth, email);
-                showMessage('Password reset email sent! Check your inbox.', 'success');
-                showLoginForm();
-            } catch (error) {
-                showMessage('Error sending reset email: ' + error.message, 'error');
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-key"></i> Reset Password';
-            }
-        }
-
-        function logout() {
-            signOut(auth);
-        }
-
-        function showSection(section) {
-            if (section === 'main') {
-                document.getElementById('main-content').style.display = 'block';
-                document.getElementById('admin-content').style.display = 'none';
-            } else if (section === 'admin') {
-                document.getElementById('main-content').style.display = 'none';
-                document.getElementById('admin-content').style.display = 'block';
-            }
-        }
-
-        // Chat Functions
-        function toggleChat() {
-            const chatWindow = document.getElementById('chatWindow');
-            chatWindow.style.display = chatWindow.style.display === 'none' ? 'flex' : 'none';
-        }
-
-        function sendMessage() {
-            const input = document.getElementById('chat-input');
-            const message = input.value.trim();
-            
-            if (message) {
-                const chatBody = document.getElementById('chat-body');
-                const messageDiv = document.createElement('div');
-                messageDiv.className = 'chat-message message-sent';
-                messageDiv.textContent = message;
-                chatBody.appendChild(messageDiv);
-                
-                input.value = '';
-                chatBody.scrollTop = chatBody.scrollHeight;
-
-                // Save message to Firestore
-                if (window.currentUser) {
-                    addDoc(collection(db, 'chat'), {
-                        user: window.currentUser.email,
-                        message: message,
-                        timestamp: serverTimestamp()
-                    });
-                }
-            }
-        }
-
-        // Post Functions
-        async function createPost() {
-            const content = document.getElementById('post-content').value.trim();
-            
-            if (!content) {
-                alert('Please write something to post!');
-                return;
-            }
-
-            if (!window.currentUser) {
-                alert('Please login to post!');
-                return;
-            }
-
-            try {
-                await addDoc(collection(db, 'posts'), {
-                    user: window.currentUser.email,
-                    content: content,
-                    timestamp: serverTimestamp(),
-                    likes: 0,
-                    comments: 0
-                });
-                
-                // Award points for posting
-                if (window.currentUser) {
-                    const userRef = doc(db, 'users', window.currentUser.uid);
-                    await updateDoc(userRef, {
-                        points: increment(10)
-                    });
-                }
-                
-                document.getElementById('post-content').value = '';
-                showMessage('Post published successfully! +10 points', 'success');
-            } catch (error) {
-                showMessage('Error creating post: ' + error.message, 'error');
-            }
-        }
-
-        // Load Posts
-        function loadPosts() {
-            const postsContainer = document.getElementById('posts-container');
-            const q = query(collection(db, 'posts'), orderBy('timestamp', 'desc'));
-            
-            onSnapshot(q, (snapshot) => {
-                postsContainer.innerHTML = '';
-                snapshot.forEach((doc) => {
-                    const post = doc.data();
-                    const postElement = document.createElement('div');
-                    postElement.className = 'post';
-                    postElement.innerHTML = `
-                        <div class="post-header">
-                            <div class="avatar">${post.user.charAt(0).toUpperCase()}</div>
-                            <div>
-                                <div class="post-user">${post.user}</div>
-                                <div class="post-time">${new Date(post.timestamp?.toDate()).toLocaleString()}</div>
-                            </div>
-                        </div>
-                        <div class="post-content">${post.content}</div>
-                        <div class="post-stats">
-                            <span>${post.likes || 0} Likes</span>
-                            <span>${post.comments || 0} Comments</span>
-                        </div>
-                        <div class="post-actions-bottom">
-                            <div class="post-action" onclick="likePost('${doc.id}')">
-                                <i class="fas fa-thumbs-up"></i> Like
-                            </div>
-                            <div class="post-action">
-                                <i class="fas fa-comment"></i> Comment
-                            </div>
-                            <div class="post-action">
-                                <i class="fas fa-share"></i> Share
-                            </div>
-                        </div>
-                    `;
-                    postsContainer.appendChild(postElement);
-                });
-            });
-        }
-
-        async function likePost(postId) {
-            if (!window.currentUser) {
-                alert('Please login to like posts!');
-                return;
-            }
-
-            try {
-                // Award points for liking
-                const userRef = doc(db, 'users', window.currentUser.uid);
-                await updateDoc(userRef, {
-                    points: increment(1)
-                });
-                
-                showMessage('+1 point for liking!', 'info');
-            } catch (error) {
-                console.error('Error liking post:', error);
-            }
-        }
-
-        // Load Chat Messages
-        function loadChatMessages() {
-            const q = query(collection(db, 'chat'), orderBy('timestamp', 'asc'));
-            
-            onSnapshot(q, (snapshot) => {
-                const chatBody = document.getElementById('chat-body');
-                chatBody.innerHTML = '<div class="chat-message message-received">Welcome to G-X Chat! Start a conversation with the community.</div>';
-                
-                snapshot.forEach((doc) => {
-                    const message = doc.data();
-                    const messageDiv = document.createElement('div');
-                    const isCurrentUser = message.user === window.currentUser?.email;
-                    
-                    messageDiv.className = `chat-message ${isCurrentUser ? 'message-sent' : 'message-received'}`;
-                    messageDiv.innerHTML = `
-                        <div><strong>${isCurrentUser ? 'You' : message.user}:</strong> ${message.message}</div>
-                        <small>${new Date(message.timestamp?.toDate()).toLocaleTimeString()}</small>
-                    `;
-                    
-                    chatBody.appendChild(messageDiv);
-                });
-                
-                chatBody.scrollTop = chatBody.scrollHeight;
-            });
-        }
-
-        // Load User Data
-        async function loadUserData(user) {
-            const userData = await getUserData(user.uid);
-            if (userData) {
-                updatePointsDisplay(userData.points || 0);
-                updateFollowersDisplay(userData.followers || 0);
-            }
-        }
-
-        // Auth State Listener
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                // User is signed in
-                window.currentUser = user;
-                document.getElementById('auth-container').style.display = 'none';
-                document.getElementById('app-container').style.display = 'block';
-                
-                // Update user info
-                const userEmail = user.email;
-                document.getElementById('user-name').textContent = userEmail;
-                document.getElementById('user-avatar').textContent = userEmail.charAt(0).toUpperCase();
-                
-                // Update admin info
-                document.getElementById('admin-user-email').textContent = userEmail;
-
-                // Show admin link only for admin user
-                if (userEmail === ADMIN_EMAIL) {
-                    document.getElementById('admin-link').style.display = 'flex';
-                } else {
-                    document.getElementById('admin-link').style.display = 'none';
-                }
-                
-                // Load user data
-                loadUserData(user);
-                
-                // Load data
-                loadPosts();
-                loadChatMessages();
-                
-            } else {
-                // User is signed out
-                window.currentUser = null;
-                document.getElementById('auth-container').style.display = 'flex';
-                document.getElementById('app-container').style.display = 'none';
-                
-                // Clear forms
-                document.getElementById('email').value = '';
-                document.getElementById('password').value = '';
-                clearMessage();
-            }
-        });
-
-        // Initialize AdSense
-        (adsbygoogle = window.adsbygoogle || []).push({});
-
-        // Enter key support
-        document.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                if (document.getElementById('login-form').style.display !== 'none') {
-                    login();
-                } else if (document.getElementById('register-form').style.display !== 'none') {
-                    register();
-                } else if (document.getElementById('forgot-password-form').style.display !== 'none') {
-                    resetPassword();
-                }
-            }
-        });
-
-        // Chat input enter key
-        document.getElementById('chat-input').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('G-X Platform Loaded');
         });
     </script>
 </body>
