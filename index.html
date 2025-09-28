@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dave Gallioth">
+    <meta name="description" content="G-X - New social platform created by Dave Gallioth. Connect with friends, share content, and earn rewards for your activities.">
+    <meta name="keywords" content="G-X, Dave Gallioth, social network, community platform, points, verification, chat, sharing">
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5448739142718011" crossorigin="anonymous"></script>
+    
+    <title>G-X | Community Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #4cc9f0;
+            --success: #4ade80;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --card-bg: #ffffff;
+            --body-bg: #f1f5f9;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --radius: 12px;
+        }
+
+        .dark-mode {
+            --primary: #4cc9f0;
+            --secondary: #4361ee;
+            --accent: #3a0ca3;
+            --dark: #f8fafc;
+            --light: #1e293b;
+            --card-bg: #334155;
+            --body-bg: #0f172a;
+            --gray: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--body-bg);
+            color: var(--dark);
+            transition: all 0.3s ease;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* AdSense Styles */
+        .adsense-container {
+            margin: 1.5rem 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 90px;
+            background-color: var(--body-bg);
+            border-radius: var(--radius);
+            border: 1px dashed var(--gray);
+        }
+
+        .adsense-banner {
+            width: 100%;
+            max-width: 728px;
+            height: 90px;
+        }
+
+        .adsense-sidebar {
+            width: 100%;
+            height: 600px;
+        }
+
+        .adsense-in-article {
+            width: 100%;
+            max-width: 300px;
+            height: 250px;
+            margin: 1rem auto;
+        }
+
+        .adsense-mobile {
+            width: 100%;
+            height: 100px;
+            margin: 1rem 0;
+        }
+
+        /* Auth Pages */
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-container::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="%23ffffff" opacity="0.05"><circle cx="50" cy="50" r="4"/></svg>') repeat;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .auth-card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            width: 100%;
+            max-width: 450px;
+            z-index: 10;
+            position: relative;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            0% { transform: translateY(30px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .logo h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+
+        .logo .logo-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            margin-right: 10px;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--gray);
+            border-radius: var(--radius);
+            background-color: var(--card-bg);
+            color: var(--dark);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        .btn-block {
+            width: 100%;
+        }
+
+        .auth-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--gray);
+        }
+
+        .auth-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .auth-link a:hover {
+            text-decoration: underline;
+        }
+
+        .forgot-password {
+            display: block;
+            text-align: right;
+            margin-top: 0.5rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        /* Main App */
+        .app-container {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .header {
+            background-color: var(--card-bg);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 0;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .nav-link {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 250px 1fr 300px;
+            gap: 1.5rem;
+            padding: 1.5rem 0;
+        }
+
+        .sidebar {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            height: fit-content;
+            position: sticky;
+            top: 90px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-item {
+            margin-bottom: 0.75rem;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            border-radius: var(--radius);
+            color: var(--dark);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-link:hover, .sidebar-link.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .feed {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .create-post {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+        }
+
+        .post-input {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid var(--gray);
+            border-radius: var(--radius);
+            background-color: var(--body-bg);
+            color: var(--dark);
+            resize: none;
+            margin-bottom: 1rem;
+        }
+
+        .post-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-types {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .post-type {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--gray);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .post-type:hover {
+            color: var(--primary);
+        }
+
+        .post {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .post-user {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .post-time {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .post-content {
+            margin-bottom: 1rem;
+        }
+
+        .post-image, .post-video {
+            width: 100%;
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+        }
+
+        .post-stats {
+            display: flex;
+            justify-content: space-between;
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .post-actions-bottom {
+            display: flex;
+            gap: 1rem;
+            border-top: 1px solid var(--gray);
+            padding-top: 0.75rem;
+        }
+
+        .post-action {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--gray);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .post-action:hover {
+            color: var(--primary);
+        }
+
+        .right-sidebar {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            height: fit-content;
+            position: sticky;
+            top: 90px;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .points-card, .followers-card {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .points-value, .followers-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0.5rem 0;
+        }
+
+        .verification-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-left: 0.5rem;
+            font-size: 0.7rem;
+            color: white;
+        }
+
+        .verification-ve {
+            background-color: var(--success);
+        }
+
+        .verification-ajan {
+            background-color: var(--warning);
+        }
+
+        .verification-ble {
+            background-color: var(--primary);
+        }
+
+        /* Chat */
+        .chat-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .chat-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .chat-button:hover {
+            transform: scale(1.1);
+        }
+
+        .chat-window {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            width: 350px;
+            height: 450px;
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            display: none;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            padding: 1rem;
+            border-bottom: 1px solid var(--gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-title {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .chat-close {
+            color: var(--gray);
+            cursor: pointer;
+        }
+
+        .chat-body {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 0.75rem;
+            border-radius: var(--radius);
+        }
+
+        .message-sent {
+            align-self: flex-end;
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .message-received {
+            align-self: flex-start;
+            background-color: var(--body-bg);
+            color: var(--dark);
+        }
+
+        .chat-footer {
+            padding: 1rem;
+            border-top: 1px solid var(--gray);
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid var(--gray);
+            border-radius: var(--radius);
+            background-color: var(--body-bg);
+            color: var(--dark);
+        }
+
+        .voice-message-btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        /* Admin Dashboard */
+        .admin-container {
+            display: none;
+            min-height: 100vh;
+            background-color: var(--body-bg);
+        }
+
+        .admin-header {
+            background-color: var(--card-bg);
+            box-shadow: var(--shadow);
+            padding: 1rem 0;
+        }
+
+        .admin-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-main {
+            padding: 2rem 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0.5rem 0;
+            color: var(--primary);
+        }
+
+        .admin-table {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--gray);
+        }
+
+        th {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .btn-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+
+        /* About Page */
+        .about-container {
+            display: none;
+            min-height: 100vh;
+            background-color: var(--body-bg);
+            padding: 2rem 0;
+        }
+
+        .creator-profile {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .creator-photo {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 1.5rem;
+            border: 5px solid var(--primary);
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .creator-name {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .creator-title {
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .creator-bio {
+            text-align: left;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+    </style>
+</head>
+<body>
+    <!-- Auth Container -->
+    <div id="auth-container" class="auth-container">
+        <div class="auth-card">
+            <div class="logo">
+                <span class="logo-icon">GX</span>
+                <h1>G-X</h1>
+                <p>Connect with the community</p>
+            </div>
+            
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="form-control" placeholder="Enter your password" required>
+                </div>
+                
+                <button type="button" class="btn btn-primary btn-block" onclick="login()">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+            </form>
+            
+            <div class="auth-link">
+                Don't have an account? <a href="#" onclick="showRegister()">Create one</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App Container -->
+    <div id="app-container" class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="container header-content">
+                <div class="logo">
+                    <span class="logo-icon">GX</span>
+                    <h1>G-X</h1>
+                </div>
+                
+                <nav class="nav-links">
+                    <a href="#" class="nav-link active">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-compass"></i> Explore
+                    </a>
+                    <a href="#" class="nav-link" onclick="showAdmin()">
+                        <i class="fas fa-cog"></i> Admin
+                    </a>
+                    <a href="#" class="nav-link" onclick="showAbout()">
+                        <i class="fas fa-info-circle"></i> About
+                    </a>
+                    
+                    <div class="user-profile" onclick="logout()">
+                        <div class="avatar">DG</div>
+                        <span>Dave G.</span>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="container main-content">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <ul class="sidebar-menu">
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link active">
+                            <i class="fas fa-home"></i> News Feed
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">
+                            <i class="fas fa-rocket"></i> Popular
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">
+                            <i class="fas fa-users"></i> Communities
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">
+                            <i class="fas fa-gamepad"></i> Games
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">
+                            <i class="fas fa-store"></i> Shop
+                        </a>
+                    </li>
+                </ul>
+                
+                <!-- AdSense Sidebar -->
+                <div class="adsense-container">
+                    <div class="adsense-sidebar">
+                        <!-- AdSense ad will appear here -->
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Feed -->
+            <section class="feed">
+                <!-- Create Post -->
+                <div class="create-post">
+                    <textarea class="post-input" placeholder="What's on your mind?..."></textarea>
+                    <div class="post-actions">
+                        <div class="post-types">
+                            <div class="post-type">
+                                <i class="fas fa-image"></i> Photo
+                            </div>
+                            <div class="post-type">
+                                <i class="fas fa-video"></i> Video
+                            </div>
+                            <div class="post-type">
+                                <i class="fas fa-poll"></i> Poll
+                            </div>
+                        </div>
+                        <button class="btn btn-primary">Publish</button>
+                    </div>
+                </div>
+
+                <!-- AdSense Banner -->
+                <div class="adsense-container">
+                    <div class="adsense-banner">
+                        <!-- AdSense ad will appear here -->
+                    </div>
+                </div>
+
+                <!-- Sample Posts -->
+                <div class="post">
+                    <div class="post-header">
+                        <div class="avatar">JD</div>
+                        <div>
+                            <div class="post-user">
+                                Jean D. <span class="verification-badge verification-ve">VE</span>
+                            </div>
+                            <div class="post-time">2 hours ago</div>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        G-X is an incredible platform! I love how I can connect with people who share my interests.
+                    </div>
+                    <div class="post-stats">
+                        <span>125 Likes</span>
+                        <span>23 Comments</span>
+                        <span>5 Shares</span>
+                    </div>
+                    <div class="post-actions-bottom">
+                        <div class="post-action">
+                            <i class="fas fa-thumbs-up"></i> Like
+                        </div>
+                        <div class="post-action">
+                            <i class="fas fa-comment"></i> Comment
+                        </div>
+                        <div class="post-action">
+                            <i class="fas fa-share"></i> Share
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AdSense In-Article -->
+                <div class="adsense-container">
+                    <div class="adsense-in-article">
+                        <!-- AdSense ad will appear here -->
+                    </div>
+                </div>
+
+                <!-- Another Sample Post -->
+                <div class="post">
+                    <div class="post-header">
+                        <div class="avatar">MS</div>
+                        <div>
+                            <div class="post-user">
+                                Marie S. <span class="verification-badge verification-ajan">AJ</span>
+                            </div>
+                            <div class="post-time">5 hours ago</div>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        Just earned 500 points by completing my daily challenges! The reward system on G-X is amazing! 🎉
+                    </div>
+                    <div class="post-stats">
+                        <span>89 Likes</span>
+                        <span>15 Comments</span>
+                        <span>3 Shares</span>
+                    </div>
+                    <div class="post-actions-bottom">
+                        <div class="post-action">
+                            <i class="fas fa-thumbs-up"></i> Like
+                        </div>
+                        <div class="post-action">
+                            <i class="fas fa-comment"></i> Comment
+                        </div>
+                        <div class="post-action">
+                            <i class="fas fa-share"></i> Share
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Sidebar -->
+            <aside class="right-sidebar">
+                <!-- Points Card -->
+                <div class="points-card">
+                    <h3>Your Points</h3>
+                    <div class="points-value">1,250</div>
+                    <p>Level 5 - Explorer</p>
+                </div>
+
+                <!-- Followers Card -->
+                <div class="followers-card">
+                    <h3>Followers</h3>
+                    <div class="followers-value">456</div>
+                    <p>People following you</p>
+                </div>
+
+                <!-- Trending Communities -->
+                <div class="section-title">Trending Communities</div>
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: var(--body-bg); border-radius: var(--radius);">
+                        <div class="avatar" style="width: 35px; height: 35px; font-size: 0.9rem;">T</div>
+                        <div>
+                            <div style="font-weight: 600;">Tech Enthusiasts</div>
+                            <div style="font-size: 0.8rem; color: var(--gray);">12.5k members</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: var(--body-bg); border-radius: var(--radius);">
+                        <div class="avatar" style="width: 35px; height: 35px; font-size: 0.9rem;">G</div>
+                        <div>
+                            <div style="font-weight: 600;">Gamers Hub</div>
+                            <div style="font-size: 0.8rem; color: var(--gray);">8.7k members</div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </main>
+
+        <!-- Chat Widget -->
+        <div class="chat-container">
+            <div class="chat-button" onclick="toggleChat()">
+                <i class="fas fa-comments"></i>
+            </div>
+            <div id="chatWindow" class="chat-window">
+                <div class="chat-header">
+                    <div class="chat-title">Chat</div>
+                    <div class="chat-close" onclick="toggleChat()">
+                        <i class="fas fa-times"></i>
+                    </div>
+                </div>
+                <div class="chat-body">
+                    <div class="message message-received">
+                        Hello! Welcome to G-X support.
+                    </div>
+                    <div class="message message-sent">
+                        Hi! I need help with my account.
+                    </div>
+                    <div class="message message-received">
+                        How can I assist you today?
+                    </div>
+                </div>
+                <div class="chat-footer">
+                    <input type="text" class="chat-input" placeholder="Type a message...">
+                    <button class="voice-message-btn">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="admin-container" class="admin-container">
+        <header class="admin-header">
+            <div class="container admin-nav">
+                <div class="logo">
+                    <span class="logo-icon">GX</span>
+                    <h1>G-X Admin</h1>
+                </div>
+                <button class="btn btn-primary" onclick="backToApp()">
+                    <i class="fas fa-arrow-left"></i> Back to App
+                </button>
+            </div>
+        </header>
+
+        <main class="container admin-main">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Total Users</h3>
+                    <div class="stat-value">12,458</div>
+                    <p>+245 this week</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Active Now</h3>
+                    <div class="stat-value">3,247</div>
+                    <p>Online users</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Posts Today</h3>
+                    <div class="stat-value">1,893</div>
+                    <p>+12% from yesterday</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Revenue</h3>
+                    <div class="stat-value">$4,258</div>
+                    <p>This month</p>
+                </div>
+            </div>
+
+            <div class="admin-table">
+                <h3 class="section-title">User Management</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            <th>Points</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Jean Dupont</td>
+                            <td>jean@example.com</td>
+                            <td>Verified</td>
+                            <td>1,250</td>
+                            <td>
+                                <button class="action-btn btn-warning">Edit</button>
+                                <button class="action-btn btn-success">Message</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Marie Smith</td>
+                            <td>marie@example.com</td>
+                            <td>Agent</td>
+                            <td>3,450</td>
+                            <td>
+                                <button class="action-btn btn-warning">Edit</button>
+                                <button class="action-btn btn-success">Message</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- About Page -->
+    <div id="about-container" class="about-container">
+        <div class="container">
+            <button class="btn btn-primary" onclick="backToApp()" style="margin-bottom: 2rem;">
+                <i class="fas fa-arrow-left"></i> Back to App
+            </button>
+            
+            <div class="creator-profile">
+                <div class="creator-photo">
+                    Creator Photo
+                </div>
+                <h2 class="creator-name">Dave Gallioth</h2>
+                <div class="creator-title">Founder & CEO of G-X Platform</div>
+                
+                <div class="creator-bio">
+                    <p>Dave Gallioth is the visionary creator behind G-X, a revolutionary social platform designed to bring people together while rewarding meaningful interactions.</p>
+                    
+                    <p>With a passion for technology and community building, Dave has dedicated years to developing a platform that not only connects people but also values their contributions through an innovative points system.</p>
+                    
+                    <p>G-X represents Dave's commitment to creating digital spaces that prioritize user experience, security, and genuine human connection over algorithms and advertising.</p>
+                </div>
+                
+                <div style="display: flex; gap: 1rem; justify-content: center;">
+                    <button class="btn btn-primary">
+                        <i class="fas fa-envelope"></i> Contact
+                    </button>
+                    <button class="btn" style="background: var(--body-bg); color: var(--dark);">
+                        <i class="fas fa-share"></i> Share
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Login function
+        function login() {
+            document.getElementById('auth-container').style.display = 'none';
+            document.getElementById('app-container').style.display = 'block';
+        }
+        
+        // Logout function
+        function logout() {
+            document.getElementById('auth-container').style.display = 'flex';
+            document.getElementById('app-container').style.display = 'none';
+            document.getElementById('admin-container').style.display = 'none';
+            document.getElementById('about-container').style.display = 'none';
+        }
+        
+        // Show register form
+        function showRegister() {
+            alert('Registration feature coming soon!');
+        }
+        
+        // Chat functions
+        function toggleChat() {
+            const chatWindow = document.getElementById('chatWindow');
+            chatWindow.style.display = chatWindow.style.display === 'none' ? 'flex' : 'none';
+        }
+        
+        function sendMessage() {
+            const input = document.querySelector('.chat-input');
+            const message = input.value.trim();
+            
+            if (message) {
+                const chatBody = document.querySelector('.chat-body');
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message message-sent';
+                messageDiv.textContent = message;
+                chatBody.appendChild(messageDiv);
+                
+                input.value = '';
+                chatBody.scrollTop = chatBody.scrollHeight;
+                
+                // Auto reply
+                setTimeout(() => {
+                    const autoReply = document.createElement('div');
+                    autoReply.className = 'message message-received';
+                    autoReply.textContent = 'Thanks for your message! How can I help you further?';
+                    chatBody.appendChild(autoReply);
+                    chatBody.scrollTop = chatBody.scrollHeight;
+                }, 1000);
+            }
+        }
+        
+        // Admin functions
+        function showAdmin() {
+            document.getElementById('app-container').style.display = 'none';
+            document.getElementById('admin-container').style.display = 'block';
+        }
+        
+        // About functions
+        function showAbout() {
+            document.getElementById('app-container').style.display = 'none';
+            document.getElementById('about-container').style.display = 'block';
+        }
+        
+        // Back to main app
+        function backToApp() {
+            document.getElementById('admin-container').style.display = 'none';
+            document.getElementById('about-container').style.display = 'none';
+            document.getElementById('app-container').style.display = 'block';
+        }
+        
+        // Dark mode toggle
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+        
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Enter key for chat
+            document.querySelector('.chat-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+            
+            // Initialize AdSense
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        });
+    </script>
+</body>
+</html>
