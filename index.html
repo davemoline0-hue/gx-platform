@@ -617,20 +617,18 @@
     <script>
         // Firebase Configuration
         const firebaseConfig = {
-            apiKey: "AIzaSyDulwJp9F-IRnPuKwmlUgj_63W1E7034drM",
-            authDomain: "g-x-4678a.firebaseapp.com",
-            projectId: "g-x-4678a",
-            storageBucket: "g-x-4678a.firebasestorage.app",
-            messagingSenderId: "222697143577",
-            appId: "1:222697143577:web:3b4548b5f553bb6ba69988",
-            measurementId: "G-53WPMM2719"
-        };
+  apiKey: "AIzaSyDuLwJp9F-IRnPuKwmUgj_63W1E7034drM",
+  authDomain: "g-x-4678a.firebaseapp.com",
+  projectId: "g-x-4678a",
+  storageBucket: "g-x-4678a.firebasestorage.app",
+  messagingSenderId: "222697143577",
+  appId: "1:222697143577:web:106c769400b01514a69988",
+  measurementId: "G-01B2Y470HB"
+};
 
         // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-        const storage = firebase.storage();
+  const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
         let currentUser = null;
         let isLoginMode = true;
