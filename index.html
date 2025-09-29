@@ -28,7 +28,7 @@
             padding: 20px;
         }
 
-        /* Login/Signup Form */
+        /* Auth Styles */
         .auth-container {
             max-width: 400px;
             margin: 50px auto;
@@ -123,6 +123,18 @@
             font-size: 14px;
             text-align: center;
             border: 1px solid #fcc;
+            display: none;
+        }
+
+        .success-message {
+            background: #efe;
+            color: #363;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            text-align: center;
+            border: 1px solid #cfc;
             display: none;
         }
 
@@ -362,6 +374,12 @@
         .active-section {
             display: block;
         }
+
+        /* Forgot Password */
+        .forgot-password {
+            text-align: center;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -374,6 +392,7 @@
         
         <div class="form-container">
             <div id="auth-error" class="error-message"></div>
+            <div id="auth-success" class="success-message"></div>
             
             <form id="auth-form">
                 <div class="form-group">
@@ -393,13 +412,13 @@
                 
                 <button type="submit" class="btn" id="auth-button">Login</button>
             </form>
+
+            <div class="forgot-password">
+                <a href="#" onclick="showForgotPassword()">Forgot Password?</a>
+            </div>
             
             <div class="auth-toggle">
                 <span id="auth-toggle-text">Don't have an account? <a href="#" onclick="toggleAuthMode()">Sign up here</a></span>
-            </div>
-
-            <div class="auth-toggle">
-                <a href="#" onclick="showForgotPassword()">Forgot Password?</a>
             </div>
 
             <div class="auth-toggle">
@@ -559,7 +578,7 @@
     <div id="about-modal" class="modal">
         <div class="modal-content">
             <h2>About G-X Platform</h2>
-            <p><strong>Created by Davemoline</strong></p>
+            <p><strong>Created by Dave Gallioth a yound Haitien born on june 2007</strong></p>
             <p>This platform is designed to connect developers and creators worldwide. Share your ideas, connect with others, and build amazing things together!</p>
             <button class="btn" onclick="closeModal('about-modal')">Close</button>
         </div>
@@ -613,7 +632,6 @@
         const db = firebase.firestore();
         const storage = firebase.storage();
 
-        // Global Variables
         let currentUser = null;
         let isLoginMode = true;
 
@@ -625,6 +643,7 @@
                 if (user.email === 'davemoline0@gmail.com') {
                     document.getElementById('admin-link').style.display = 'block';
                 }
+                showWelcomeMessage(user.metadata.creationTime === user.metadata.lastSignInTime);
             } else {
                 showAuthApp();
             }
@@ -651,6 +670,7 @@
             }
             
             document.getElementById('auth-error').style.display = 'none';
+            document.getElementById('auth-success').style.display = 'none';
         }
 
         document.getElementById('auth-form').addEventListener('submit', function(e) {
@@ -660,8 +680,10 @@
             const password = document.getElementById('auth-password').value;
             const confirmPassword = document.getElementById('auth-confirm-password').value;
             const errorDiv = document.getElementById('auth-error');
+            const successDiv = document.getElementById('auth-success');
 
             errorDiv.style.display = 'none';
+            successDiv.style.display = 'none';
 
             if (!isLoginMode && password !== confirmPassword) {
                 errorDiv.textContent = 'Passwords do not match!';
@@ -673,9 +695,8 @@
                 // Login
                 auth.signInWithEmailAndPassword(email, password)
                     .then((userCredential) => {
-                        document.getElementById('welcome-title').textContent = 'Welcome Back!';
-                        document.getElementById('welcome-text').textContent = 'Good to see you again.';
-                        showWelcomeMessage();
+                        successDiv.textContent = 'Welcome back to G-X Platform!';
+                        successDiv.style.display = 'block';
                     })
                     .catch((error) => {
                         errorDiv.textContent = 'Login error: ' + error.message;
@@ -685,7 +706,6 @@
                 // Sign Up
                 auth.createUserWithEmailAndPassword(email, password)
                     .then((userCredential) => {
-                        // Create user document in Firestore
                         return db.collection('users').doc(userCredential.user.uid).set({
                             email: email,
                             points: 100,
@@ -695,9 +715,9 @@
                         });
                     })
                     .then(() => {
-                        document.getElementById('welcome-title').textContent = 'Welcome to G-X Platform!';
-                        document.getElementById('welcome-text').textContent = 'Your account has been created successfully.';
-                        showWelcomeMessage();
+                        successDiv.textContent = 'Account created successfully! Welcome to G-X Platform!';
+                        successDiv.style.display = 'block';
+                        document.getElementById('auth-form').reset();
                     })
                     .catch((error) => {
                         errorDiv.textContent = 'Sign up error: ' + error.message;
@@ -707,7 +727,6 @@
         });
 
         function showForgotPassword() {
-            closeModal('about-modal');
             document.getElementById('forgot-password-modal').style.display = 'flex';
         }
 
@@ -744,6 +763,7 @@
             document.getElementById('auth-app').style.display = 'none';
             document.getElementById('main-app').style.display = 'block';
             loadUserData();
+            loadOnlineUsers();
         }
 
         function showAuthApp() {
@@ -768,8 +788,20 @@
             document.getElementById(modalId).style.display = 'none';
         }
 
-        function showWelcomeMessage() {
-            document.getElementById('welcome-message').style.display = 'block';
+        function showWelcomeMessage(isNewUser) {
+            const welcome = document.getElementById('welcome-message');
+            const title = document.getElementById('welcome-title');
+            const text = document.getElementById('welcome-text');
+            
+            if (isNewUser) {
+                title.textContent = 'Welcome to G-X Platform!';
+                text.textContent = 'Your account has been created successfully. Start exploring now!';
+            } else {
+                title.textContent = 'Welcome Back!';
+                text.textContent = 'Good to see you again on G-X Platform.';
+            }
+            
+            welcome.style.display = 'block';
         }
 
         function closeWelcome() {
@@ -864,6 +896,7 @@
         function savePostToFirestore(postData) {
             db.collection('posts').add(postData).then(() => {
                 alert('Post created successfully!');
+                showNotification();
             });
         }
 
@@ -920,11 +953,6 @@
             }
         }
 
-        function logout() {
-            auth.signOut();
-        }
-
-        // Initialize online users
         function loadOnlineUsers() {
             const onlineUsers = [
                 { name: 'John Doe', initial: 'J' },
@@ -945,10 +973,13 @@
             });
         }
 
-        // Initialize
-        window.onload = function() {
-            loadOnlineUsers();
-        };
+        function showFindFriends() {
+            alert('Find Friends feature coming soon!');
+        }
+
+        function logout() {
+            auth.signOut();
+        }
     </script>
 </body>
 </html>
