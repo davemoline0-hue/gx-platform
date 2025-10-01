@@ -3,41 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>G-X Platform</title>
+    <title>G-X Platform - Connect, Share, Unite</title>
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3842061098365858" crossorigin="anonymous"></script>
+    <meta name="description" content="G-X Platform - Connect with friends, share memories, and build meaningful relationships in our united community">
+    <meta name="keywords" content="social platform, community, chat, memories, sharing, connect, friends">
+    
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         :root {
             --primary: #667eea;
             --secondary: #764ba2;
             --dark: #2d3748;
-            --light: #f7fafc;
-            --success: #48bb78;
-            --warning: #ed8936;
-            --danger: #f56565;
-            --gold: #FFD700;
-            --silver: #C0C0C0;
-            --bronze: #CD7F32;
+            --light: #f8fafc;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --gold: #fbbf24;
+            --silver: #9ca3af;
+            --blue: #3b82f6;
+            --sidebar: #1f2937;
+            --card: #ffffff;
+            --text: #1f2937;
+            --border: #e5e7eb;
         }
 
         body {
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             min-height: 100vh;
+            color: var(--text);
         }
 
         /* Auth Styles */
         .auth-container {
             max-width: 500px;
-            margin: 50px auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            margin: 20px auto;
+            background: var(--card);
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
             overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        @media (max-width: 768px) {
+            .auth-container {
+                margin: 10px;
+                border-radius: 12px;
+            }
         }
 
         .auth-header {
@@ -49,7 +68,8 @@
 
         .auth-header h1 {
             font-size: 28px;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+            font-weight: 700;
         }
 
         .form-container {
@@ -63,59 +83,65 @@
         .form-group label {
             display: block;
             margin-bottom: 8px;
-            color: #333;
-            font-weight: bold;
+            color: var(--text);
+            font-weight: 600;
             font-size: 14px;
         }
 
         .form-group input, .form-group select {
             width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e1e1e1;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: border-color 0.3s;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background: var(--light);
         }
 
         .form-group input:focus, .form-group select:focus {
             outline: none;
             border-color: var(--primary);
-        }
-
-        .date-group {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 10px;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            background: white;
         }
 
         .btn {
-            padding: 12px;
+            padding: 14px 24px;
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 16px;
-            font-weight: bold;
+            font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: all 0.3s ease;
             width: 100%;
         }
 
         .btn:hover {
             transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+        }
+
+        .btn-secondary:hover {
+            background: #4b5563;
         }
 
         .auth-toggle {
             text-align: center;
-            margin-top: 20px;
-            color: #666;
+            margin-top: 24px;
+            color: #6b7280;
             font-size: 14px;
         }
 
         .auth-toggle a {
             color: var(--primary);
             text-decoration: none;
-            font-weight: bold;
+            font-weight: 600;
             cursor: pointer;
         }
 
@@ -124,225 +150,47 @@
         }
 
         .error-message {
-            background: #fee;
-            color: #c33;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 15px;
+            background: #fef2f2;
+            color: var(--danger);
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
             font-size: 14px;
             text-align: center;
-            border: 1px solid #fcc;
+            border: 1px solid #fecaca;
             display: none;
         }
 
         .success-message {
-            background: #efe;
-            color: #363;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 15px;
+            background: #f0fdf4;
+            color: #065f46;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
             font-size: 14px;
             text-align: center;
-            border: 1px solid #cfc;
+            border: 1px solid #bbf7d0;
             display: none;
         }
 
-        .terms-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 20px 0;
+        .forgot-password {
+            text-align: center;
+            margin: 16px 0;
         }
 
-        .terms-group input {
-            width: auto;
-        }
-
-        /* Main App Styles */
-        #main-app {
-            display: none;
-        }
-
-        .navbar {
-            background: white;
-            padding: 1rem 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .nav-brand {
-            font-size: 1.5rem;
-            font-weight: bold;
+        .forgot-password a {
             color: var(--primary);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        .nav-link {
             text-decoration: none;
-            color: var(--dark);
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            transition: background 0.3s;
+            font-size: 14px;
             cursor: pointer;
-            position: relative;
+            font-weight: 500;
         }
 
-        .nav-link:hover, .nav-link.active {
-            background: var(--primary);
-            color: white;
+        .forgot-password a:hover {
+            text-decoration: underline;
         }
 
-        .notification-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: var(--danger);
-            color: white;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .user-stats {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        .stat-item {
-            background: var(--light);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .followers { color: var(--success); }
-
-        .verification-badge {
-            font-size: 16px;
-            margin-left: 5px;
-        }
-
-        .gold-badge { color: var(--gold); }
-        .silver-badge { color: var(--silver); }
-        .blue-badge { color: var(--primary); }
-
-        .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-            display: grid;
-            grid-template-columns: 1fr 300px;
-            gap: 2rem;
-        }
-
-        .post-card {
-            background: white;
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .post-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .user-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            position: relative;
-        }
-
-        .verification-badge-avatar {
-            position: absolute;
-            bottom: -2px;
-            right: -2px;
-            background: white;
-            border-radius: 50%;
-            padding: 2px;
-        }
-
-        .post-content {
-            margin-bottom: 1rem;
-        }
-
-        .post-image {
-            width: 100%;
-            max-height: 400px;
-            object-fit: cover;
-            border-radius: 10px;
-            margin: 1rem 0;
-        }
-
-        .post-actions {
-            display: flex;
-            gap: 1rem;
-            border-top: 1px solid #eee;
-            padding-top: 1rem;
-        }
-
-        .action-btn {
-            background: none;
-            border: none;
-            color: var(--dark);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .sidebar {
-            background: white;
-            border-radius: 10px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            height: fit-content;
-        }
-
-        .online-users {
-            margin-bottom: 2rem;
-        }
-
-        .user-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 0.5rem;
-            border-radius: 5px;
-            transition: background 0.3s;
-            cursor: pointer;
-        }
-
-        .user-item:hover {
-            background: var(--light);
-        }
-
+        /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -351,182 +199,71 @@
             width: 100%;
             height: 100%;
             background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
             z-index: 1000;
             align-items: center;
             justify-content: center;
+            padding: 1rem;
         }
 
         .modal-content {
-            background: white;
+            background: var(--card);
             padding: 2rem;
-            border-radius: 10px;
-            max-width: 500px;
-            width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .chat-container {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 1rem;
-            height: 600px;
-        }
-
-        .chat-list {
-            background: var(--light);
-            border-radius: 10px;
-            padding: 1rem;
-            overflow-y: auto;
-        }
-
-        .chat-window {
-            background: white;
-            border-radius: 10px;
-            padding: 1rem;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            margin-bottom: 1rem;
-        }
-
-        .message {
-            padding: 0.5rem;
-            margin: 0.5rem 0;
-            border-radius: 10px;
-            max-width: 70%;
-        }
-
-        .message.sent {
-            background: var(--primary);
-            color: white;
-            margin-left: auto;
-        }
-
-        .message.received {
-            background: var(--light);
-            color: var(--dark);
-        }
-
-        .chat-input {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .chat-input input {
-            flex: 1;
-            padding: 0.5rem;
-            border: 1px solid #ddd;
-            border-radius: 20px;
-        }
-
-        .welcome-message {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            z-index: 2000;
-            text-align: center;
-            display: none;
-        }
-
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: white;
-            padding: 1rem;
-            border-radius: 5px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            z-index: 1500;
-            display: none;
-        }
-
-        /* Admin Styles */
-        .admin-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .users-table {
+            border-radius: 16px;
+            max-width: 400px;
             width: 100%;
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            border: 1px solid var(--border);
         }
 
-        .users-table th, .users-table td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid #eee;
-        }
-
-        .section {
-            display: none;
-        }
-
-        .active-section {
-            display: block;
-        }
-
-        .forgot-password {
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        .profile-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .profile-avatar {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid var(--primary);
-            margin: 0 auto 1rem;
-            display: block;
-        }
-
-        .creator-info {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .creator-info h3 {
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .about-content {
-            line-height: 1.6;
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 1.5rem;
         }
 
-        .about-content h4 {
-            color: var(--primary);
-            margin: 1.5rem 0 0.5rem 0;
+        .modal-header h2 {
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #6b7280;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: var(--danger);
+            background: var(--light);
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -534,8 +271,8 @@
     <!-- Login/Signup Form -->
     <div id="auth-app" class="auth-container">
         <div class="auth-header">
-            <h1 id="auth-title">Login to G-X Platform</h1>
-            <p>Join our community</p>
+            <h1 id="auth-title">Welcome to G-X</h1>
+            <p>Connect, share, and build relationships</p>
         </div>
         
         <div class="form-container">
@@ -554,8 +291,16 @@
                     <input type="password" id="login-password" required placeholder="Enter your password">
                 </div>
                 
-                <button type="submit" class="btn">Login</button>
+                <button type="submit" class="btn">Sign In</button>
             </form>
+
+            <div class="forgot-password">
+                <a onclick="showForgotPassword()">Forgot your password?</a>
+            </div>
+            
+            <div class="auth-toggle">
+                <span id="auth-toggle-text">Don't have an account? <a onclick="toggleAuthMode()">Sign up here</a></span>
+            </div>
 
             <!-- Signup Form -->
             <form id="signup-form" style="display: none;">
@@ -575,35 +320,6 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Date of Birth</label>
-                    <div class="date-group">
-                        <select id="birth-year" required>
-                            <option value="">Year</option>
-                            <!-- Years will be populated by JavaScript -->
-                        </select>
-                        <select id="birth-month" required>
-                            <option value="">Month</option>
-                            <option value="01">January</option>
-                            <option value="02">February</option>
-                            <option value="03">March</option>
-                            <option value="04">April</option>
-                            <option value="05">May</option>
-                            <option value="06">June</option>
-                            <option value="07">July</option>
-                            <option value="08">August</option>
-                            <option value="09">September</option>
-                            <option value="10">October</option>
-                            <option value="11">November</option>
-                            <option value="12">December</option>
-                        </select>
-                        <select id="birth-day" required>
-                            <option value="">Day</option>
-                            <!-- Days will be populated by JavaScript -->
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="form-group">
                     <label for="signup-password">Password</label>
                     <input type="password" id="signup-password" required placeholder="Create a password">
                 </div>
@@ -613,273 +329,53 @@
                     <input type="password" id="signup-confirm-password" required placeholder="Confirm your password">
                 </div>
 
-                <div class="terms-group">
-                    <input type="checkbox" id="agree-terms" required>
-                    <label for="agree-terms">I agree to the Terms and Conditions</label>
+                <div class="form-group" style="display: flex; align-items: center; gap: 10px; margin: 20px 0;">
+                    <input type="checkbox" id="agree-terms" required style="width: auto;">
+                    <label for="agree-terms" style="margin-bottom: 0;">I agree to the Terms and Conditions</label>
                 </div>
                 
                 <button type="submit" class="btn">Create Account</button>
+
+                <div class="auth-toggle" style="margin-top: 20px;">
+                    <span>Already have an account? <a onclick="toggleAuthMode()">Login here</a></span>
+                </div>
             </form>
-
-            <div class="forgot-password">
-                <a onclick="showForgotPassword()">Forgot Password?</a>
-            </div>
-            
-            <div class="auth-toggle">
-                <span id="auth-toggle-text">Don't have an account? <a onclick="toggleAuthMode()">Sign up here</a></span>
-            </div>
-
-            <div class="auth-toggle">
-                <a onclick="showAbout()">About G-X Platform</a>
-            </div>
         </div>
     </div>
 
-    <!-- Main Application -->
-    <div id="main-app">
-        <!-- Navigation -->
-        <nav class="navbar">
-            <div class="nav-brand">G-X Platform</div>
-            <div class="nav-links">
-                <a class="nav-link active" onclick="showSection('home')">Home</a>
-                <a class="nav-link" onclick="showSection('chat')">
-                    Chat
-                    <span id="chat-badge" class="notification-badge" style="display: none;">0</span>
-                </a>
-                <a class="nav-link" onclick="showSection('messages')">
-                    New Messages
-                    <span id="message-badge" class="notification-badge" style="display: none;">0</span>
-                </a>
-                <a class="nav-link" onclick="showNotification()">Notifications</a>
-                <a class="nav-link" onclick="showSettings()">Profile Settings</a>
-                <a class="nav-link" onclick="showAbout()">About Us</a>
-                <a class="nav-link" onclick="showContact()">Contact Us</a>
-                <a class="nav-link" id="admin-link" style="display: none;" onclick="showSection('admin')">Admin</a>
-                <a class="nav-link" onclick="logout()">Logout</a>
-            </div>
-            <div class="user-stats">
-                <div class="stat-item followers">
-                    Followers: <span id="user-followers">0</span>
-                    <span id="verification-badge" class="verification-badge"></span>
-                </div>
-            </div>
-        </nav>
-
-        <div class="container">
-            <main>
-                <!-- Home Section -->
-                <section id="home-section" class="section active-section">
-                    <div class="post-card">
-                        <div class="post-header">
-                            <div class="user-avatar" id="current-user-avatar">
-                                <span id="avatar-text">U</span>
-                                <span id="avatar-badge" class="verification-badge-avatar"></span>
-                            </div>
-                            <div>
-                                <h4 id="current-user-name">User</h4>
-                                <small>Welcome to G-X Platform!</small>
-                            </div>
-                        </div>
-                        <div class="post-content">
-                            <p>Share your thoughts with the community...</p>
-                        </div>
-                    </div>
-
-                    <div id="posts-container">
-                        <!-- Posts will be loaded here -->
-                    </div>
-                </section>
-
-                <!-- Chat Section -->
-                <section id="chat-section" class="section">
-                    <h2>Chat</h2>
-                    <div class="chat-container">
-                        <div class="chat-list" id="chat-list">
-                            <!-- Chat list will be loaded here -->
-                        </div>
-                        <div class="chat-window" id="chat-window">
-                            <div class="chat-messages" id="chat-messages">
-                                <!-- Messages will appear here -->
-                            </div>
-                            <div class="chat-input">
-                                <input type="text" id="chat-input" placeholder="Type a message...">
-                                <button class="btn" onclick="sendMessage()">Send</button>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Messages Section -->
-                <section id="messages-section" class="section">
-                    <h2>New Messages</h2>
-                    <div id="new-messages-container">
-                        <!-- New messages will appear here -->
-                    </div>
-                </section>
-
-                <!-- Admin Section -->
-                <section id="admin-section" class="section">
-                    <h2>Admin Dashboard</h2>
-                    
-                    <div class="admin-stats">
-                        <div class="stat-card">
-                            <h3>Total Users</h3>
-                            <p id="total-users">0</p>
-                        </div>
-                        <div class="stat-card">
-                            <h3>Today's Signups</h3>
-                            <p id="today-signups">0</p>
-                        </div>
-                        <div class="stat-card">
-                            <h3>Online Now</h3>
-                            <p id="online-now">0</p>
-                        </div>
-                    </div>
-
-                    <div class="users-table">
-                        <h3>User Management</h3>
-                        <table style="width: 100%;">
-                            <thead>
-                                <tr>
-                                    <th>User</th>
-                                    <th>Email</th>
-                                    <th>Followers</th>
-                                    <th>Verification</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="users-table-body">
-                                <!-- Users will be loaded here -->
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
-            </main>
-
-            <!-- Sidebar -->
-            <aside class="sidebar">
-                <div class="online-users">
-                    <h3>Online Friends</h3>
-                    <div id="online-users-list">
-                        <!-- Online users will appear here -->
-                    </div>
-                </div>
-
-                <button class="btn" onclick="showCreatePost()" style="width: 100%; margin-bottom: 1rem;">Create Post</button>
-                <button class="btn" onclick="showFindFriends()" style="width: 100%;">Find Friends</button>
-            </aside>
-        </div>
-    </div>
-
-    <!-- Modals -->
-    <div id="settings-modal" class="modal">
-        <div class="modal-content">
-            <h2>Profile Settings</h2>
-            <div class="form-group">
-                <label>Profile Picture</label>
-                <input type="file" id="profile-picture" accept="image/*">
-            </div>
-            <div class="form-group">
-                <label>Display Name</label>
-                <input type="text" id="display-name" placeholder="Enter your display name">
-            </div>
-            <div class="form-group">
-                <label>Bio</label>
-                <textarea id="user-bio" placeholder="Tell us about yourself" rows="3"></textarea>
-            </div>
-            <div class="form-group">
-                <label>Change Password</label>
-                <input type="password" id="new-password" placeholder="New password">
-            </div>
-            <button class="btn" onclick="saveSettings()">Save Changes</button>
-            <button class="btn" onclick="closeModal('settings-modal')" style="background: #666; margin-left: 0.5rem;">Cancel</button>
-        </div>
-    </div>
-
-    <div id="create-post-modal" class="modal">
-        <div class="modal-content">
-            <h2>Create Post</h2>
-            <div class="form-group">
-                <textarea id="post-content" placeholder="What's on your mind?" rows="4"></textarea>
-            </div>
-            <div class="form-group">
-                <label>Upload Image/Video/Document</label>
-                <input type="file" id="post-media" accept="image/*,video/*,.pdf,.doc,.docx">
-            </div>
-            <button class="btn" onclick="createPost()">Post</button>
-            <button class="btn" onclick="closeModal('create-post-modal')" style="background: #666; margin-left: 0.5rem;">Cancel</button>
-        </div>
-    </div>
-
-    <div id="about-modal" class="modal">
-        <div class="modal-content">
-            <h2>About G-X Platform</h2>
-            
-            <div class="creator-info">
-                <img src="https://i.ibb.co/yBBrh5LM/dave-photo.jpg" alt="Dave Gallioth" class="profile-avatar">
-                <h3>Dave Gallioth</h3>
-                <p>Platform Creator & Technology Enthusiast</p>
-            </div>
-
-            <div class="about-content">
-                <h4>About the Creator:</h4>
-                <p>G-X Platform was created by Dave Gallioth, a young Haitian developer born on June 20, 2007. Dave is passionate about technology and found inspiration to create this platform through his love for innovation and digital solutions. His journey in technology started at a young age, and he continues to explore new ways to connect people through digital platforms.</p>
-                
-                <h4>Why this platform was created:</h4>
-                <p>This platform was created with the objective of uniting people from around the world to share memories together. We believe that unity is beautiful and that unity is the key to everything. When you come to this site, you come to relax, share jokes, connect with friends, and build meaningful relationships - but always with respect for one another.</p>
-                
-                <h4>Our Mission:</h4>
-                <p>To create a safe, inclusive space where people can freely express themselves, share their stories, and build connections that transcend geographical boundaries. We believe that technology should bring people together, and that's exactly what G-X Platform aims to achieve.</p>
-            </div>
-            
-            <button class="btn" onclick="closeModal('about-modal')">Close</button>
-        </div>
-    </div>
-
-    <div id="contact-modal" class="modal">
-        <div class="modal-content">
-            <h2>Contact Us</h2>
-            <div class="creator-info">
-                <img src="https://i.ibb.co/yBBrh5LM/dave-photo.jpg" alt="Dave Gallioth" class="profile-avatar" style="width: 100px; height: 100px;">
-                <h3>Dave Gallioth</h3>
-                <p>Platform Creator</p>
-            </div>
-            <p><strong>Email:</strong> dave@belikebrit.org</p>
-            <p><strong>Phone:</strong> (+509) 41362708</p>
-            <p>Feel free to reach out to us for any questions, suggestions, or support needs. We're here to help and always happy to hear from our community members!</p>
-            <button class="btn" onclick="closeModal('contact-modal')">Close</button>
-        </div>
-    </div>
-
+    <!-- Forgot Password Modal -->
     <div id="forgot-password-modal" class="modal">
         <div class="modal-content">
-            <h2>Reset Password</h2>
-            <div class="form-group">
-                <label>Enter your email</label>
-                <input type="email" id="reset-email" placeholder="Your email address">
+            <div class="modal-header">
+                <h2>Reset Your Password</h2>
+                <button class="close-btn" onclick="closeModal('forgot-password-modal')">&times;</button>
             </div>
-            <button class="btn" onclick="resetPassword()">Send Reset Link</button>
-            <button class="btn" onclick="closeModal('forgot-password-modal')" style="background: #666; margin-top: 10px;">Cancel</button>
+            
+            <div id="forgot-password-error" class="error-message" style="display: none;"></div>
+            <div id="forgot-password-success" class="success-message" style="display: none;"></div>
+            
+            <div class="form-group">
+                <label for="forgot-email">Enter your email address</label>
+                <input type="email" id="forgot-email" placeholder="Your email address">
+                <p style="font-size: 14px; color: #6b7280; margin-top: 8px;">
+                    We'll send you a link to reset your password
+                </p>
+            </div>
+
+            <div class="loading-spinner" id="forgot-password-loading">
+                <div class="spinner"></div>
+                <p style="margin-top: 8px; color: #6b7280;">Sending reset link...</p>
+            </div>
+            
+            <button class="btn" onclick="sendPasswordResetEmail()" id="reset-password-btn">Send Reset Link</button>
+            <button class="btn btn-secondary" onclick="closeModal('forgot-password-modal')" style="margin-top: 10px;">Cancel</button>
         </div>
-    </div>
-
-    <!-- Welcome Message -->
-    <div id="welcome-message" class="welcome-message">
-        <h2 id="welcome-title">Welcome to G-X Platform!</h2>
-        <p id="welcome-text">We're excited to have you here.</p>
-        <button class="btn" onclick="closeWelcome()">Get Started</button>
-    </div>
-
-    <!-- Notification -->
-    <div id="notification" class="notification">
-        <p>New comment on your post!</p>
     </div>
 
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
 
     <script>
         // Firebase Configuration
@@ -897,33 +393,9 @@
         const app = firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
-        const storage = firebase.storage();
 
         let currentUser = null;
         let isLoginMode = true;
-
-        // Initialize date selects
-        function initializeDateSelects() {
-            const yearSelect = document.getElementById('birth-year');
-            const daySelect = document.getElementById('birth-day');
-            
-            // Populate years (1900-current year)
-            const currentYear = new Date().getFullYear();
-            for (let year = currentYear; year >= 1900; year--) {
-                const option = document.createElement('option');
-                option.value = year;
-                option.textContent = year;
-                yearSelect.appendChild(option);
-            }
-            
-            // Populate days
-            for (let day = 1; day <= 31; day++) {
-                const option = document.createElement('option');
-                option.value = day < 10 ? '0' + day : day;
-                option.textContent = day;
-                daySelect.appendChild(option);
-            }
-        }
 
         // Auth Functions
         function toggleAuthMode() {
@@ -936,12 +408,12 @@
             if (isLoginMode) {
                 loginForm.style.display = 'block';
                 signupForm.style.display = 'none';
-                authTitle.textContent = 'Login to G-X Platform';
+                authTitle.textContent = 'Welcome to G-X';
                 toggleText.innerHTML = 'Don\'t have an account? <a onclick="toggleAuthMode()">Sign up here</a>';
             } else {
                 loginForm.style.display = 'none';
                 signupForm.style.display = 'block';
-                authTitle.textContent = 'Create Account';
+                authTitle.textContent = 'Join G-X Platform';
                 toggleText.innerHTML = 'Already have an account? <a onclick="toggleAuthMode()">Login here</a>';
             }
             
@@ -965,9 +437,27 @@
                 .then((userCredential) => {
                     successDiv.textContent = 'Welcome back to G-X Platform!';
                     successDiv.style.display = 'block';
+                    // Redirect to main app would happen here
                 })
                 .catch((error) => {
-                    errorDiv.textContent = 'Login error: ' + error.message;
+                    let errorMessage = 'Login error: ';
+                    switch (error.code) {
+                        case 'auth/invalid-email':
+                            errorMessage += 'Invalid email address';
+                            break;
+                        case 'auth/user-disabled':
+                            errorMessage += 'This account has been disabled';
+                            break;
+                        case 'auth/user-not-found':
+                            errorMessage += 'No account found with this email';
+                            break;
+                        case 'auth/wrong-password':
+                            errorMessage += 'Incorrect password';
+                            break;
+                        default:
+                            errorMessage += error.message;
+                    }
+                    errorDiv.textContent = errorMessage;
                     errorDiv.style.display = 'block';
                 });
         });
@@ -981,9 +471,6 @@
             const email = document.getElementById('signup-email').value;
             const password = document.getElementById('signup-password').value;
             const confirmPassword = document.getElementById('signup-confirm-password').value;
-            const birthYear = document.getElementById('birth-year').value;
-            const birthMonth = document.getElementById('birth-month').value;
-            const birthDay = document.getElementById('birth-day').value;
             const agreeTerms = document.getElementById('agree-terms').checked;
             const errorDiv = document.getElementById('auth-error');
             const successDiv = document.getElementById('auth-success');
@@ -1003,13 +490,18 @@
                 return;
             }
 
+            if (password.length < 6) {
+                errorDiv.textContent = 'Password should be at least 6 characters';
+                errorDiv.style.display = 'block';
+                return;
+            }
+
             auth.createUserWithEmailAndPassword(email, password)
                 .then((userCredential) => {
                     return db.collection('users').doc(userCredential.user.uid).set({
                         firstName: firstName,
                         lastName: lastName,
                         email: email,
-                        dateOfBirth: `${birthYear}-${birthMonth}-${birthDay}`,
                         followers: 0,
                         following: 0,
                         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -1020,337 +512,134 @@
                     successDiv.textContent = 'Account created successfully! Welcome to G-X Platform!';
                     successDiv.style.display = 'block';
                     document.getElementById('signup-form').reset();
-                    
-                    // Send welcome message from admin
-                    setTimeout(() => {
-                        sendAdminWelcomeMessage();
-                    }, 1000);
                 })
                 .catch((error) => {
-                    errorDiv.textContent = 'Sign up error: ' + error.message;
+                    let errorMessage = 'Sign up error: ';
+                    switch (error.code) {
+                        case 'auth/email-already-in-use':
+                            errorMessage += 'This email is already registered';
+                            break;
+                        case 'auth/invalid-email':
+                            errorMessage += 'Invalid email address';
+                            break;
+                        case 'auth/operation-not-allowed':
+                            errorMessage += 'Email/password accounts are not enabled';
+                            break;
+                        case 'auth/weak-password':
+                            errorMessage += 'Password is too weak';
+                            break;
+                        default:
+                            errorMessage += error.message;
+                    }
+                    errorDiv.textContent = errorMessage;
                     errorDiv.style.display = 'block';
                 });
         });
 
-        function sendAdminWelcomeMessage() {
-            // This would send a welcome message from admin to new user
-            console.log('Sending welcome message to new user');
-        }
-
+        // Forgot Password Functions
         function showForgotPassword() {
             document.getElementById('forgot-password-modal').style.display = 'flex';
+            document.getElementById('forgot-password-error').style.display = 'none';
+            document.getElementById('forgot-password-success').style.display = 'none';
+            document.getElementById('forgot-email').value = '';
         }
 
-        function resetPassword() {
-            const email = document.getElementById('reset-email').value;
+        function sendPasswordResetEmail() {
+            const email = document.getElementById('forgot-email').value;
+            const errorDiv = document.getElementById('forgot-password-error');
+            const successDiv = document.getElementById('forgot-password-success');
+            const loadingDiv = document.getElementById('forgot-password-loading');
+            const resetBtn = document.getElementById('reset-password-btn');
+
+            errorDiv.style.display = 'none';
+            successDiv.style.display = 'none';
+
             if (!email) {
-                alert('Please enter your email address');
+                errorDiv.textContent = 'Please enter your email address';
+                errorDiv.style.display = 'block';
                 return;
             }
 
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                errorDiv.textContent = 'Please enter a valid email address';
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            // Show loading state
+            loadingDiv.style.display = 'block';
+            resetBtn.disabled = true;
+
             auth.sendPasswordResetEmail(email)
                 .then(() => {
-                    alert('Password reset email sent! Check your inbox.');
-                    closeModal('forgot-password-modal');
+                    loadingDiv.style.display = 'none';
+                    resetBtn.disabled = false;
+                    successDiv.textContent = 'Password reset email sent! Check your inbox and spam folder.';
+                    successDiv.style.display = 'block';
+                    
+                    // Clear the email field
+                    document.getElementById('forgot-email').value = '';
+                    
+                    // Auto close modal after 3 seconds
+                    setTimeout(() => {
+                        closeModal('forgot-password-modal');
+                    }, 3000);
                 })
                 .catch((error) => {
-                    alert('Error: ' + error.message);
+                    loadingDiv.style.display = 'none';
+                    resetBtn.disabled = false;
+                    
+                    let errorMessage = 'Error: ';
+                    switch (error.code) {
+                        case 'auth/invalid-email':
+                            errorMessage += 'Invalid email address';
+                            break;
+                        case 'auth/user-not-found':
+                            errorMessage += 'No account found with this email';
+                            break;
+                        case 'auth/too-many-requests':
+                            errorMessage += 'Too many attempts. Please try again later';
+                            break;
+                        default:
+                            errorMessage += 'Failed to send reset email. Please try again.';
+                    }
+                    errorDiv.textContent = errorMessage;
+                    errorDiv.style.display = 'block';
                 });
-        }
-
-        function showAbout() {
-            document.getElementById('about-modal').style.display = 'flex';
-        }
-
-        function showContact() {
-            document.getElementById('contact-modal').style.display = 'flex';
         }
 
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
         }
 
-        // App Navigation
-        function showSection(sectionName) {
-            document.querySelectorAll('.section').forEach(section => {
-                section.classList.remove('active-section');
-            });
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
-            });
-            
-            document.getElementById(sectionName + '-section').classList.add('active-section');
-            event.target.classList.add('active');
-        }
-
-        function showMainApp() {
-            document.getElementById('auth-app').style.display = 'none';
-            document.getElementById('main-app').style.display = 'block';
-            loadUserData();
-            loadOnlineUsers();
-        }
-
-        function showAuthApp() {
-            document.getElementById('main-app').style.display = 'none';
-            document.getElementById('auth-app').style.display = 'block';
-        }
-
-        function showSettings() {
-            document.getElementById('settings-modal').style.display = 'flex';
-        }
-
-        function showCreatePost() {
-            document.getElementById('create-post-modal').style.display = 'flex';
-        }
-
-        function closeWelcome() {
-            document.getElementById('welcome-message').style.display = 'none';
-        }
-
-        function showNotification() {
-            const notification = document.getElementById('notification');
-            notification.style.display = 'block';
-            setTimeout(() => {
-                notification.style.display = 'none';
-            }, 3000);
-        }
-
-        // User Functions
-        function loadUserData() {
-            if (currentUser) {
-                db.collection('users').doc(currentUser.uid).get().then(doc => {
-                    if (doc.exists) {
-                        const data = doc.data();
-                        document.getElementById('user-followers').textContent = data.followers || 0;
-                        document.getElementById('current-user-name').textContent = `${data.firstName} ${data.lastName}`;
-                        document.getElementById('avatar-text').textContent = (data.firstName[0] + data.lastName[0]).toUpperCase();
-                        
-                        // Update verification badge
-                        updateVerificationBadge(data.followers);
-                    }
-                });
+        // Close modal when clicking outside
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal')) {
+                e.target.style.display = 'none';
             }
-        }
-
-        function updateVerificationBadge(followers) {
-            const badge = document.getElementById('verification-badge');
-            const avatarBadge = document.getElementById('avatar-badge');
-            
-            badge.innerHTML = '';
-            avatarBadge.innerHTML = '';
-            
-            if (followers >= 6000) {
-                badge.innerHTML = '✓';
-                badge.className = 'verification-badge blue-badge';
-                avatarBadge.innerHTML = '✓';
-                avatarBadge.style.color = 'var(--primary)';
-            } else if (followers >= 4000) {
-                badge.innerHTML = '✓';
-                badge.className = 'verification-badge silver-badge';
-                avatarBadge.innerHTML = '✓';
-                avatarBadge.style.color = 'var(--silver)';
-            } else if (followers >= 2000) {
-                badge.innerHTML = '✓';
-                badge.className = 'verification-badge gold-badge';
-                avatarBadge.innerHTML = '✓';
-                avatarBadge.style.color = 'var(--gold)';
-            }
-        }
-
-        function saveSettings() {
-            const file = document.getElementById('profile-picture').files[0];
-            const displayName = document.getElementById('display-name').value;
-            const bio = document.getElementById('user-bio').value;
-            const newPassword = document.getElementById('new-password').value;
-
-            const updates = {};
-            if (displayName) updates.displayName = displayName;
-            if (bio) updates.bio = bio;
-
-            if (Object.keys(updates).length > 0) {
-                db.collection('users').doc(currentUser.uid).update(updates)
-                    .then(() => {
-                        loadUserData();
-                        alert('Profile updated successfully!');
-                    });
-            }
-
-            if (file) {
-                const storageRef = storage.ref('profile-pictures/' + currentUser.uid);
-                storageRef.put(file).then(() => {
-                    alert('Profile picture updated!');
-                });
-            }
-
-            if (newPassword) {
-                currentUser.updatePassword(newPassword).then(() => {
-                    alert('Password updated!');
-                });
-            }
-
-            closeModal('settings-modal');
-        }
-
-        function createPost() {
-            const content = document.getElementById('post-content').value;
-            const file = document.getElementById('post-media').files[0];
-
-            if (content || file) {
-                const postData = {
-                    content: content,
-                    author: currentUser.uid,
-                    authorName: `${currentUser.firstName} ${currentUser.lastName}`,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                    likes: 0,
-                    comments: []
-                };
-
-                if (file) {
-                    const storageRef = storage.ref('posts/' + Date.now() + '_' + file.name);
-                    storageRef.put(file).then(snapshot => {
-                        snapshot.ref.getDownloadURL().then(url => {
-                            postData.mediaUrl = url;
-                            postData.mediaType = file.type;
-                            savePostToFirestore(postData);
-                        });
-                    });
-                } else {
-                    savePostToFirestore(postData);
-                }
-            }
-
-            closeModal('create-post-modal');
-            document.getElementById('post-content').value = '';
-            document.getElementById('post-media').value = '';
-        }
-
-        function savePostToFirestore(postData) {
-            db.collection('posts').add(postData).then(() => {
-                alert('Post created successfully!');
-                showNotification();
-            });
-        }
-
-        // Admin Functions
-        function loadAdminData() {
-            if (currentUser && currentUser.email === 'davemoline0@gmail.com') {
-                db.collection('users').get().then(snapshot => {
-                    document.getElementById('total-users').textContent = snapshot.size;
-                    document.getElementById('users-table-body').innerHTML = '';
-                    
-                    snapshot.forEach(doc => {
-                        const user = doc.data();
-                        const row = `
-                            <tr>
-                                <td>${user.firstName} ${user.lastName}</td>
-                                <td>${user.email}</td>
-                                <td>
-                                    <input type="number" value="${user.followers || 0}" 
-                                           onchange="updateUserFollowers('${doc.id}', this.value)" 
-                                           style="width: 80px; padding: 5px;">
-                                </td>
-                                <td>${getVerificationLevel(user.followers || 0)}</td>
-                                <td>
-                                    <button onclick="deleteUser('${doc.id}')" style="background: var(--danger); color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">Delete</button>
-                                </td>
-                            </tr>
-                        `;
-                        document.getElementById('users-table-body').innerHTML += row;
-                    });
-                });
-            }
-        }
-
-        function getVerificationLevel(followers) {
-            if (followers >= 6000) return 'Blue Verified';
-            if (followers >= 4000) return 'Silver Verified';
-            if (followers >= 2000) return 'Gold Verified';
-            return 'Not Verified';
-        }
-
-        function updateUserFollowers(userId, followers) {
-            db.collection('users').doc(userId).update({
-                followers: parseInt(followers)
-            }).then(() => {
-                if (userId === currentUser.uid) {
-                    loadUserData();
-                }
-            });
-        }
-
-        function deleteUser(userId) {
-            if (confirm('Are you sure you want to delete this user?')) {
-                db.collection('users').doc(userId).delete();
-                loadAdminData();
-            }
-        }
-
-        function loadOnlineUsers() {
-            // Simulate online users
-            const onlineUsers = [
-                { name: 'John Doe', initial: 'JD' },
-                { name: 'Jane Smith', initial: 'JS' },
-                { name: 'Mike Johnson', initial: 'MJ' }
-            ];
-            
-            const onlineList = document.getElementById('online-users-list');
-            onlineList.innerHTML = '';
-            
-            onlineUsers.forEach(user => {
-                onlineList.innerHTML += `
-                    <div class="user-item">
-                        <div class="user-avatar" style="background: var(--success);">${user.initial}</div>
-                        <span>${user.name}</span>
-                    </div>
-                `;
-            });
-        }
-
-        function showFindFriends() {
-            alert('Find Friends feature coming soon!');
-        }
-
-        function sendMessage() {
-            const message = document.getElementById('chat-input').value;
-            if (message.trim()) {
-                // Simulate sending message
-                const chatMessages = document.getElementById('chat-messages');
-                chatMessages.innerHTML += `
-                    <div class="message sent">
-                        ${message}
-                    </div>
-                `;
-                document.getElementById('chat-input').value = '';
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
-        }
-
-        function logout() {
-            auth.signOut();
-        }
+        });
 
         // Check if user is already logged in
         auth.onAuthStateChanged((user) => {
             if (user) {
                 currentUser = user;
-                showMainApp();
-                if (user.email === 'davemoline0@gmail.com') {
-                    document.getElementById('admin-link').style.display = 'block';
-                }
-                
-                // Update user last login
-                db.collection('users').doc(user.uid).update({
-                    lastLogin: firebase.firestore.FieldValue.serverTimestamp()
-                });
-            } else {
-                showAuthApp();
+                // User is logged in, you would redirect to main app here
+                console.log('User logged in:', user.email);
             }
         });
 
-        // Initialize the app
-        window.onload = function() {
-            initializeDateSelects();
-        };
+        // Test Firebase connection
+        console.log('Firebase initialized successfully');
+        console.log('Forgot password system ready');
+
+        // Add some demo functionality for testing
+        function demoResetPassword() {
+            const testEmail = "test@example.com";
+            document.getElementById('forgot-email').value = testEmail;
+            console.log('Demo: Testing forgot password with email:', testEmail);
+        }
     </script>
 </body>
 </html>
