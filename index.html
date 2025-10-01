@@ -20,17 +20,19 @@
             --success: #48bb78;
             --warning: #ed8936;
             --danger: #f56565;
+            --gold: #FFD700;
+            --silver: #C0C0C0;
+            --bronze: #CD7F32;
         }
 
         body {
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             min-height: 100vh;
-            padding: 20px;
         }
 
         /* Auth Styles */
         .auth-container {
-            max-width: 400px;
+            max-width: 500px;
             margin: 50px auto;
             background: white;
             border-radius: 15px;
@@ -66,7 +68,7 @@
             font-size: 14px;
         }
 
-        .form-group input {
+        .form-group input, .form-group select {
             width: 100%;
             padding: 12px 15px;
             border: 2px solid #e1e1e1;
@@ -75,9 +77,15 @@
             transition: border-color 0.3s;
         }
 
-        .form-group input:focus {
+        .form-group input:focus, .form-group select:focus {
             outline: none;
             border-color: var(--primary);
+        }
+
+        .date-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
         }
 
         .btn {
@@ -108,6 +116,7 @@
             color: var(--primary);
             text-decoration: none;
             font-weight: bold;
+            cursor: pointer;
         }
 
         .auth-toggle a:hover {
@@ -138,6 +147,17 @@
             display: none;
         }
 
+        .terms-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .terms-group input {
+            width: auto;
+        }
+
         /* Main App Styles */
         #main-app {
             display: none;
@@ -150,8 +170,6 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-radius: 10px;
-            margin-bottom: 20px;
         }
 
         .nav-brand {
@@ -173,11 +191,27 @@
             border-radius: 5px;
             transition: background 0.3s;
             cursor: pointer;
+            position: relative;
         }
 
         .nav-link:hover, .nav-link.active {
             background: var(--primary);
             color: white;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .user-stats {
@@ -192,14 +226,26 @@
             border-radius: 20px;
             font-size: 0.9rem;
             font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
-        .points { color: var(--warning); }
         .followers { color: var(--success); }
+
+        .verification-badge {
+            font-size: 16px;
+            margin-left: 5px;
+        }
+
+        .gold-badge { color: var(--gold); }
+        .silver-badge { color: var(--silver); }
+        .blue-badge { color: var(--primary); }
 
         .container {
             max-width: 1200px;
-            margin: 0 auto;
+            margin: 2rem auto;
+            padding: 0 1rem;
             display: grid;
             grid-template-columns: 1fr 300px;
             gap: 2rem;
@@ -230,6 +276,16 @@
             justify-content: center;
             color: white;
             font-weight: bold;
+            position: relative;
+        }
+
+        .verification-badge-avatar {
+            position: absolute;
+            bottom: -2px;
+            right: -2px;
+            background: white;
+            border-radius: 50%;
+            padding: 2px;
         }
 
         .post-content {
@@ -310,6 +366,64 @@
             overflow-y: auto;
         }
 
+        .chat-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 1rem;
+            height: 600px;
+        }
+
+        .chat-list {
+            background: var(--light);
+            border-radius: 10px;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+
+        .chat-window {
+            background: white;
+            border-radius: 10px;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+        }
+
+        .message {
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            border-radius: 10px;
+            max-width: 70%;
+        }
+
+        .message.sent {
+            background: var(--primary);
+            color: white;
+            margin-left: auto;
+        }
+
+        .message.received {
+            background: var(--light);
+            color: var(--dark);
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+        }
+
         .welcome-message {
             position: fixed;
             top: 50%;
@@ -375,10 +489,44 @@
             display: block;
         }
 
-        /* Forgot Password */
         .forgot-password {
             text-align: center;
             margin-top: 10px;
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .profile-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--primary);
+            margin: 0 auto 1rem;
+            display: block;
+        }
+
+        .creator-info {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .creator-info h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .about-content {
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-content h4 {
+            color: var(--primary);
+            margin: 1.5rem 0 0.5rem 0;
         }
     </style>
 </head>
@@ -394,35 +542,95 @@
             <div id="auth-error" class="error-message"></div>
             <div id="auth-success" class="success-message"></div>
             
-            <form id="auth-form">
+            <!-- Login Form -->
+            <form id="login-form">
                 <div class="form-group">
-                    <label for="auth-email">Email Address</label>
-                    <input type="email" id="auth-email" required placeholder="Enter your email">
+                    <label for="login-email">Email Address</label>
+                    <input type="email" id="login-email" required placeholder="Enter your email">
                 </div>
                 
                 <div class="form-group">
-                    <label for="auth-password">Password</label>
-                    <input type="password" id="auth-password" required placeholder="Enter your password">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" required placeholder="Enter your password">
+                </div>
+                
+                <button type="submit" class="btn">Login</button>
+            </form>
+
+            <!-- Signup Form -->
+            <form id="signup-form" style="display: none;">
+                <div class="form-group">
+                    <label for="signup-firstname">First Name</label>
+                    <input type="text" id="signup-firstname" required placeholder="Enter your first name">
                 </div>
 
-                <div id="confirm-password-group" class="form-group" style="display: none;">
-                    <label for="auth-confirm-password">Confirm Password</label>
-                    <input type="password" id="auth-confirm-password" placeholder="Confirm your password">
+                <div class="form-group">
+                    <label for="signup-lastname">Last Name</label>
+                    <input type="text" id="signup-lastname" required placeholder="Enter your last name">
+                </div>
+
+                <div class="form-group">
+                    <label for="signup-email">Email Address</label>
+                    <input type="email" id="signup-email" required placeholder="Enter your email">
+                </div>
+
+                <div class="form-group">
+                    <label>Date of Birth</label>
+                    <div class="date-group">
+                        <select id="birth-year" required>
+                            <option value="">Year</option>
+                            <!-- Years will be populated by JavaScript -->
+                        </select>
+                        <select id="birth-month" required>
+                            <option value="">Month</option>
+                            <option value="01">January</option>
+                            <option value="02">February</option>
+                            <option value="03">March</option>
+                            <option value="04">April</option>
+                            <option value="05">May</option>
+                            <option value="06">June</option>
+                            <option value="07">July</option>
+                            <option value="08">August</option>
+                            <option value="09">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                        <select id="birth-day" required>
+                            <option value="">Day</option>
+                            <!-- Days will be populated by JavaScript -->
+                        </select>
+                    </div>
                 </div>
                 
-                <button type="submit" class="btn" id="auth-button">Login</button>
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" required placeholder="Create a password">
+                </div>
+
+                <div class="form-group">
+                    <label for="signup-confirm-password">Confirm Password</label>
+                    <input type="password" id="signup-confirm-password" required placeholder="Confirm your password">
+                </div>
+
+                <div class="terms-group">
+                    <input type="checkbox" id="agree-terms" required>
+                    <label for="agree-terms">I agree to the Terms and Conditions</label>
+                </div>
+                
+                <button type="submit" class="btn">Create Account</button>
             </form>
 
             <div class="forgot-password">
-                <a href="#" onclick="showForgotPassword()">Forgot Password?</a>
+                <a onclick="showForgotPassword()">Forgot Password?</a>
             </div>
             
             <div class="auth-toggle">
-                <span id="auth-toggle-text">Don't have an account? <a href="#" onclick="toggleAuthMode()">Sign up here</a></span>
+                <span id="auth-toggle-text">Don't have an account? <a onclick="toggleAuthMode()">Sign up here</a></span>
             </div>
 
             <div class="auth-toggle">
-                <a href="#" onclick="showAbout()">About G-X Platform</a>
+                <a onclick="showAbout()">About G-X Platform</a>
             </div>
         </div>
     </div>
@@ -434,17 +642,26 @@
             <div class="nav-brand">G-X Platform</div>
             <div class="nav-links">
                 <a class="nav-link active" onclick="showSection('home')">Home</a>
-                <a class="nav-link" onclick="showSection('explore')">Explore</a>
-                <a class="nav-link" onclick="showSection('messages')">Messages</a>
+                <a class="nav-link" onclick="showSection('chat')">
+                    Chat
+                    <span id="chat-badge" class="notification-badge" style="display: none;">0</span>
+                </a>
+                <a class="nav-link" onclick="showSection('messages')">
+                    New Messages
+                    <span id="message-badge" class="notification-badge" style="display: none;">0</span>
+                </a>
                 <a class="nav-link" onclick="showNotification()">Notifications</a>
-                <a class="nav-link" onclick="showSettings()">Settings</a>
-                <a class="nav-link" onclick="showAbout()">About</a>
+                <a class="nav-link" onclick="showSettings()">Profile Settings</a>
+                <a class="nav-link" onclick="showAbout()">About Us</a>
+                <a class="nav-link" onclick="showContact()">Contact Us</a>
                 <a class="nav-link" id="admin-link" style="display: none;" onclick="showSection('admin')">Admin</a>
                 <a class="nav-link" onclick="logout()">Logout</a>
             </div>
             <div class="user-stats">
-                <div class="stat-item points">Points: <span id="user-points">0</span></div>
-                <div class="stat-item followers">Followers: <span id="user-followers">0</span></div>
+                <div class="stat-item followers">
+                    Followers: <span id="user-followers">0</span>
+                    <span id="verification-badge" class="verification-badge"></span>
+                </div>
             </div>
         </nav>
 
@@ -454,7 +671,10 @@
                 <section id="home-section" class="section active-section">
                     <div class="post-card">
                         <div class="post-header">
-                            <div class="user-avatar" id="current-user-avatar">U</div>
+                            <div class="user-avatar" id="current-user-avatar">
+                                <span id="avatar-text">U</span>
+                                <span id="avatar-badge" class="verification-badge-avatar"></span>
+                            </div>
                             <div>
                                 <h4 id="current-user-name">User</h4>
                                 <small>Welcome to G-X Platform!</small>
@@ -470,19 +690,30 @@
                     </div>
                 </section>
 
-                <!-- Explore Section -->
-                <section id="explore-section" class="section">
-                    <h2>Explore Content</h2>
-                    <div class="post-card">
-                        <p>Discover amazing content from our community...</p>
+                <!-- Chat Section -->
+                <section id="chat-section" class="section">
+                    <h2>Chat</h2>
+                    <div class="chat-container">
+                        <div class="chat-list" id="chat-list">
+                            <!-- Chat list will be loaded here -->
+                        </div>
+                        <div class="chat-window" id="chat-window">
+                            <div class="chat-messages" id="chat-messages">
+                                <!-- Messages will appear here -->
+                            </div>
+                            <div class="chat-input">
+                                <input type="text" id="chat-input" placeholder="Type a message...">
+                                <button class="btn" onclick="sendMessage()">Send</button>
+                            </div>
+                        </div>
                     </div>
                 </section>
 
                 <!-- Messages Section -->
                 <section id="messages-section" class="section">
-                    <h2>Messages</h2>
-                    <div class="post-card">
-                        <p>Your messages will appear here...</p>
+                    <h2>New Messages</h2>
+                    <div id="new-messages-container">
+                        <!-- New messages will appear here -->
                     </div>
                 </section>
 
@@ -506,13 +737,14 @@
                     </div>
 
                     <div class="users-table">
+                        <h3>User Management</h3>
                         <table style="width: 100%;">
                             <thead>
                                 <tr>
                                     <th>User</th>
                                     <th>Email</th>
-                                    <th>Points</th>
                                     <th>Followers</th>
+                                    <th>Verification</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -527,7 +759,7 @@
             <!-- Sidebar -->
             <aside class="sidebar">
                 <div class="online-users">
-                    <h3>Online Users</h3>
+                    <h3>Online Friends</h3>
                     <div id="online-users-list">
                         <!-- Online users will appear here -->
                     </div>
@@ -542,7 +774,7 @@
     <!-- Modals -->
     <div id="settings-modal" class="modal">
         <div class="modal-content">
-            <h2>Settings</h2>
+            <h2>Profile Settings</h2>
             <div class="form-group">
                 <label>Profile Picture</label>
                 <input type="file" id="profile-picture" accept="image/*">
@@ -550,6 +782,10 @@
             <div class="form-group">
                 <label>Display Name</label>
                 <input type="text" id="display-name" placeholder="Enter your display name">
+            </div>
+            <div class="form-group">
+                <label>Bio</label>
+                <textarea id="user-bio" placeholder="Tell us about yourself" rows="3"></textarea>
             </div>
             <div class="form-group">
                 <label>Change Password</label>
@@ -567,8 +803,8 @@
                 <textarea id="post-content" placeholder="What's on your mind?" rows="4"></textarea>
             </div>
             <div class="form-group">
-                <label>Upload Image/Video</label>
-                <input type="file" id="post-media" accept="image/*,video/*">
+                <label>Upload Image/Video/Document</label>
+                <input type="file" id="post-media" accept="image/*,video/*,.pdf,.doc,.docx">
             </div>
             <button class="btn" onclick="createPost()">Post</button>
             <button class="btn" onclick="closeModal('create-post-modal')" style="background: #666; margin-left: 0.5rem;">Cancel</button>
@@ -578,9 +814,40 @@
     <div id="about-modal" class="modal">
         <div class="modal-content">
             <h2>About G-X Platform</h2>
-            <p><strong>Created by Dave Gallioth a yound Haitien born on june 2007</strong></p>
-            <p>This platform is designed to connect developers and creators worldwide. Share your ideas, connect with others, and build amazing things together!</p>
+            
+            <div class="creator-info">
+                <img src="https://i.ibb.co/yBBrh5LM/dave-photo.jpg" alt="Dave Gallioth" class="profile-avatar">
+                <h3>Dave Gallioth</h3>
+                <p>Platform Creator & Technology Enthusiast</p>
+            </div>
+
+            <div class="about-content">
+                <h4>About the Creator:</h4>
+                <p>G-X Platform was created by Dave Gallioth, a young Haitian developer born on June 20, 2007. Dave is passionate about technology and found inspiration to create this platform through his love for innovation and digital solutions. His journey in technology started at a young age, and he continues to explore new ways to connect people through digital platforms.</p>
+                
+                <h4>Why this platform was created:</h4>
+                <p>This platform was created with the objective of uniting people from around the world to share memories together. We believe that unity is beautiful and that unity is the key to everything. When you come to this site, you come to relax, share jokes, connect with friends, and build meaningful relationships - but always with respect for one another.</p>
+                
+                <h4>Our Mission:</h4>
+                <p>To create a safe, inclusive space where people can freely express themselves, share their stories, and build connections that transcend geographical boundaries. We believe that technology should bring people together, and that's exactly what G-X Platform aims to achieve.</p>
+            </div>
+            
             <button class="btn" onclick="closeModal('about-modal')">Close</button>
+        </div>
+    </div>
+
+    <div id="contact-modal" class="modal">
+        <div class="modal-content">
+            <h2>Contact Us</h2>
+            <div class="creator-info">
+                <img src="https://i.ibb.co/yBBrh5LM/dave-photo.jpg" alt="Dave Gallioth" class="profile-avatar" style="width: 100px; height: 100px;">
+                <h3>Dave Gallioth</h3>
+                <p>Platform Creator</p>
+            </div>
+            <p><strong>Email:</strong> dave@belikebrit.org</p>
+            <p><strong>Phone:</strong> (+509) 41362708</p>
+            <p>Feel free to reach out to us for any questions, suggestions, or support needs. We're here to help and always happy to hear from our community members!</p>
+            <button class="btn" onclick="closeModal('contact-modal')">Close</button>
         </div>
     </div>
 
@@ -592,7 +859,7 @@
                 <input type="email" id="reset-email" placeholder="Your email address">
             </div>
             <button class="btn" onclick="resetPassword()">Send Reset Link</button>
-            <button class="btn" onclick="closeModal('forgot-password-modal')" style="background: #666; margin-left: 0.5rem;">Cancel</button>
+            <button class="btn" onclick="closeModal('forgot-password-modal')" style="background: #666; margin-top: 10px;">Cancel</button>
         </div>
     </div>
 
@@ -617,112 +884,158 @@
     <script>
         // Firebase Configuration
         const firebaseConfig = {
-  apiKey: "AIzaSyDuLwJp9F-IRnPuKwmUgj_63W1E7034drM",
-  authDomain: "g-x-4678a.firebaseapp.com",
-  projectId: "g-x-4678a",
-  storageBucket: "g-x-4678a.firebasestorage.app",
-  messagingSenderId: "222697143577",
-  appId: "1:222697143577:web:106c769400b01514a69988",
-  measurementId: "G-01B2Y470HB"
-};
+            apiKey: "AIzaSyDuLwJp9F-IRnPuKwmUgj_63W1E7034drM",
+            authDomain: "g-x-4678a.firebaseapp.com",
+            projectId: "g-x-4678a",
+            storageBucket: "g-x-4678a.firebasestorage.app",
+            messagingSenderId: "222697143577",
+            appId: "1:222697143577:web:106c769400b01514a69988",
+            measurementId: "G-01B2Y470HB"
+        };
 
         // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        const storage = firebase.storage();
 
         let currentUser = null;
         let isLoginMode = true;
 
-        // Authentication State Observer
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                currentUser = user;
-                showMainApp();
-                if (user.email === 'davemoline0@gmail.com') {
-                    document.getElementById('admin-link').style.display = 'block';
-                }
-                showWelcomeMessage(user.metadata.creationTime === user.metadata.lastSignInTime);
-            } else {
-                showAuthApp();
+        // Initialize date selects
+        function initializeDateSelects() {
+            const yearSelect = document.getElementById('birth-year');
+            const daySelect = document.getElementById('birth-day');
+            
+            // Populate years (1900-current year)
+            const currentYear = new Date().getFullYear();
+            for (let year = currentYear; year >= 1900; year--) {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                yearSelect.appendChild(option);
             }
-        });
+            
+            // Populate days
+            for (let day = 1; day <= 31; day++) {
+                const option = document.createElement('option');
+                option.value = day < 10 ? '0' + day : day;
+                option.textContent = day;
+                daySelect.appendChild(option);
+            }
+        }
 
         // Auth Functions
         function toggleAuthMode() {
             isLoginMode = !isLoginMode;
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
             const authTitle = document.getElementById('auth-title');
-            const authButton = document.getElementById('auth-button');
-            const confirmGroup = document.getElementById('confirm-password-group');
             const toggleText = document.getElementById('auth-toggle-text');
 
             if (isLoginMode) {
+                loginForm.style.display = 'block';
+                signupForm.style.display = 'none';
                 authTitle.textContent = 'Login to G-X Platform';
-                authButton.textContent = 'Login';
-                confirmGroup.style.display = 'none';
-                toggleText.innerHTML = 'Don\'t have an account? <a href="#" onclick="toggleAuthMode()">Sign up here</a>';
+                toggleText.innerHTML = 'Don\'t have an account? <a onclick="toggleAuthMode()">Sign up here</a>';
             } else {
+                loginForm.style.display = 'none';
+                signupForm.style.display = 'block';
                 authTitle.textContent = 'Create Account';
-                authButton.textContent = 'Sign Up';
-                confirmGroup.style.display = 'block';
-                toggleText.innerHTML = 'Already have an account? <a href="#" onclick="toggleAuthMode()">Login here</a>';
+                toggleText.innerHTML = 'Already have an account? <a onclick="toggleAuthMode()">Login here</a>';
             }
             
             document.getElementById('auth-error').style.display = 'none';
             document.getElementById('auth-success').style.display = 'none';
         }
 
-        document.getElementById('auth-form').addEventListener('submit', function(e) {
+        // Login form handler
+        document.getElementById('login-form').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const email = document.getElementById('auth-email').value;
-            const password = document.getElementById('auth-password').value;
-            const confirmPassword = document.getElementById('auth-confirm-password').value;
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
             const errorDiv = document.getElementById('auth-error');
             const successDiv = document.getElementById('auth-success');
 
             errorDiv.style.display = 'none';
             successDiv.style.display = 'none';
 
-            if (!isLoginMode && password !== confirmPassword) {
+            auth.signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    successDiv.textContent = 'Welcome back to G-X Platform!';
+                    successDiv.style.display = 'block';
+                })
+                .catch((error) => {
+                    errorDiv.textContent = 'Login error: ' + error.message;
+                    errorDiv.style.display = 'block';
+                });
+        });
+
+        // Signup form handler
+        document.getElementById('signup-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const firstName = document.getElementById('signup-firstname').value;
+            const lastName = document.getElementById('signup-lastname').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const confirmPassword = document.getElementById('signup-confirm-password').value;
+            const birthYear = document.getElementById('birth-year').value;
+            const birthMonth = document.getElementById('birth-month').value;
+            const birthDay = document.getElementById('birth-day').value;
+            const agreeTerms = document.getElementById('agree-terms').checked;
+            const errorDiv = document.getElementById('auth-error');
+            const successDiv = document.getElementById('auth-success');
+
+            errorDiv.style.display = 'none';
+            successDiv.style.display = 'none';
+
+            if (!agreeTerms) {
+                errorDiv.textContent = 'Please agree to the Terms and Conditions';
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            if (password !== confirmPassword) {
                 errorDiv.textContent = 'Passwords do not match!';
                 errorDiv.style.display = 'block';
                 return;
             }
 
-            if (isLoginMode) {
-                // Login
-                auth.signInWithEmailAndPassword(email, password)
-                    .then((userCredential) => {
-                        successDiv.textContent = 'Welcome back to G-X Platform!';
-                        successDiv.style.display = 'block';
-                    })
-                    .catch((error) => {
-                        errorDiv.textContent = 'Login error: ' + error.message;
-                        errorDiv.style.display = 'block';
+            auth.createUserWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    return db.collection('users').doc(userCredential.user.uid).set({
+                        firstName: firstName,
+                        lastName: lastName,
+                        email: email,
+                        dateOfBirth: `${birthYear}-${birthMonth}-${birthDay}`,
+                        followers: 0,
+                        following: 0,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        lastLogin: firebase.firestore.FieldValue.serverTimestamp()
                     });
-            } else {
-                // Sign Up
-                auth.createUserWithEmailAndPassword(email, password)
-                    .then((userCredential) => {
-                        return db.collection('users').doc(userCredential.user.uid).set({
-                            email: email,
-                            points: 100,
-                            followers: 0,
-                            following: 0,
-                            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                        });
-                    })
-                    .then(() => {
-                        successDiv.textContent = 'Account created successfully! Welcome to G-X Platform!';
-                        successDiv.style.display = 'block';
-                        document.getElementById('auth-form').reset();
-                    })
-                    .catch((error) => {
-                        errorDiv.textContent = 'Sign up error: ' + error.message;
-                        errorDiv.style.display = 'block';
-                    });
-            }
+                })
+                .then(() => {
+                    successDiv.textContent = 'Account created successfully! Welcome to G-X Platform!';
+                    successDiv.style.display = 'block';
+                    document.getElementById('signup-form').reset();
+                    
+                    // Send welcome message from admin
+                    setTimeout(() => {
+                        sendAdminWelcomeMessage();
+                    }, 1000);
+                })
+                .catch((error) => {
+                    errorDiv.textContent = 'Sign up error: ' + error.message;
+                    errorDiv.style.display = 'block';
+                });
         });
+
+        function sendAdminWelcomeMessage() {
+            // This would send a welcome message from admin to new user
+            console.log('Sending welcome message to new user');
+        }
 
         function showForgotPassword() {
             document.getElementById('forgot-password-modal').style.display = 'flex';
@@ -730,6 +1043,11 @@ const analytics = getAnalytics(app);
 
         function resetPassword() {
             const email = document.getElementById('reset-email').value;
+            if (!email) {
+                alert('Please enter your email address');
+                return;
+            }
+
             auth.sendPasswordResetEmail(email)
                 .then(() => {
                     alert('Password reset email sent! Check your inbox.');
@@ -738,6 +1056,18 @@ const analytics = getAnalytics(app);
                 .catch((error) => {
                     alert('Error: ' + error.message);
                 });
+        }
+
+        function showAbout() {
+            document.getElementById('about-modal').style.display = 'flex';
+        }
+
+        function showContact() {
+            document.getElementById('contact-modal').style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
         }
 
         // App Navigation
@@ -751,10 +1081,6 @@ const analytics = getAnalytics(app);
             
             document.getElementById(sectionName + '-section').classList.add('active-section');
             event.target.classList.add('active');
-
-            if (sectionName === 'admin') {
-                loadAdminData();
-            }
         }
 
         function showMainApp() {
@@ -769,37 +1095,12 @@ const analytics = getAnalytics(app);
             document.getElementById('auth-app').style.display = 'block';
         }
 
-        // Modal Functions
         function showSettings() {
             document.getElementById('settings-modal').style.display = 'flex';
         }
 
         function showCreatePost() {
             document.getElementById('create-post-modal').style.display = 'flex';
-        }
-
-        function showAbout() {
-            document.getElementById('about-modal').style.display = 'flex';
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-
-        function showWelcomeMessage(isNewUser) {
-            const welcome = document.getElementById('welcome-message');
-            const title = document.getElementById('welcome-title');
-            const text = document.getElementById('welcome-text');
-            
-            if (isNewUser) {
-                title.textContent = 'Welcome to G-X Platform!';
-                text.textContent = 'Your account has been created successfully. Start exploring now!';
-            } else {
-                title.textContent = 'Welcome Back!';
-                text.textContent = 'Good to see you again on G-X Platform.';
-            }
-            
-            welcome.style.display = 'block';
         }
 
         function closeWelcome() {
@@ -820,33 +1121,64 @@ const analytics = getAnalytics(app);
                 db.collection('users').doc(currentUser.uid).get().then(doc => {
                     if (doc.exists) {
                         const data = doc.data();
-                        document.getElementById('user-points').textContent = data.points || 0;
                         document.getElementById('user-followers').textContent = data.followers || 0;
-                        document.getElementById('current-user-name').textContent = data.displayName || currentUser.email.split('@')[0];
-                        document.getElementById('current-user-avatar').textContent = (data.displayName || currentUser.email[0]).toUpperCase();
+                        document.getElementById('current-user-name').textContent = `${data.firstName} ${data.lastName}`;
+                        document.getElementById('avatar-text').textContent = (data.firstName[0] + data.lastName[0]).toUpperCase();
+                        
+                        // Update verification badge
+                        updateVerificationBadge(data.followers);
                     }
                 });
+            }
+        }
+
+        function updateVerificationBadge(followers) {
+            const badge = document.getElementById('verification-badge');
+            const avatarBadge = document.getElementById('avatar-badge');
+            
+            badge.innerHTML = '';
+            avatarBadge.innerHTML = '';
+            
+            if (followers >= 6000) {
+                badge.innerHTML = '✓';
+                badge.className = 'verification-badge blue-badge';
+                avatarBadge.innerHTML = '✓';
+                avatarBadge.style.color = 'var(--primary)';
+            } else if (followers >= 4000) {
+                badge.innerHTML = '✓';
+                badge.className = 'verification-badge silver-badge';
+                avatarBadge.innerHTML = '✓';
+                avatarBadge.style.color = 'var(--silver)';
+            } else if (followers >= 2000) {
+                badge.innerHTML = '✓';
+                badge.className = 'verification-badge gold-badge';
+                avatarBadge.innerHTML = '✓';
+                avatarBadge.style.color = 'var(--gold)';
             }
         }
 
         function saveSettings() {
             const file = document.getElementById('profile-picture').files[0];
             const displayName = document.getElementById('display-name').value;
+            const bio = document.getElementById('user-bio').value;
             const newPassword = document.getElementById('new-password').value;
+
+            const updates = {};
+            if (displayName) updates.displayName = displayName;
+            if (bio) updates.bio = bio;
+
+            if (Object.keys(updates).length > 0) {
+                db.collection('users').doc(currentUser.uid).update(updates)
+                    .then(() => {
+                        loadUserData();
+                        alert('Profile updated successfully!');
+                    });
+            }
 
             if (file) {
                 const storageRef = storage.ref('profile-pictures/' + currentUser.uid);
                 storageRef.put(file).then(() => {
                     alert('Profile picture updated!');
-                });
-            }
-
-            if (displayName) {
-                db.collection('users').doc(currentUser.uid).update({
-                    displayName: displayName
-                }).then(() => {
-                    loadUserData();
-                    alert('Display name updated!');
                 });
             }
 
@@ -866,8 +1198,8 @@ const analytics = getAnalytics(app);
             if (content || file) {
                 const postData = {
                     content: content,
-                    author: currentUser.displayName || currentUser.email,
-                    authorId: currentUser.uid,
+                    author: currentUser.uid,
+                    authorName: `${currentUser.firstName} ${currentUser.lastName}`,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                     likes: 0,
                     comments: []
@@ -878,6 +1210,7 @@ const analytics = getAnalytics(app);
                     storageRef.put(file).then(snapshot => {
                         snapshot.ref.getDownloadURL().then(url => {
                             postData.mediaUrl = url;
+                            postData.mediaType = file.type;
                             savePostToFirestore(postData);
                         });
                     });
@@ -909,18 +1242,14 @@ const analytics = getAnalytics(app);
                         const user = doc.data();
                         const row = `
                             <tr>
-                                <td>${user.displayName || user.email}</td>
+                                <td>${user.firstName} ${user.lastName}</td>
                                 <td>${user.email}</td>
-                                <td>
-                                    <input type="number" value="${user.points || 0}" 
-                                           onchange="updateUserPoints('${doc.id}', this.value)" 
-                                           style="width: 60px; padding: 5px;">
-                                </td>
                                 <td>
                                     <input type="number" value="${user.followers || 0}" 
                                            onchange="updateUserFollowers('${doc.id}', this.value)" 
-                                           style="width: 60px; padding: 5px;">
+                                           style="width: 80px; padding: 5px;">
                                 </td>
+                                <td>${getVerificationLevel(user.followers || 0)}</td>
                                 <td>
                                     <button onclick="deleteUser('${doc.id}')" style="background: var(--danger); color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">Delete</button>
                                 </td>
@@ -932,15 +1261,20 @@ const analytics = getAnalytics(app);
             }
         }
 
-        function updateUserPoints(userId, points) {
-            db.collection('users').doc(userId).update({
-                points: parseInt(points)
-            });
+        function getVerificationLevel(followers) {
+            if (followers >= 6000) return 'Blue Verified';
+            if (followers >= 4000) return 'Silver Verified';
+            if (followers >= 2000) return 'Gold Verified';
+            return 'Not Verified';
         }
 
         function updateUserFollowers(userId, followers) {
             db.collection('users').doc(userId).update({
                 followers: parseInt(followers)
+            }).then(() => {
+                if (userId === currentUser.uid) {
+                    loadUserData();
+                }
             });
         }
 
@@ -952,10 +1286,11 @@ const analytics = getAnalytics(app);
         }
 
         function loadOnlineUsers() {
+            // Simulate online users
             const onlineUsers = [
-                { name: 'John Doe', initial: 'J' },
-                { name: 'Jane Smith', initial: 'J' },
-                { name: 'Mike Johnson', initial: 'M' }
+                { name: 'John Doe', initial: 'JD' },
+                { name: 'Jane Smith', initial: 'JS' },
+                { name: 'Mike Johnson', initial: 'MJ' }
             ];
             
             const onlineList = document.getElementById('online-users-list');
@@ -975,9 +1310,47 @@ const analytics = getAnalytics(app);
             alert('Find Friends feature coming soon!');
         }
 
+        function sendMessage() {
+            const message = document.getElementById('chat-input').value;
+            if (message.trim()) {
+                // Simulate sending message
+                const chatMessages = document.getElementById('chat-messages');
+                chatMessages.innerHTML += `
+                    <div class="message sent">
+                        ${message}
+                    </div>
+                `;
+                document.getElementById('chat-input').value = '';
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        }
+
         function logout() {
             auth.signOut();
         }
+
+        // Check if user is already logged in
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                currentUser = user;
+                showMainApp();
+                if (user.email === 'davemoline0@gmail.com') {
+                    document.getElementById('admin-link').style.display = 'block';
+                }
+                
+                // Update user last login
+                db.collection('users').doc(user.uid).update({
+                    lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+                });
+            } else {
+                showAuthApp();
+            }
+        });
+
+        // Initialize the app
+        window.onload = function() {
+            initializeDateSelects();
+        };
     </script>
 </body>
 </html>
