@@ -190,6 +190,255 @@
             text-decoration: underline;
         }
 
+        /* Main App Styles */
+        #main-app {
+            display: none;
+        }
+
+        .navbar {
+            background: var(--card);
+            padding: 0 1rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text);
+            padding: 10px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            font-weight: 500;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-link:hover {
+            background: var(--light);
+            color: var(--primary);
+        }
+
+        .nav-link.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-stats {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .stat-item {
+            background: var(--light);
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            border: 1px solid var(--border);
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 14px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        /* Container Layout */
+        .container {
+            max-width: 1400px;
+            margin: 1rem auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 1.5rem;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 1.25rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            height: fit-content;
+            border: 1px solid var(--border);
+        }
+
+        .sidebar-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-section h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 1rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            min-height: calc(100vh - 120px);
+        }
+
+        .section {
+            display: none;
+        }
+
+        .active-section {
+            display: block;
+        }
+
+        /* Post Cards */
+        .post-card {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            border: 1px solid var(--border);
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .post-user-info h4 {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .post-user-info small {
+            color: #6b7280;
+            font-size: 12px;
+        }
+
+        .post-content {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Chat System */
+        .chat-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 1rem;
+            height: 500px;
+            background: var(--card);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid var(--border);
+        }
+
+        .chat-list {
+            background: var(--light);
+            padding: 1rem;
+            overflow-y: auto;
+            border-right: 1px solid var(--border);
+        }
+
+        .chat-window {
+            display: flex;
+            flex-direction: column;
+            padding: 1rem;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .message {
+            padding: 10px 14px;
+            border-radius: 16px;
+            max-width: 85%;
+            word-wrap: break-word;
+        }
+
+        .message.sent {
+            background: var(--primary);
+            color: white;
+            margin-left: auto;
+        }
+
+        .message.received {
+            background: var(--light);
+            color: var(--text);
+            margin-right: auto;
+        }
+
+        .chat-input-container {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 10px 14px;
+            border: 2px solid var(--border);
+            border-radius: 20px;
+            background: var(--light);
+        }
+
+        .send-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
         /* Modal Styles */
         .modal {
             display: none;
@@ -210,8 +459,10 @@
             background: var(--card);
             padding: 2rem;
             border-radius: 16px;
-            max-width: 400px;
+            max-width: 500px;
             width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
             box-shadow: 0 20px 40px rgba(0,0,0,0.2);
             border: 1px solid var(--border);
         }
@@ -236,7 +487,6 @@
             cursor: pointer;
             padding: 4px;
             border-radius: 6px;
-            transition: all 0.3s ease;
         }
 
         .close-btn:hover {
@@ -264,6 +514,44 @@
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+
+        /* Profile Styles */
+        .profile-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--primary);
+            margin: 0 auto 1rem;
+            display: block;
+        }
+
+        .creator-info {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .creator-info h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .about-content {
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-content h4 {
+            color: var(--primary);
+            margin: 1.5rem 0 0.75rem 0;
+            font-weight: 600;
         }
     </style>
 </head>
@@ -343,7 +631,239 @@
         </div>
     </div>
 
-    <!-- Forgot Password Modal -->
+    <!-- Main Application -->
+    <div id="main-app">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-brand">G-X Platform</div>
+            <div class="nav-links">
+                <a class="nav-link active" onclick="showSection('home')">Home</a>
+                <a class="nav-link" onclick="showSection('chat')">Chat</a>
+                <a class="nav-link" onclick="showSection('messages')">Messages</a>
+                <a class="nav-link" onclick="showNotification()">Notifications</a>
+            </div>
+            <div class="user-menu">
+                <div class="user-stats">
+                    <div class="stat-item followers">
+                        Followers: <span id="user-followers">0</span>
+                    </div>
+                </div>
+                <div class="user-avatar" onclick="showSettings()">
+                    <span id="avatar-text">U</span>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-section">
+                    <h3>Quick Actions</h3>
+                    <button class="btn" onclick="showCreatePost()" style="width: 100%; margin-bottom: 1rem;">
+                        Create Post
+                    </button>
+                    <button class="btn" onclick="showFindFriends()" style="width: 100%;">
+                        Find Friends
+                    </button>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3>Platform</h3>
+                    <a class="nav-link" onclick="showAbout()" style="display: block; margin-bottom: 0.5rem;">
+                        About Us
+                    </a>
+                    <a class="nav-link" onclick="showContact()" style="display: block; margin-bottom: 0.5rem;">
+                        Contact Us
+                    </a>
+                    <a class="nav-link" id="admin-link" style="display: none;" onclick="showSection('admin')">
+                        Admin Dashboard
+                    </a>
+                    <a class="nav-link" onclick="logout()" style="display: block; color: var(--danger);">
+                        Logout
+                    </a>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3>Online Friends</h3>
+                    <div id="online-users-list">
+                        <div class="user-item" style="display: flex; align-items: center; gap: 10px; padding: 8px; border-radius: 8px;">
+                            <div class="user-avatar" style="background: var(--success);">JD</div>
+                            <span>John Doe</span>
+                        </div>
+                        <div class="user-item" style="display: flex; align-items: center; gap: 10px; padding: 8px; border-radius: 8px;">
+                            <div class="user-avatar" style="background: var(--warning);">JS</div>
+                            <span>Jane Smith</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <!-- Home Section -->
+                <section id="home-section" class="section active-section">
+                    <div class="post-card">
+                        <div class="post-header">
+                            <div class="user-avatar" id="current-user-avatar">
+                                <span id="avatar-text">U</span>
+                            </div>
+                            <div class="post-user-info">
+                                <h4 id="current-user-name">Welcome to G-X!</h4>
+                                <small>Share your thoughts with the community</small>
+                            </div>
+                        </div>
+                        <div class="post-content">
+                            <p>This is your space to connect with friends, share memories, and build meaningful relationships. Start by creating your first post!</p>
+                        </div>
+                    </div>
+
+                    <div id="posts-container">
+                        <!-- Posts will be loaded here -->
+                    </div>
+                </section>
+
+                <!-- Chat Section -->
+                <section id="chat-section" class="section">
+                    <h2 style="margin-bottom: 1.5rem;">Chat with Friends</h2>
+                    <div class="chat-container">
+                        <div class="chat-list" id="chat-list">
+                            <div class="user-item" style="display: flex; align-items: center; gap: 10px; padding: 12px; border-radius: 8px; background: var(--primary); color: white;">
+                                <div class="user-avatar" style="background: var(--success);">JD</div>
+                                <div>
+                                    <div style="font-weight: 600;">John Doe</div>
+                                    <small>Online</small>
+                                </div>
+                            </div>
+                            <div class="user-item" style="display: flex; align-items: center; gap: 10px; padding: 12px; border-radius: 8px;">
+                                <div class="user-avatar" style="background: var(--warning);">JS</div>
+                                <div>
+                                    <div style="font-weight: 600;">Jane Smith</div>
+                                    <small>Last seen 2h ago</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-window">
+                            <div class="chat-messages" id="chat-messages">
+                                <div class="message received">
+                                    Hey there! Welcome to G-X Platform!
+                                </div>
+                                <div class="message sent">
+                                    Thanks! Excited to be here 😊
+                                </div>
+                            </div>
+                            <div class="chat-input-container">
+                                <input type="text" id="chat-input" placeholder="Type a message..." class="chat-input">
+                                <button class="send-btn" onclick="sendMessage()">➤</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Messages Section -->
+                <section id="messages-section" class="section">
+                    <h2 style="margin-bottom: 1.5rem;">New Messages</h2>
+                    <div id="new-messages-container">
+                        <div class="post-card">
+                            <div class="post-header">
+                                <div class="user-avatar" style="background: var(--success);">AL</div>
+                                <div class="post-user-info">
+                                    <h4>Alex Johnson</h4>
+                                    <small>New connection • 5 minutes ago</small>
+                                </div>
+                            </div>
+                            <div class="post-content">
+                                <p>Hi! I saw your profile and would love to connect with you!</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Admin Section -->
+                <section id="admin-section" class="section">
+                    <h2>Admin Dashboard</h2>
+                    <div class="post-card">
+                        <h3>Welcome, Admin!</h3>
+                        <p>You have access to manage all users and platform settings.</p>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Profile Settings</h2>
+                <button class="close-btn" onclick="closeModal('settings-modal')">&times;</button>
+            </div>
+            <div class="form-group">
+                <label>Profile Picture</label>
+                <input type="file" id="profile-picture" accept="image/*">
+            </div>
+            <div class="form-group">
+                <label>Display Name</label>
+                <input type="text" id="display-name" placeholder="Enter your display name">
+            </div>
+            <button class="btn" onclick="saveSettings()">Save Changes</button>
+            <button class="btn btn-secondary" onclick="closeModal('settings-modal')" style="margin-top: 10px;">Cancel</button>
+        </div>
+    </div>
+
+    <div id="create-post-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create Post</h2>
+                <button class="close-btn" onclick="closeModal('create-post-modal')">&times;</button>
+            </div>
+            <div class="form-group">
+                <textarea id="post-content" placeholder="What's on your mind?" rows="4" style="width: 100%; padding: 12px; border: 2px solid var(--border); border-radius: 8px;"></textarea>
+            </div>
+            <button class="btn" onclick="createPost()">Post</button>
+            <button class="btn btn-secondary" onclick="closeModal('create-post-modal')" style="margin-top: 10px;">Cancel</button>
+        </div>
+    </div>
+
+    <div id="about-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>About G-X Platform</h2>
+                <button class="close-btn" onclick="closeModal('about-modal')">&times;</button>
+            </div>
+            <div class="creator-info">
+                <img src="https://i.ibb.co/yBBrh5LM/dave-photo.jpg" alt="Dave Gallioth" class="profile-avatar">
+                <h3>Dave Gallioth</h3>
+                <p>Platform Creator & Technology Enthusiast</p>
+            </div>
+            <div class="about-content">
+                <h4>About the Creator:</h4>
+                <p>G-X Platform was created by Dave Gallioth, a young Haitian developer born on June 20, 2007. Dave is passionate about technology and found inspiration to create this platform through his love for innovation and digital solutions.</p>
+                
+                <h4>Why this platform was created:</h4>
+                <p>This platform was created with the objective of uniting people from around the world to share memories together. We believe that unity is beautiful and that unity is the key to everything.</p>
+            </div>
+            <button class="btn" onclick="closeModal('about-modal')">Close</button>
+        </div>
+    </div>
+
+    <div id="contact-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Contact Us</h2>
+                <button class="close-btn" onclick="closeModal('contact-modal')">&times;</button>
+            </div>
+            <div class="creator-info">
+                <img src="https://i.ibb.co/yBBrh5LM/dave-photo.jpg" alt="Dave Gallioth" class="profile-avatar" style="width: 100px; height: 100px;">
+                <h3>Dave Gallioth</h3>
+                <p>Platform Creator</p>
+            </div>
+            <p><strong>Email:</strong> dave@belikebrit.org</p>
+            <p><strong>Phone:</strong> (+509) 41362708</p>
+            <p>Feel free to reach out to us for any questions or support!</p>
+            <button class="btn" onclick="closeModal('contact-modal')">Close</button>
+        </div>
+    </div>
+
     <div id="forgot-password-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -397,6 +917,18 @@
         let currentUser = null;
         let isLoginMode = true;
 
+        // ✅ FONKSYON POU MONTRE AP PRINCIPAL LA
+        function showMainApp() {
+            document.getElementById('auth-app').style.display = 'none';
+            document.getElementById('main-app').style.display = 'block';
+            loadUserData();
+        }
+
+        function showAuthApp() {
+            document.getElementById('main-app').style.display = 'none';
+            document.getElementById('auth-app').style.display = 'block';
+        }
+
         // Auth Functions
         function toggleAuthMode() {
             isLoginMode = !isLoginMode;
@@ -421,7 +953,7 @@
             document.getElementById('auth-success').style.display = 'none';
         }
 
-        // Login form handler
+        // Login form handler - ✅ AJOUTE REDIREKSYON
         document.getElementById('login-form').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -437,7 +969,11 @@
                 .then((userCredential) => {
                     successDiv.textContent = 'Welcome back to G-X Platform!';
                     successDiv.style.display = 'block';
-                    // Redirect to main app would happen here
+                    
+                    // ✅ REDIREKSYON AN - 2 segond apre
+                    setTimeout(() => {
+                        showMainApp();
+                    }, 2000);
                 })
                 .catch((error) => {
                     let errorMessage = 'Login error: ';
@@ -462,7 +998,7 @@
                 });
         });
 
-        // Signup form handler
+        // Signup form handler - ✅ AJOUTE REDIREKSYON
         document.getElementById('signup-form').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -512,6 +1048,11 @@
                     successDiv.textContent = 'Account created successfully! Welcome to G-X Platform!';
                     successDiv.style.display = 'block';
                     document.getElementById('signup-form').reset();
+                    
+                    // ✅ REDIREKSYON AN - 2 segond apre
+                    setTimeout(() => {
+                        showMainApp();
+                    }, 2000);
                 })
                 .catch((error) => {
                     let errorMessage = 'Sign up error: ';
@@ -560,7 +1101,6 @@
                 return;
             }
 
-            // Email validation
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)) {
                 errorDiv.textContent = 'Please enter a valid email address';
@@ -568,7 +1108,6 @@
                 return;
             }
 
-            // Show loading state
             loadingDiv.style.display = 'block';
             resetBtn.disabled = true;
 
@@ -579,10 +1118,8 @@
                     successDiv.textContent = 'Password reset email sent! Check your inbox and spam folder.';
                     successDiv.style.display = 'block';
                     
-                    // Clear the email field
                     document.getElementById('forgot-email').value = '';
                     
-                    // Auto close modal after 3 seconds
                     setTimeout(() => {
                         closeModal('forgot-password-modal');
                     }, 3000);
@@ -610,9 +1147,100 @@
                 });
         }
 
+        // App Navigation
+        function showSection(sectionName) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active-section');
+            });
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            document.getElementById(sectionName + '-section').classList.add('active-section');
+            event.target.classList.add('active');
+        }
+
+        function showSettings() {
+            document.getElementById('settings-modal').style.display = 'flex';
+        }
+
+        function showCreatePost() {
+            document.getElementById('create-post-modal').style.display = 'flex';
+        }
+
+        function showAbout() {
+            document.getElementById('about-modal').style.display = 'flex';
+        }
+
+        function showContact() {
+            document.getElementById('contact-modal').style.display = 'flex';
+        }
+
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
         }
+
+        function showNotification() {
+            alert('You have new notifications!');
+        }
+
+        function showFindFriends() {
+            alert('Find Friends feature is working!');
+        }
+
+        // User Functions
+        function loadUserData() {
+            if (currentUser) {
+                document.getElementById('current-user-name').textContent = currentUser.email;
+                document.getElementById('avatar-text').textContent = currentUser.email[0].toUpperCase();
+            }
+        }
+
+        function saveSettings() {
+            alert('Settings saved!');
+            closeModal('settings-modal');
+        }
+
+        function createPost() {
+            const content = document.getElementById('post-content').value;
+            if (content) {
+                alert('Post created: ' + content);
+                closeModal('create-post-modal');
+                document.getElementById('post-content').value = '';
+            }
+        }
+
+        function sendMessage() {
+            const message = document.getElementById('chat-input').value;
+            if (message.trim()) {
+                const chatMessages = document.getElementById('chat-messages');
+                chatMessages.innerHTML += `
+                    <div class="message sent">
+                        ${message}
+                    </div>
+                `;
+                document.getElementById('chat-input').value = '';
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        }
+
+        function logout() {
+            auth.signOut();
+            showAuthApp();
+        }
+
+        // Check if user is already logged in
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                currentUser = user;
+                showMainApp();
+                if (user.email === 'davemoline0@gmail.com') {
+                    document.getElementById('admin-link').style.display = 'block';
+                }
+            } else {
+                showAuthApp();
+            }
+        });
 
         // Close modal when clicking outside
         document.addEventListener('click', function(e) {
@@ -621,25 +1249,7 @@
             }
         });
 
-        // Check if user is already logged in
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                currentUser = user;
-                // User is logged in, you would redirect to main app here
-                console.log('User logged in:', user.email);
-            }
-        });
-
-        // Test Firebase connection
-        console.log('Firebase initialized successfully');
-        console.log('Forgot password system ready');
-
-        // Add some demo functionality for testing
-        function demoResetPassword() {
-            const testEmail = "test@example.com";
-            document.getElementById('forgot-email').value = testEmail;
-            console.log('Demo: Testing forgot password with email:', testEmail);
-        }
+        console.log('G-X Platform loaded successfully!');
     </script>
 </body>
 </html>
