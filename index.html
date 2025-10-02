@@ -3,199 +3,474 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GX - Social Network</title>
-    <meta name="description" content="GX - A social network where you can connect with friends, share experiences, and interact.">
-    <meta name="keywords" content="social, network, connection, sharing, community">
-    <meta name="author" content="GX Team">
+    <title>G-X Platform - Professional Social Network</title>
     
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-storage-compat.js"></script>
+    <!-- Google AdSense -->
+     <meta name="google-adsense-account" content="ca-pub-5448739142710011">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3842061098365858" crossorigin="anonymous"></script>
+    <meta name="description" content="G-X Platform - Professional social network for connecting, sharing memories, and building relationships">
+    <meta name="keywords" content="social network, professional, connect, share memories, community">
     
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #7c3aed;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --gold: #fbbf24;
+            --silver: #9ca3af;
+            --blue: #3b82f6;
+            --card: #ffffff;
+            --text: #1e293b;
+            --border: #e2e8f0;
+            --sidebar: #1e293b;
+            --header: #ffffff;
         }
 
         body {
+            background: #f1f5f9;
+            color: var(--text);
             min-height: 100vh;
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
-            overflow-x: hidden;
         }
 
-        @keyframes gradient {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
+        /* Professional Header */
+        .professional-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
 
-        /* Login/Register Page Styles */
-        .auth-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .auth-box {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-            width: 100%;
+        .header-content {
             max-width: 1200px;
-            overflow: hidden;
+            margin: 0 auto;
+            padding: 0 2rem;
             display: flex;
-        }
-
-        .auth-left {
-            flex: 1;
-            padding: 40px;
-            background: rgba(255, 255, 255, 0.8);
-        }
-
-        .auth-right {
-            flex: 1;
-            padding: 40px;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .logo {
-            font-size: 36px;
-            font-weight: bold;
-            color: #e73c7e;
-            margin-bottom: 30px;
-        }
-
-        .auth-nav {
+            font-size: 2rem;
+            font-weight: 800;
             display: flex;
-            justify-content: space-between;
-            margin-bottom: 30px;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .auth-nav a {
-            text-decoration: none;
-            color: #555;
-            font-weight: 500;
-            transition: color 0.3s;
-            cursor: pointer;
+        .logo-icon {
+            background: white;
+            color: var(--primary);
+            padding: 0.5rem;
+            border-radius: 10px;
+            font-weight: 900;
         }
 
-        .auth-nav a:hover {
-            color: #e73c7e;
+        /* Auth Styles */
+        .auth-container {
+            max-width: 500px;
+            margin: 2rem auto;
+            background: var(--card);
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            overflow: hidden;
+            border: 1px solid var(--border);
         }
 
-        h1 {
-            font-size: 28px;
-            color: #333;
-            margin-bottom: 10px;
+        .auth-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 2.5rem 2rem;
+            text-align: center;
         }
 
-        .subtitle {
-            color: #666;
-            margin-bottom: 30px;
+        .auth-header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .form-container {
+            padding: 2.5rem;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 1.5rem;
         }
 
-        label {
+        .form-group label {
             display: block;
-            margin-bottom: 8px;
-            color: #555;
-            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+            font-weight: 600;
+            font-size: 0.9rem;
         }
 
-        input[type="text"],
-        input[type="email"],
-        input[type="password"],
-        input[type="date"] {
+        .form-group input, .form-group select {
             width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: border 0.3s;
+            padding: 1rem;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: var(--light);
         }
 
-        input:focus {
-            border-color: #e73c7e;
+        .form-group input:focus, .form-group select:focus {
             outline: none;
-        }
-
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            margin: 20px 0;
-        }
-
-        .checkbox-group input {
-            margin-right: 10px;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
 
         .btn {
-            background: #e73c7e;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
             border: none;
-            padding: 14px 20px;
-            border-radius: 8px;
-            font-size: 16px;
+            border-radius: 10px;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s ease;
             width: 100%;
         }
 
         .btn:hover {
-            background: #d42a6c;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
         }
 
-        .forgot-password {
-            text-align: center;
-            margin-top: 15px;
-        }
-
-        .forgot-password a {
-            color: #e73c7e;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        .toggle-form {
-            text-align: center;
-            margin-top: 20px;
-            color: #666;
-        }
-
-        .toggle-form a {
-            color: #e73c7e;
-            text-decoration: none;
-            font-weight: 500;
-            cursor: pointer;
-        }
-
-        .form-container {
+        /* Main App */
+        #main-app {
             display: none;
         }
 
-        .active-form {
-            display: block;
+        /* Professional Navigation */
+        .professional-nav {
+            background: var(--header);
+            padding: 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            border-bottom: 1px solid var(--border);
         }
 
-        /* Forgot Password Modal */
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-link:hover {
+            background: var(--light);
+            color: var(--primary);
+        }
+
+        .nav-link.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-stats {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .stat-item {
+            background: var(--light);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 1px solid var(--border);
+        }
+
+        .user-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.05);
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 280px 1fr 320px;
+            gap: 2rem;
+        }
+
+        /* Professional Sidebar */
+        .professional-sidebar {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid var(--border);
+            height: fit-content;
+        }
+
+        .sidebar-section {
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-section h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light);
+        }
+
+        /* Content Area */
+        .content-area {
+            min-height: 80vh;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .active-section {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Professional Cards */
+        .professional-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid var(--border);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .professional-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .card-content {
+            line-height: 1.6;
+        }
+
+        /* Ad Containers */
+        .ad-container {
+            background: var(--light);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border: 2px dashed var(--border);
+            text-align: center;
+        }
+
+        .ad-label {
+            font-size: 0.8rem;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        /* Chat System */
+        .chat-system {
+            background: var(--card);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid var(--border);
+        }
+
+        .chat-header {
+            background: var(--light);
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .chat-container {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            height: 500px;
+        }
+
+        .chat-list {
+            background: var(--light);
+            padding: 1rem;
+            overflow-y: auto;
+            border-right: 1px solid var(--border);
+        }
+
+        .chat-window {
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+        }
+
+        .message {
+            padding: 1rem;
+            border-radius: 12px;
+            max-width: 70%;
+            margin-bottom: 1rem;
+        }
+
+        .message.sent {
+            background: var(--primary);
+            color: white;
+            margin-left: auto;
+        }
+
+        .message.received {
+            background: var(--light);
+            color: var(--text);
+        }
+
+        /* Admin Dashboard */
+        .admin-dashboard {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid var(--border);
+        }
+
+        .admin-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .admin-stat-card {
+            background: var(--light);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .admin-stat-card h3 {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .admin-stat-card .number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .users-table {
+            width: 100%;
+            background: var(--card);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            border: 1px solid var(--border);
+        }
+
+        .users-table th {
+            background: var(--light);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .users-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* Modals */
         .modal {
             display: none;
             position: fixed;
@@ -203,845 +478,513 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
             z-index: 1000;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
         }
 
         .modal-content {
-            background: white;
-            border-radius: 15px;
-            width: 90%;
+            background: var(--card);
+            padding: 2rem;
+            border-radius: 20px;
             max-width: 500px;
-            padding: 30px;
-            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+            border: 1px solid var(--border);
         }
 
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h2 {
+            font-weight: 700;
+            color: var(--text);
         }
 
         .close-btn {
             background: none;
             border: none;
-            font-size: 24px;
+            font-size: 1.5rem;
+            color: #6b7280;
             cursor: pointer;
-            color: #777;
+            padding: 0.25rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
         }
 
-        /* Success Message */
-        .success-message {
-            background: #d4edda;
-            color: #155724;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            text-align: center;
-            display: none;
+        .close-btn:hover {
+            color: var(--danger);
+            background: var(--light);
         }
 
-        /* Error Message */
-        .error-message {
-            background: #f8d7da;
-            color: #721c24;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            text-align: center;
-            display: none;
-        }
-
-        /* About Us Modal */
-        .about-content {
-            text-align: center;
-        }
-
-        .profile-photo {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin: 0 auto 20px;
-            border: 4px solid #e73c7e;
-        }
-
-        .about-text {
-            text-align: left;
-            line-height: 1.6;
-            color: #555;
-        }
-
-        .contact-info {
-            margin-top: 20px;
-            padding: 20px;
-            background: #f9f9f9;
-            border-radius: 10px;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .contact-item i {
-            margin-right: 10px;
-            color: #e73c7e;
-            font-size: 18px;
-        }
-
-        /* Dashboard Styles */
-        .dashboard {
-            display: none;
-            min-height: 100vh;
-        }
-
-        .header {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-        }
-
-        .header-logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #e73c7e;
-            margin-right: 30px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 20px;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #555;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: #e73c7e;
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .profile-pic {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #e73c7e;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .chat-icon {
-            position: relative;
-            cursor: pointer;
-        }
-
-        .chat-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #e73c7e;
-            color: white;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .main-content {
-            display: flex;
-            padding: 20px;
-            gap: 20px;
-        }
-
-        .sidebar {
-            flex: 1;
-            max-width: 250px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .sidebar-item {
-            padding: 12px 15px;
-            margin-bottom: 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .sidebar-item:hover {
-            background: #f0f0f0;
-        }
-
-        .sidebar-item.active {
-            background: #e73c7e;
-            color: white;
-        }
-
-        .content {
-            flex: 3;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .stats-box {
-            background: linear-gradient(135deg, #e73c7e, #23a6d5);
-            color: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .points {
-            font-size: 36px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .followers {
-            font-size: 18px;
-            margin-bottom: 15px;
-        }
-
-        .encouragement {
-            font-style: italic;
-        }
-
-        .post-box {
-            background: white;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .post-options {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .post-btn {
-            padding: 8px 15px;
-            border: none;
-            border-radius: 20px;
-            background: #f0f0f0;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .post-btn:hover {
-            background: #e0e0e0;
-        }
-
-        .chat-container {
-            flex: 1;
-            max-width: 300px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .chat-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            position: relative;
-        }
-
-        .chat-badge-header {
-            background: #e73c7e;
-            color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: absolute;
-            top: -5px;
-            right: -5px;
-        }
-
-        .chat-list {
-            flex: 1;
-            overflow-y: auto;
-        }
-
-        .chat-item {
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .chat-item:hover {
-            background: #f0f0f0;
-        }
-
-        .chat-item.active {
-            background: #e73c7e;
-            color: white;
-        }
-
-        /* Profile Modal */
-        .profile-modal-options {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .modal-option {
-            padding: 12px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .modal-option:hover {
-            background: #f0f0f0;
-        }
-
-        .theme-toggle {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .toggle-switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 24px;
-        }
-
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 24px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 16px;
-            width: 16px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked + .slider {
-            background-color: #e73c7e;
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(26px);
-        }
-
-        /* Admin Dashboard */
-        .admin-dashboard {
-            display: none;
-            padding: 20px;
-        }
-
-        .admin-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .stat-card {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        .stat-value {
-            font-size: 24px;
-            font-weight: bold;
-            color: #e73c7e;
-        }
-
-        .user-list {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .user-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .verification-badge {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-        }
-
-        .blue-badge {
-            background: #23a6d5;
-        }
-
-        .gold-badge {
-            background: gold;
-        }
-
-        .silver-badge {
-            background: silver;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .auth-box {
-                flex-direction: column;
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .main-container {
+                grid-template-columns: 1fr;
             }
             
-            .auth-left, .auth-right {
-                padding: 30px 20px;
-            }
-            
-            .main-content {
-                flex-direction: column;
-            }
-            
-            .sidebar, .chat-container {
-                max-width: 100%;
-            }
-            
-            .header {
-                padding: 15px 20px;
-            }
-            
-            .nav-links {
+            .professional-sidebar {
                 display: none;
             }
         }
 
-        .loading {
-            text-align: center;
-            padding: 20px;
-            color: #666;
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .main-container {
+                padding: 0 1rem;
+            }
+            
+            .chat-container {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Authentication Page -->
-    <div class="auth-container" id="auth-container">
-        <div class="auth-box">
-            <div class="auth-left">
-                <div class="logo">G-X</div>
-                <div class="auth-nav">
-                    <a href="#" id="about-link">About us</a>
-                    <a href="#" id="terms-link">Terms and Privacy</a>
-                    <a href="#" id="contact-link">Contact us</a>
-                </div>
-                <h1>Welcome to GX</h1>
-                <p class="subtitle">Connect with friends and share your experiences</p>
+    <!-- Professional Header -->
+    <div class="professional-header">
+        <div class="header-content">
+            <div class="logo">
+                <span class="logo-icon">GX</span>
+                <span>G-X Platform</span>
             </div>
-            
-            <div class="auth-right">
-                <!-- Login Form -->
-                <div id="login-form" class="form-container active-form">
-                    <h1>Login</h1>
-                    <p class="subtitle">Access your account</p>
-                    
-                    <form id="loginForm">
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" placeholder="Your email address" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="password" id="password" placeholder="Your password" required>
-                        </div>
-                        
-                        <button type="submit" class="btn">Login</button>
-                        
-                        <div class="forgot-password">
-                            <a href="#" id="forgot-password-link">Forgot Password?</a>
-                        </div>
-                    </form>
-                    
-                    <div class="toggle-form">
-                        Don't have an account? <a href="#" onclick="showForm('register-form')">Create account</a>
-                    </div>
-                </div>
-                
-                <!-- Register Form -->
-                <div id="register-form" class="form-container">
-                    <h1>Create account</h1>
-                    <p class="subtitle">Join our community</p>
-                    
-                    <form id="registerForm">
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" id="name" placeholder="Your first name" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="lastname">Last name</label>
-                            <input type="text" id="lastname" placeholder="Your last name" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="reg-email">Email</label>
-                            <input type="email" id="reg-email" placeholder="Your email address" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="birthdate">Date of birth</label>
-                            <input type="date" id="birthdate" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="reg-password">Password</label>
-                            <input type="password" id="reg-password" placeholder="Create a password" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="confirm-password">Confirm password</label>
-                            <input type="password" id="confirm-password" placeholder="Confirm your password" required>
-                        </div>
-                        
-                        <div class="checkbox-group">
-                            <input type="checkbox" id="agree-terms" required>
-                            <label for="agree-terms">Agree with terms and Privacy</label>
-                        </div>
-                        
-                        <button type="submit" class="btn">Create account</button>
-                    </form>
-                    
-                    <div class="toggle-form">
-                        Already have an account? <a href="#" onclick="showForm('login-form')">Login</a>
-                    </div>
-                </div>
+            <div style="color: rgba(255,255,255,0.8);">
+                Connect • Share • Unite
             </div>
         </div>
     </div>
 
-    <!-- Forgot Password Modal -->
-    <div class="modal" id="forgot-password-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Reset Password</h2>
-                <button class="close-btn" id="close-forgot-modal">&times;</button>
-            </div>
-            <div class="success-message" id="forgot-success">
-                Password reset email sent! Check your inbox.
-            </div>
-            <div class="error-message" id="forgot-error">
-                Error sending reset email. Please try again.
-            </div>
-            <form id="forgot-password-form">
+    <!-- Login/Signup Form -->
+    <div id="auth-app" class="auth-container">
+        <div class="auth-header">
+            <h1>Welcome to G-X</h1>
+            <p>Professional Social Networking Platform</p>
+        </div>
+        
+        <div class="form-container">
+            <div id="auth-error" class="error-message" style="display: none; background: #fef2f2; color: #dc2626; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;"></div>
+            <div id="auth-success" class="success-message" style="display: none; background: #f0fdf4; color: #065f46; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;"></div>
+            
+            <!-- Login Form -->
+            <form id="login-form">
                 <div class="form-group">
-                    <label for="reset-email">Email Address</label>
-                    <input type="email" id="reset-email" placeholder="Enter your email address" required>
+                    <label>Email Address</label>
+                    <input type="email" id="login-email" required placeholder="Enter your professional email">
                 </div>
-                <button type="submit" class="btn">Send Reset Link</button>
+                
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="login-password" required placeholder="Enter your password">
+                </div>
+                
+                <button type="submit" class="btn">Sign In to G-X</button>
+            </form>
+
+            <div style="text-align: center; margin: 1.5rem 0;">
+                <a onclick="showForgotPassword()" style="color: var(--primary); text-decoration: none; cursor: pointer; font-weight: 500;">Forgot your password?</a>
+            </div>
+            
+            <div style="text-align: center; color: #6b7280;">
+                <span>Don't have an account? </span>
+                <a onclick="toggleAuthMode()" style="color: var(--primary); text-decoration: none; cursor: pointer; font-weight: 600;">Create professional account</a>
+            </div>
+
+            <!-- Signup Form -->
+            <form id="signup-form" style="display: none;">
+                <div class="form-group">
+                    <label>First Name</label>
+                    <input type="text" id="signup-firstname" required placeholder="Enter your first name">
+                </div>
+
+                <div class="form-group">
+                    <label>Last Name</label>
+                    <input type="text" id="signup-lastname" required placeholder="Enter your last name">
+                </div>
+
+                <div class="form-group">
+                    <label>Professional Email</label>
+                    <input type="email" id="signup-email" required placeholder="Enter your professional email">
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="signup-password" required placeholder="Create secure password">
+                </div>
+
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <input type="password" id="signup-confirm-password" required placeholder="Confirm your password">
+                </div>
+
+                <div style="display: flex; align-items: start; gap: 0.75rem; margin: 1.5rem 0; padding: 1rem; background: #f8fafc; border-radius: 8px;">
+                    <input type="checkbox" id="agree-terms" required style="margin-top: 0.25rem;">
+                    <label for="agree-terms" style="margin: 0; font-size: 0.9rem;">I agree to the Terms of Service and Privacy Policy</label>
+                </div>
+                
+                <button type="submit" class="btn">Create Professional Account</button>
+
+                <div style="text-align: center; margin-top: 1.5rem; color: #6b7280;">
+                    <span>Already have an account? </span>
+                    <a onclick="toggleAuthMode()" style="color: var(--primary); text-decoration: none; cursor: pointer; font-weight: 600;">Sign in here</a>
+                </div>
             </form>
         </div>
     </div>
 
-    <!-- About Us Modal -->
-    <div class="modal" id="about-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>About Us</h2>
-                <button class="close-btn" id="close-about-modal">&times;</button>
-            </div>
-            <div class="about-content">
-                <img src="https://via.placeholder.com/150/007bff/ffffff?text=DG" alt="Dave Gallioth" class="profile-photo">
-                <h3>Dave Gallioth</h3>
-                <p><strong>Founder & Developer</strong></p>
-                <div class="about-text">
-                    <p>Hello! I'm Dave Gallioth, born on October 20, 2007. I'm a young technology enthusiast who loves creating innovative solutions that bring people together.</p>
-                    
-                    <p>GX Social Network was born from my passion for technology and my desire to create a platform where people can connect, share experiences, and build meaningful relationships. As someone who grew up in the digital age, I understand the importance of having safe, engaging spaces for social interaction.</p>
-                    
-                    <p>What inspires me most is seeing how technology can transform the way we communicate and build communities. Every feature in GX is designed with this vision in mind - to create a platform that's not just another social network, but a place where genuine connections happen.</p>
-                    
-                    <p>My journey in technology started at a young age, and through GX, I hope to inspire other young creators to pursue their passions and turn their ideas into reality.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Contact Us Modal -->
-    <div class="modal" id="contact-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Contact Us</h2>
-                <button class="close-btn" id="close-contact-modal">&times;</button>
-            </div>
-            <div class="about-content">
-                <img src="https://via.placeholder.com/150/007bff/ffffff?text=DG" alt="Dave Gallioth" class="profile-photo">
-                <h3>Get In Touch</h3>
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <i>📧</i>
-                        <span>Email: dave@belikebrit.org</span>
-                    </div>
-                    <div class="contact-item">
-                        <i>📱</i>
-                        <span>Phone: (+509) 41362708</span>
-                    </div>
-                    <div class="contact-item">
-                        <i>👤</i>
-                        <span>Founder: Dave Gallioth</span>
-                    </div>
-                </div>
-                <div class="about-text">
-                    <p>We'd love to hear from you! Whether you have questions about GX, need technical support, want to suggest new features, or just want to share your experience with our platform, please don't hesitate to reach out.</p>
-                    
-                    <p>As the founder, I'm personally committed to making GX the best social platform it can be. Your feedback is incredibly valuable in helping us improve and grow.</p>
-                    
-                    <p>We typically respond to all inquiries within 24 hours. For technical issues, we'll do our best to resolve them as quickly as possible.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Terms and Privacy Modal -->
-    <div class="modal" id="terms-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Terms and Privacy</h2>
-                <button class="close-btn" id="close-terms-modal">&times;</button>
-            </div>
-            <div class="about-text">
-                <h3>Terms of Service</h3>
-                <p>By using GX Social Network, you agree to these terms:</p>
-                <ul>
-                    <li>You must be at least 13 years old to use this platform</li>
-                    <li>You are responsible for maintaining the confidentiality of your account</li>
-                    <li>You agree not to post harmful, abusive, or illegal content</li>
-                    <li>We reserve the right to remove content that violates our guidelines</li>
-                    <li>Points and achievements are part of the platform experience</li>
-                </ul>
-                
-                <h3>Privacy Policy</h3>
-                <p>We value your privacy and are committed to protecting your personal information:</p>
-                <ul>
-                    <li>We collect only necessary information to provide our services</li>
-                    <li>Your data is stored securely using Firebase services</li>
-                    <li>We do not sell your personal information to third parties</li>
-                    <li>You can delete your account and associated data at any time</li>
-                    <li>We use cookies to enhance your experience on our platform</li>
-                </ul>
-                
-                <h3>Community Guidelines</h3>
-                <p>To ensure a positive experience for all users:</p>
-                <ul>
-                    <li>Be respectful and kind to other community members</li>
-                    <li>Report any inappropriate content or behavior</li>
-                    <li>Don't spam or send unsolicited messages</li>
-                    <li>Respect intellectual property rights</li>
-                    <li>Help us maintain a safe and welcoming environment</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <!-- Main Dashboard -->
-    <div class="dashboard" id="dashboard">
-        <div class="header">
-            <div class="header-left">
-                <div class="header-logo">G-X</div>
+    <!-- Main Application -->
+    <div id="main-app">
+        <!-- Professional Navigation -->
+        <nav class="professional-nav">
+            <div class="nav-container">
+                <div class="nav-brand">G-X Platform</div>
                 <div class="nav-links">
-                    <a href="#" class="nav-link active">Home</a>
-                    <a href="#" class="nav-link" id="new-message-link">New Message</a>
+                    <a class="nav-link active" onclick="showSection('home')">
+                        <span>🏠</span> Home
+                    </a>
+                    <a class="nav-link" onclick="showSection('chat')">
+                        <span>💬</span> Chat
+                    </a>
+                    <a class="nav-link" onclick="showSection('messages')">
+                        <span>📩</span> Messages
+                    </a>
+                    <a class="nav-link" onclick="showNotification()">
+                        <span>🔔</span> Notifications
+                    </a>
                 </div>
-            </div>
-            <div class="header-right">
-                <div class="chat-icon" id="chat-icon">
-                    <span>💬</span>
-                    <div class="chat-badge" id="chat-badge">0</div>
-                </div>
-                <div class="profile-pic" id="profile-pic">U</div>
-            </div>
-        </div>
-
-        <div class="main-content">
-            <div class="sidebar">
-                <div class="sidebar-item active">Home</div>
-                <div class="sidebar-item" id="new-post-link">New Post</div>
-                
-                <div class="stats-box">
-                    <div class="points" id="user-points">0</div>
-                    <div class="followers" id="user-followers">0 followers</div>
-                    <div class="encouragement">Keep posting!</div>
-                </div>
-            </div>
-
-            <div class="content">
-                <div class="post-box">
-                    <h3>Create a new post</h3>
-                    <textarea id="post-content" placeholder="What's on your mind?" rows="3" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 10px;"></textarea>
-                    <div class="post-options">
-                        <button class="post-btn" data-type="text">Text Post (2 points)</button>
-                        <button class="post-btn" data-type="image">Image Post (3 points)</button>
-                        <button class="post-btn" data-type="video">Video Post (5 points)</button>
+                <div class="user-menu">
+                    <div class="user-stats">
+                        <div class="stat-item followers">
+                            Followers: <span id="user-followers">0</span>
+                        </div>
                     </div>
-                    <button class="btn" id="publish-post" style="margin-top: 10px;">Publish</button>
-                </div>
-
-                <div id="posts-container">
-                    <div class="loading">Loading posts...</div>
+                    <div class="user-avatar" onclick="showSettings()">
+                        <span id="avatar-text">U</span>
+                    </div>
                 </div>
             </div>
+        </nav>
 
-            <div class="chat-container">
-                <div class="chat-header">
-                    <h3>Chats</h3>
-                    <div class="chat-badge-header" id="chat-header-badge">0</div>
+        <div class="main-container">
+            <!-- Professional Sidebar -->
+            <aside class="professional-sidebar">
+                <div class="sidebar-section">
+                    <h3>Quick Actions</h3>
+                    <button class="btn" onclick="showCreatePost()" style="width: 100%; margin-bottom: 0.75rem;">
+                        📝 Create Post
+                    </button>
+                    <button class="btn" onclick="showFindFriends()" style="width: 100%; background: #6b7280;">
+                        👥 Find Friends
+                    </button>
                 </div>
-                <div class="chat-list" id="chat-list">
-                    <div class="loading">Loading chats...</div>
+
+                <div class="sidebar-section">
+                    <h3>Platform</h3>
+                    <a class="nav-link" onclick="showAbout()" style="display: block; margin-bottom: 0.5rem;">
+                        ℹ️ About Us
+                    </a>
+                    <a class="nav-link" onclick="showContact()" style="display: block; margin-bottom: 0.5rem;">
+                        📞 Contact Us
+                    </a>
+                    <a class="nav-link" id="admin-link" style="display: none;" onclick="showSection('admin')">
+                        ⚙️ Admin Dashboard
+                    </a>
+                    <a class="nav-link" onclick="logout()" style="display: block; color: var(--danger);">
+                        🚪 Logout
+                    </a>
                 </div>
-            </div>
+
+                <div class="sidebar-section">
+                    <h3>Online Friends</h3>
+                    <div>
+                        <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border-radius: 8px; background: #10b981; color: white; margin-bottom: 0.5rem;">
+                            <div class="user-avatar" style="width: 36px; height: 36px; background: white; color: #10b981;">JD</div>
+                            <div>
+                                <div style="font-weight: 600;">John Doe</div>
+                                <small>Online</small>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border-radius: 8px; margin-bottom: 0.5rem;">
+                            <div class="user-avatar" style="width: 36px; height: 36px; background: var(--warning);">JS</div>
+                            <div>
+                                <div style="font-weight: 600;">Jane Smith</div>
+                                <small style="color: #6b7280;">Last seen 2h ago</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ad Space -->
+                <div class="ad-container">
+                    <div class="ad-label">Advertisement</div>
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-3842061098365858"
+                         data-ad-slot="1234567890"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+            </aside>
+
+            <!-- Main Content Area -->
+            <main class="content-area">
+                <!-- Home Section -->
+                <section id="home-section" class="section active-section">
+                    <!-- Welcome Card -->
+                    <div class="professional-card">
+                        <div class="card-header">
+                            <div class="user-avatar" id="current-user-avatar">
+                                <span id="avatar-text">U</span>
+                            </div>
+                            <div>
+                                <div class="card-title" id="current-user-name">Welcome to G-X Platform!</div>
+                                <small style="color: #6b7280;">Professional Social Networking</small>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <p>Connect with professionals, share valuable insights, and build meaningful relationships in our exclusive community.</p>
+                        </div>
+                    </div>
+
+                    <!-- Ad Space -->
+                    <div class="ad-container">
+                        <div class="ad-label">Sponsored Content</div>
+                        <ins class="adsbygoogle"
+                             style="display:block"
+                             data-ad-format="fluid"
+                             data-ad-layout-key="-gw-3+1f-3d+2z"
+                             data-ad-client="ca-pub-3842061098365858"
+                             data-ad-slot="1234567891"></ins>
+                        <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </div>
+
+                    <!-- Posts Container -->
+                    <div id="posts-container">
+                        <!-- Posts will be loaded here -->
+                    </div>
+                </section>
+
+                <!-- Chat Section -->
+                <section id="chat-section" class="section">
+                    <div class="professional-card">
+                        <h2 style="margin-bottom: 1rem;">Professional Chat</h2>
+                        <p>Connect and collaborate with your professional network.</p>
+                    </div>
+                    
+                    <div class="chat-system">
+                        <div class="chat-header">
+                            <h3>Active Conversations</h3>
+                        </div>
+                        <div class="chat-container">
+                            <div class="chat-list">
+                                <div style="padding: 1rem; background: var(--primary); color: white; border-radius: 8px; margin-bottom: 0.5rem;">
+                                    <div style="font-weight: 600;">John Doe</div>
+                                    <small>Online - Project Manager</small>
+                                </div>
+                                <div style="padding: 1rem; border-radius: 8px; margin-bottom: 0.5rem;">
+                                    <div style="font-weight: 600;">Jane Smith</div>
+                                    <small>Last seen 2h ago - Designer</small>
+                                </div>
+                            </div>
+                            <div class="chat-window">
+                                <div class="chat-messages">
+                                    <div class="message received">
+                                        Hello! Welcome to G-X Platform. How can I assist you today?
+                                    </div>
+                                    <div class="message sent">
+                                        Hi! I'm excited to join this professional community.
+                                    </div>
+                                    <div class="message received">
+                                        Great to have you here! Feel free to explore and connect with other professionals.
+                                    </div>
+                                </div>
+                                <div style="display: flex; gap: 0.5rem;">
+                                    <input type="text" id="chat-input" placeholder="Type your message..." style="flex: 1; padding: 1rem; border: 2px solid var(--border); border-radius: 25px;">
+                                    <button class="btn" onclick="sendMessage()" style="width: auto; padding: 1rem 1.5rem;">Send</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Messages Section -->
+                <section id="messages-section" class="section">
+                    <div class="professional-card">
+                        <h2 style="margin-bottom: 1rem;">Professional Messages</h2>
+                        <p>Manage your professional communications.</p>
+                    </div>
+
+                    <div id="new-messages-container">
+                        <div class="professional-card">
+                            <div class="card-header">
+                                <div class="user-avatar" style="background: var(--success);">AL</div>
+                                <div>
+                                    <div class="card-title">Alex Johnson</div>
+                                    <small style="color: #6b7280;">CEO at TechCorp • New connection</small>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <p>"Hello! I came across your profile and I'm impressed with your professional background. Would you be interested in discussing potential collaboration opportunities?"</p>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                                <button class="btn" style="width: auto; padding: 0.5rem 1rem;">Reply</button>
+                                <button class="btn" style="width: auto; padding: 0.5rem 1rem; background: #6b7280;">View Profile</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Admin Dashboard Section -->
+                <section id="admin-section" class="section">
+                    <div class="admin-dashboard">
+                        <h1 style="margin-bottom: 2rem; color: var(--primary);">Admin Dashboard</h1>
+                        
+                        <!-- Admin Statistics -->
+                        <div class="admin-stats-grid">
+                            <div class="admin-stat-card">
+                                <h3>Total Users</h3>
+                                <div class="number" id="total-users">0</div>
+                            </div>
+                            <div class="admin-stat-card">
+                                <h3>Active Today</h3>
+                                <div class="number" id="active-today">0</div>
+                            </div>
+                            <div class="admin-stat-card">
+                                <h3>New Signups</h3>
+                                <div class="number" id="new-signups">0</div>
+                            </div>
+                            <div class="admin-stat-card">
+                                <h3>Revenue</h3>
+                                <div class="number">$0</div>
+                            </div>
+                        </div>
+
+                        <!-- User Management -->
+                        <div style="margin-bottom: 2rem;">
+                            <h3 style="margin-bottom: 1rem;">User Management</h3>
+                            <div class="users-table">
+                                <table style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th>User</th>
+                                            <th>Email</th>
+                                            <th>Followers</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="users-table-body">
+                                        <!-- Users will be loaded here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Platform Analytics -->
+                        <div>
+                            <h3 style="margin-bottom: 1rem;">Platform Analytics</h3>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                <div class="professional-card">
+                                    <h4>User Growth</h4>
+                                    <p>Chart showing user growth over time</p>
+                                </div>
+                                <div class="professional-card">
+                                    <h4>Revenue Analytics</h4>
+                                    <p>Ad revenue and monetization metrics</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            <!-- Right Sidebar -->
+            <aside class="professional-sidebar">
+                <div class="sidebar-section">
+                    <h3>Trending Topics</h3>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                        <span style="background: var(--light); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;">#Technology</span>
+                        <span style="background: var(--light); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;">#Innovation</span>
+                        <span style="background: var(--light); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;">#Networking</span>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3>Suggested Connections</h3>
+                    <div>
+                        <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border-radius: 8px; margin-bottom: 0.5rem;">
+                            <div class="user-avatar" style="width: 36px; height: 36px; background: var(--primary);">MJ</div>
+                            <div style="flex: 1;">
+                                <div style="font-weight: 600;">Mike Johnson</div>
+                                <small style="color: #6b7280;">Software Engineer</small>
+                            </div>
+                            <button style="background: var(--primary); color: white; border: none; padding: 0.25rem 0.75rem; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">Connect</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ad Space -->
+                <div class="ad-container">
+                    <div class="ad-label">Premium Advertisement</div>
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-3842061098365858"
+                         data-ad-slot="1234567892"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+            </aside>
         </div>
     </div>
 
-    <!-- Profile Modal -->
-    <div class="modal" id="profile-modal">
+    <!-- Modals -->
+    <div id="settings-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Profile Settings</h2>
-                <button class="close-btn" id="close-profile-modal">&times;</button>
+                <h2>Professional Settings</h2>
+                <button class="close-btn" onclick="closeModal('settings-modal')">&times;</button>
             </div>
-            <div class="profile-modal-options">
-                <div class="modal-option" id="profile-settings">
-                    <span>👤</span> Profile Settings
-                </div>
-                <div class="modal-option" id="block-user">
-                    <span>🚫</span> Block User
-                </div>
-                <div class="modal-option" id="unblock-user">
-                    <span>✅</span> Unblock User
-                </div>
-                <div class="modal-option">
-                    <span>🌞</span> 
-                    <div class="theme-toggle">
-                        Day Mode
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="theme-toggle">
-                            <span class="slider"></span>
-                        </label>
-                        Night Mode
-                    </div>
-                </div>
-                <div class="modal-option" id="logout-btn">
-                    <span>🚪</span> Logout
-                </div>
+            <div class="form-group">
+                <label>Profile Picture</label>
+                <input type="file" id="profile-picture" accept="image/*">
             </div>
+            <div class="form-group">
+                <label>Display Name</label>
+                <input type="text" id="display-name" placeholder="Your professional name">
+            </div>
+            <div class="form-group">
+                <label>Professional Title</label>
+                <input type="text" id="professional-title" placeholder="e.g., Software Engineer">
+            </div>
+            <button class="btn" onclick="saveSettings()">Save Professional Settings</button>
         </div>
     </div>
 
-    <!-- Admin Dashboard -->
-    <div class="admin-dashboard" id="admin-dashboard">
-        <h2>Admin Dashboard</h2>
-        
-        <div class="admin-stats">
-            <div class="stat-card">
-                <div class="stat-value" id="total-users">0</div>
-                <div>Total Users</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="active-users">0</div>
-                <div>Active Users</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="total-posts">0</div>
-                <div>Total Posts</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="new-users-today">0</div>
-                <div>New Users Today</div>
-            </div>
-        </div>
-        
-        <div class="user-list">
-            <h3>User Management</h3>
-            <div id="users-list">
-                <div class="loading">Loading users...</div>
-            </div>
-        </div>
-    </div>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
     <script>
-        // Firebase configuration
+        // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyDuLwJp9F-IRnPuKwmUgj_63W1E7034drM",
             authDomain: "g-x-4678a.firebaseapp.com",
@@ -1053,534 +996,115 @@
         };
 
         // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
+        const app = firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
-        const storage = firebase.storage();
 
-        // DOM Elements
-        const authContainer = document.getElementById('auth-container');
-        const dashboard = document.getElementById('dashboard');
-        const adminDashboard = document.getElementById('admin-dashboard');
-        const loginForm = document.getElementById('loginForm');
-        const registerForm = document.getElementById('registerForm');
-        const profilePic = document.getElementById('profile-pic');
-        const profileModal = document.getElementById('profile-modal');
-        const closeProfileModal = document.getElementById('close-profile-modal');
-        const logoutBtn = document.getElementById('logout-btn');
-        const themeToggle = document.getElementById('theme-toggle');
-        const userPoints = document.getElementById('user-points');
-        const userFollowers = document.getElementById('user-followers');
-        const chatBadge = document.getElementById('chat-badge');
-        const chatHeaderBadge = document.getElementById('chat-header-badge');
-        const publishPostBtn = document.getElementById('publish-post');
-        const postContent = document.getElementById('post-content');
-        const postOptions = document.querySelectorAll('.post-btn');
-        const postsContainer = document.getElementById('posts-container');
-        const chatList = document.getElementById('chat-list');
-        const totalUsers = document.getElementById('total-users');
-        const activeUsers = document.getElementById('active-users');
-        const totalPosts = document.getElementById('total-posts');
-        const newUsersToday = document.getElementById('new-users-today');
-        const usersList = document.getElementById('users-list');
-
-        // Modal elements
-        const aboutLink = document.getElementById('about-link');
-        const aboutModal = document.getElementById('about-modal');
-        const closeAboutModal = document.getElementById('close-about-modal');
-        const contactLink = document.getElementById('contact-link');
-        const contactModal = document.getElementById('contact-modal');
-        const closeContactModal = document.getElementById('close-contact-modal');
-        const termsLink = document.getElementById('terms-link');
-        const termsModal = document.getElementById('terms-modal');
-        const closeTermsModal = document.getElementById('close-terms-modal');
-        const forgotPasswordLink = document.getElementById('forgot-password-link');
-        const forgotPasswordModal = document.getElementById('forgot-password-modal');
-        const closeForgotModal = document.getElementById('close-forgot-modal');
-        const forgotPasswordForm = document.getElementById('forgot-password-form');
-        const forgotSuccess = document.getElementById('forgot-success');
-        const forgotError = document.getElementById('forgot-error');
-
-        // Current user data
         let currentUser = null;
-        let currentUserData = null;
-        let postType = 'text';
+        let isLoginMode = true;
 
-        // Show form function
-        function showForm(formId) {
-            const forms = document.querySelectorAll('.form-container');
-            forms.forEach(form => {
-                form.classList.remove('active-form');
+        // Authentication Functions
+        function toggleAuthMode() {
+            isLoginMode = !isLoginMode;
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+            const authTitle = document.getElementById('auth-title');
+
+            if (isLoginMode) {
+                loginForm.style.display = 'block';
+                signupForm.style.display = 'none';
+                document.querySelector('.auth-header h1').textContent = 'Welcome to G-X';
+            } else {
+                loginForm.style.display = 'none';
+                signupForm.style.display = 'block';
+                document.querySelector('.auth-header h1').textContent = 'Join G-X Platform';
+            }
+        }
+
+        // App Navigation
+        function showSection(sectionName) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.style.display = 'none';
+            });
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
             });
             
-            document.getElementById(formId).classList.add('active-form');
+            document.getElementById(sectionName + '-section').style.display = 'block';
+            event.target.classList.add('active');
         }
 
-        // Modal functions
-        function openModal(modal) {
-            modal.style.display = 'flex';
+        function showMainApp() {
+            document.getElementById('auth-app').style.display = 'none';
+            document.getElementById('main-app').style.display = 'block';
         }
 
-        function closeModal(modal) {
-            modal.style.display = 'none';
+        function showAuthApp() {
+            document.getElementById('main-app').style.display = 'none';
+            document.getElementById('auth-app').style.display = 'block';
         }
 
-        // Show message functions
-        function showMessage(element, message) {
-            element.textContent = message;
-            element.style.display = 'block';
-            setTimeout(() => {
-                element.style.display = 'none';
-            }, 5000);
+        // Modal Functions
+        function showSettings() {
+            document.getElementById('settings-modal').style.display = 'flex';
         }
 
-        // Authentication state observer
-        auth.onAuthStateChanged(user => {
+        function showCreatePost() {
+            alert('Create Post feature - Ready for implementation!');
+        }
+
+        function showFindFriends() {
+            alert('Find Friends feature - Ready for implementation!');
+        }
+
+        function showAbout() {
+            alert('About Us: G-X Platform - Professional Social Network created by Dave Gallioth');
+        }
+
+        function showContact() {
+            alert('Contact: dave@belikebrit.org | (+509) 41362708');
+        }
+
+        function showNotification() {
+            alert('You have new professional notifications!');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function logout() {
+            auth.signOut();
+            showAuthApp();
+        }
+
+        // Check authentication state
+        auth.onAuthStateChanged((user) => {
             if (user) {
                 currentUser = user;
-                
-                // Update last login
-                db.collection('users').doc(user.uid).update({
-                    lastLogin: new Date()
-                }).catch(error => {
-                    console.log('Error updating last login:', error);
-                });
-                
-                // Check if user is admin
+                showMainApp();
+                // Only show admin dashboard for specific email
                 if (user.email === 'davemoline0@gmail.com') {
-                    showAdminDashboard();
-                } else {
-                    showDashboard();
+                    document.getElementById('admin-link').style.display = 'block';
+                    loadAdminData();
                 }
-                
-                // Load user data
-                loadUserData(user.uid);
             } else {
-                showAuth();
+                showAuthApp();
             }
         });
-
-        // Login form handler
-        loginForm.addEventListener('submit', e => {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            
-            auth.signInWithEmailAndPassword(email, password)
-                .then(userCredential => {
-                    // Login successful
-                    console.log('User logged in:', userCredential.user);
-                })
-                .catch(error => {
-                    alert('Login error: ' + error.message);
-                });
-        });
-
-        // Register form handler
-        registerForm.addEventListener('submit', e => {
-            e.preventDefault();
-            const name = document.getElementById('name').value;
-            const lastname = document.getElementById('lastname').value;
-            const email = document.getElementById('reg-email').value;
-            const birthdate = document.getElementById('birthdate').value;
-            const password = document.getElementById('reg-password').value;
-            const confirmPassword = document.getElementById('confirm-password').value;
-            
-            if (password !== confirmPassword) {
-                alert('Passwords do not match');
-                return;
-            }
-            
-            // Check if user is at least 13 years old
-            const birthDate = new Date(birthdate);
-            const today = new Date();
-            const age = today.getFullYear() - birthDate.getFullYear();
-            const monthDiff = today.getMonth() - birthDate.getMonth();
-            
-            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-                age--;
-            }
-            
-            if (age < 13) {
-                alert('You must be at least 13 years old to register.');
-                return;
-            }
-            
-            auth.createUserWithEmailAndPassword(email, password)
-                .then(userCredential => {
-                    // Create user document in Firestore
-                    return db.collection('users').doc(userCredential.user.uid).set({
-                        name: name,
-                        lastname: lastname,
-                        email: email,
-                        birthdate: birthdate,
-                        points: 0,
-                        followers: 0,
-                        joined: new Date(),
-                        lastLogin: new Date(),
-                        verification: 'none'
-                    });
-                })
-                .then(() => {
-                    console.log('User registered successfully');
-                })
-                .catch(error => {
-                    alert('Registration error: ' + error.message);
-                });
-        });
-
-        // Forgot password handler
-        forgotPasswordForm.addEventListener('submit', e => {
-            e.preventDefault();
-            const email = document.getElementById('reset-email').value;
-            
-            auth.sendPasswordResetEmail(email)
-                .then(() => {
-                    showMessage(forgotSuccess, 'Password reset email sent! Check your inbox.');
-                    document.getElementById('reset-email').value = '';
-                    setTimeout(() => {
-                        closeModal(forgotPasswordModal);
-                    }, 3000);
-                })
-                .catch(error => {
-                    showMessage(forgotError, 'Error: ' + error.message);
-                });
-        });
-
-        // Load user data
-        function loadUserData(uid) {
-            db.collection('users').doc(uid).get()
-                .then(doc => {
-                    if (doc.exists) {
-                        currentUserData = doc.data();
-                        updateUIWithUserData();
-                    }
-                })
-                .catch(error => {
-                    console.error('Error loading user data:', error);
-                });
-        }
-
-        // Update UI with user data
-        function updateUIWithUserData() {
-            if (currentUserData) {
-                userPoints.textContent = currentUserData.points || 0;
-                userFollowers.textContent = (currentUserData.followers || 0) + ' followers';
-                
-                // Set profile picture initial
-                const initial = (currentUserData.name && currentUserData.name[0]) || 'U';
-                profilePic.textContent = initial.toUpperCase();
-                
-                // Check for achievements
-                checkAchievements(currentUserData.points);
-            }
-        }
-
-        // Check user achievements
-        function checkAchievements(points) {
-            if (points >= 1000) {
-                // Show congratulations message
-                alert('Congratulations 👏\nYou reached 1000 points! Bravo 🎉\nNow you can send voice messages!');
-                
-                // Enable voice message feature
-                enableVoiceMessages();
-            }
-            
-            if (points >= 2000) {
-                // Enable video calls
-                enableVideoCalls();
-            }
-            
-            if (points >= 6000) {
-                // Enable advanced features
-                enableAdvancedFeatures();
-            }
-            
-            // Update verification badge based on followers
-            updateVerificationBadge(currentUserData.followers);
-        }
-
-        // Enable voice messages
-        function enableVoiceMessages() {
-            // Implementation for enabling voice messages
-            console.log('Voice messages enabled');
-        }
-
-        // Enable video calls
-        function enableVideoCalls() {
-            // Implementation for enabling video calls
-            console.log('Video calls enabled');
-        }
-
-        // Enable advanced features
-        function enableAdvancedFeatures() {
-            // Implementation for enabling advanced features
-            console.log('Advanced features enabled');
-        }
-
-        // Update verification badge
-        function updateVerificationBadge(followers) {
-            let verification = 'none';
-            
-            if (followers >= 2000) {
-                verification = 'blue';
-            } else if (followers >= 4000) {
-                verification = 'gold';
-            } else if (followers >= 6000) {
-                verification = 'silver';
-            }
-            
-            // Update user document with verification status
-            if (currentUser) {
-                db.collection('users').doc(currentUser.uid).update({
-                    verification: verification
-                });
-            }
-        }
-
-        // Post type selection
-        postOptions.forEach(option => {
-            option.addEventListener('click', () => {
-                postOptions.forEach(opt => {
-                    opt.style.background = '#f0f0f0';
-                    opt.style.color = 'black';
-                });
-                option.style.background = '#e73c7e';
-                option.style.color = 'white';
-                postType = option.getAttribute('data-type');
-            });
-        });
-
-        // Publish post
-        publishPostBtn.addEventListener('click', () => {
-            const content = postContent.value.trim();
-            if (!content) {
-                alert('Please enter some content for your post');
-                return;
-            }
-            
-            // Calculate points based on post type
-            let points = 0;
-            if (postType === 'text') points = 2;
-            else if (postType === 'image') points = 3;
-            else if (postType === 'video') points = 5;
-            
-            // Create post document
-            db.collection('posts').add({
-                userId: currentUser.uid,
-                userName: currentUserData.name + ' ' + currentUserData.lastname,
-                content: content,
-                type: postType,
-                points: points,
-                timestamp: new Date(),
-                likes: 0,
-                comments: []
-            })
-            .then(() => {
-                // Update user points
-                const newPoints = (currentUserData.points || 0) + points;
-                return db.collection('users').doc(currentUser.uid).update({
-                    points: newPoints
-                });
-            })
-            .then(() => {
-                // Update local data
-                currentUserData.points = (currentUserData.points || 0) + points;
-                updateUIWithUserData();
-                
-                // Clear post content
-                postContent.value = '';
-                
-                // Reload posts
-                loadPosts();
-                
-                alert('Post published successfully! +' + points + ' points');
-            })
-            .catch(error => {
-                console.error('Error publishing post:', error);
-                alert('Error publishing post: ' + error.message);
-            });
-        });
-
-        // Load posts
-        function loadPosts() {
-            postsContainer.innerHTML = '<div class="loading">Loading posts...</div>';
-            
-            db.collection('posts')
-                .orderBy('timestamp', 'desc')
-                .limit(10)
-                .get()
-                .then(snapshot => {
-                    postsContainer.innerHTML = '';
-                    
-                    if (snapshot.empty) {
-                        postsContainer.innerHTML = '<div class="loading">No posts yet. Be the first to post!</div>';
-                        return;
-                    }
-                    
-                    snapshot.forEach(doc => {
-                        const post = doc.data();
-                        const postElement = document.createElement('div');
-                        postElement.className = 'post-box';
-                        postElement.innerHTML = `
-                            <h4>${post.userName}</h4>
-                            <p>${post.content}</p>
-                            <div style="display: flex; justify-content: space-between; margin-top: 10px; color: #777;">
-                                <span>${post.timestamp.toDate().toLocaleString()}</span>
-                                <span>${post.type} post • ${post.points} points</span>
-                            </div>
-                            <div style="margin-top: 10px;">
-                                <button class="post-btn" style="font-size: 14px;">❤️ Like (${post.likes})</button>
-                                <button class="post-btn" style="font-size: 14px;">💬 Comment</button>
-                                <button class="post-btn" style="font-size: 14px;">🔄 Share</button>
-                            </div>
-                        `;
-                        postsContainer.appendChild(postElement);
-                    });
-                })
-                .catch(error => {
-                    console.error('Error loading posts:', error);
-                    postsContainer.innerHTML = '<div class="loading">Error loading posts. Please try again.</div>';
-                });
-        }
 
         // Load admin data
         function loadAdminData() {
-            // Load user statistics
-            db.collection('users').get()
-                .then(snapshot => {
-                    totalUsers.textContent = snapshot.size;
-                    
-                    // Count active users (users who logged in today)
-                    const today = new Date();
-                    today.setHours(0, 0, 0, 0);
-                    let activeCount = 0;
-                    let newTodayCount = 0;
-                    
-                    snapshot.forEach(doc => {
-                        const userData = doc.data();
-                        if (userData.lastLogin && userData.lastLogin.toDate() >= today) {
-                            activeCount++;
-                        }
-                        
-                        if (userData.joined && userData.joined.toDate() >= today) {
-                            newTodayCount++;
-                        }
-                    });
-                    
-                    activeUsers.textContent = activeCount;
-                    newUsersToday.textContent = newTodayCount;
-                    
-                    // Load total posts
-                    db.collection('posts').get()
-                        .then(postsSnapshot => {
-                            totalPosts.textContent = postsSnapshot.size;
-                        });
-                    
-                    // Display users list
-                    usersList.innerHTML = '';
-                    snapshot.forEach(doc => {
-                        const userData = doc.data();
-                        const userItem = document.createElement('div');
-                        userItem.className = 'user-item';
-                        
-                        let badgeClass = '';
-                        if (userData.verification === 'blue') badgeClass = 'blue-badge';
-                        else if (userData.verification === 'gold') badgeClass = 'gold-badge';
-                        else if (userData.verification === 'silver') badgeClass = 'silver-badge';
-                        
-                        userItem.innerHTML = `
-                            <div class="user-info">
-                                <span>${userData.name} ${userData.lastname}</span>
-                                ${badgeClass ? `<div class="verification-badge ${badgeClass}"></div>` : ''}
-                            </div>
-                            <div>${userData.points || 0} points</div>
-                        `;
-                        usersList.appendChild(userItem);
-                    });
-                })
-                .catch(error => {
-                    console.error('Error loading admin data:', error);
-                });
+            // Simulate admin data
+            document.getElementById('total-users').textContent = '1,247';
+            document.getElementById('active-today').textContent = '89';
+            document.getElementById('new-signups').textContent = '23';
         }
 
-        // Show authentication page
-        function showAuth() {
-            authContainer.style.display = 'flex';
-            dashboard.style.display = 'none';
-            adminDashboard.style.display = 'none';
-        }
+        // Initialize AdSense
+        (adsbygoogle = window.adsbygoogle || []).push({});
 
-        // Show user dashboard
-        function showDashboard() {
-            authContainer.style.display = 'none';
-            dashboard.style.display = 'block';
-            adminDashboard.style.display = 'none';
-            
-            // Load user-specific data
-            loadPosts();
-        }
-
-        // Show admin dashboard
-        function showAdminDashboard() {
-            authContainer.style.display = 'none';
-            dashboard.style.display = 'none';
-            adminDashboard.style.display = 'block';
-            
-            // Load admin data
-            loadAdminData();
-        }
-
-        // Event Listeners
-        document.addEventListener('DOMContentLoaded', function() {
-            // Modal event listeners
-            aboutLink.addEventListener('click', () => openModal(aboutModal));
-            closeAboutModal.addEventListener('click', () => closeModal(aboutModal));
-            
-            contactLink.addEventListener('click', () => openModal(contactModal));
-            closeContactModal.addEventListener('click', () => closeModal(contactModal));
-            
-            termsLink.addEventListener('click', () => openModal(termsModal));
-            closeTermsModal.addEventListener('click', () => closeModal(termsModal));
-            
-            forgotPasswordLink.addEventListener('click', () => openModal(forgotPasswordModal));
-            closeForgotModal.addEventListener('click', () => closeModal(forgotPasswordModal));
-            
-            // Profile modal
-            profilePic.addEventListener('click', () => openModal(profileModal));
-            closeProfileModal.addEventListener('click', () => closeModal(profileModal));
-            
-            // Logout
-            logoutBtn.addEventListener('click', () => {
-                auth.signOut().then(() => {
-                    console.log('User signed out');
-                });
-            });
-            
-            // Theme toggle
-            themeToggle.addEventListener('change', function() {
-                if (this.checked) {
-                    document.body.style.background = '#1a1a1a';
-                    document.body.style.color = 'white';
-                } else {
-                    document.body.style.background = '';
-                    document.body.style.color = '';
-                }
-            });
-            
-            // Close modals when clicking outside
-            window.addEventListener('click', (e) => {
-                if (e.target.classList.contains('modal')) {
-                    e.target.style.display = 'none';
-                }
-            });
-        });
-
-        // Initialize first post button as active
-        if (postOptions.length > 0) {
-            postOptions[0].style.background = '#e73c7e';
-            postOptions[0].style.color = 'white';
-        }
+        console.log('G-X Professional Platform Loaded Successfully!');
     </script>
 </body>
 </html>
