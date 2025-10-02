@@ -171,6 +171,7 @@
         .forgot-password a {
             color: #e73c7e;
             text-decoration: none;
+            cursor: pointer;
         }
 
         .toggle-form {
@@ -183,6 +184,7 @@
             color: #e73c7e;
             text-decoration: none;
             font-weight: 500;
+            cursor: pointer;
         }
 
         .form-container {
@@ -193,7 +195,7 @@
             display: block;
         }
 
-        /* About Us Modal */
+        /* Forgot Password Modal */
         .modal {
             display: none;
             position: fixed;
@@ -211,11 +213,9 @@
             background: white;
             border-radius: 15px;
             width: 90%;
-            max-width: 600px;
+            max-width: 500px;
             padding: 30px;
             box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
-            max-height: 90vh;
-            overflow-y: auto;
         }
 
         .modal-header {
@@ -233,6 +233,29 @@
             color: #777;
         }
 
+        /* Success Message */
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        /* Error Message */
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        /* About Us Modal */
         .about-content {
             text-align: center;
         }
@@ -664,6 +687,12 @@
                 display: none;
             }
         }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
     </style>
 </head>
 <body>
@@ -762,6 +791,29 @@
         </div>
     </div>
 
+    <!-- Forgot Password Modal -->
+    <div class="modal" id="forgot-password-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Reset Password</h2>
+                <button class="close-btn" id="close-forgot-modal">&times;</button>
+            </div>
+            <div class="success-message" id="forgot-success">
+                Password reset email sent! Check your inbox.
+            </div>
+            <div class="error-message" id="forgot-error">
+                Error sending reset email. Please try again.
+            </div>
+            <form id="forgot-password-form">
+                <div class="form-group">
+                    <label for="reset-email">Email Address</label>
+                    <input type="email" id="reset-email" placeholder="Enter your email address" required>
+                </div>
+                <button type="submit" class="btn">Send Reset Link</button>
+            </form>
+        </div>
+    </div>
+
     <!-- About Us Modal -->
     <div class="modal" id="about-modal">
         <div class="modal-content">
@@ -770,7 +822,7 @@
                 <button class="close-btn" id="close-about-modal">&times;</button>
             </div>
             <div class="about-content">
-                <img src="https://i.ibb.co/Y406hwJq/dave-photo.jpg" alt="Dave Gallioth" class="profile-photo" onerror="this.src='https://via.placeholder.com/150/007bff/ffffff?text=DG'">
+                <img src="https://via.placeholder.com/150/007bff/ffffff?text=DG" alt="Dave Gallioth" class="profile-photo">
                 <h3>Dave Gallioth</h3>
                 <p><strong>Founder & Developer</strong></p>
                 <div class="about-text">
@@ -794,7 +846,7 @@
                 <button class="close-btn" id="close-contact-modal">&times;</button>
             </div>
             <div class="about-content">
-                <img src="https://i.ibb.co/Y406hwJq/dave-photo.jpg" alt="Dave Gallioth" class="profile-photo" onerror="this.src='https://via.placeholder.com/150/007bff/ffffff?text=DG'">
+                <img src="https://via.placeholder.com/150/007bff/ffffff?text=DG" alt="Dave Gallioth" class="profile-photo">
                 <h3>Get In Touch</h3>
                 <div class="contact-info">
                     <div class="contact-item">
@@ -875,7 +927,7 @@
             <div class="header-right">
                 <div class="chat-icon" id="chat-icon">
                     <span>💬</span>
-                    <div class="chat-badge" id="chat-badge">5</div>
+                    <div class="chat-badge" id="chat-badge">0</div>
                 </div>
                 <div class="profile-pic" id="profile-pic">U</div>
             </div>
@@ -885,6 +937,7 @@
             <div class="sidebar">
                 <div class="sidebar-item active">Home</div>
                 <div class="sidebar-item" id="new-post-link">New Post</div>
+                
                 <div class="stats-box">
                     <div class="points" id="user-points">0</div>
                     <div class="followers" id="user-followers">0 followers</div>
@@ -905,21 +958,17 @@
                 </div>
 
                 <div id="posts-container">
-                    <!-- Posts will be displayed here -->
+                    <div class="loading">Loading posts...</div>
                 </div>
             </div>
 
             <div class="chat-container">
                 <div class="chat-header">
                     <h3>Chats</h3>
-                    <div class="chat-badge-header" id="chat-header-badge">5</div>
+                    <div class="chat-badge-header" id="chat-header-badge">0</div>
                 </div>
                 <div class="chat-list" id="chat-list">
-                    <div class="chat-item active">John Doe</div>
-                    <div class="chat-item">Jane Smith</div>
-                    <div class="chat-item">Mike Johnson</div>
-                    <div class="chat-item">Sarah Williams</div>
-                    <div class="chat-item">Alex Brown</div>
+                    <div class="loading">Loading chats...</div>
                 </div>
             </div>
         </div>
@@ -963,6 +1012,7 @@
     <!-- Admin Dashboard -->
     <div class="admin-dashboard" id="admin-dashboard">
         <h2>Admin Dashboard</h2>
+        
         <div class="admin-stats">
             <div class="stat-card">
                 <div class="stat-value" id="total-users">0</div>
@@ -985,7 +1035,7 @@
         <div class="user-list">
             <h3>User Management</h3>
             <div id="users-list">
-                <!-- Users will be listed here -->
+                <div class="loading">Loading users...</div>
             </div>
         </div>
     </div>
@@ -993,12 +1043,13 @@
     <script>
         // Firebase configuration
         const firebaseConfig = {
-            apiKey: "AIzaSyYourApiKeyHere",
-            authDomain: "your-project.firebaseapp.com",
-            projectId: "your-project-id",
-            storageBucket: "your-project.appspot.com",
-            messagingSenderId: "123456789",
-            appId: "your-app-id"
+            apiKey: "AIzaSyDuLwJp9F-IRnPuKwmUgj_63W1E7034drM",
+            authDomain: "g-x-4678a.firebaseapp.com",
+            projectId: "g-x-4678a",
+            storageBucket: "g-x-4678a.firebasestorage.app",
+            messagingSenderId: "222697143577",
+            appId: "1:222697143577:web:106c769400b01514a69988",
+            measurementId: "G-01B2Y470HB"
         };
 
         // Initialize Firebase
@@ -1043,6 +1094,12 @@
         const termsLink = document.getElementById('terms-link');
         const termsModal = document.getElementById('terms-modal');
         const closeTermsModal = document.getElementById('close-terms-modal');
+        const forgotPasswordLink = document.getElementById('forgot-password-link');
+        const forgotPasswordModal = document.getElementById('forgot-password-modal');
+        const closeForgotModal = document.getElementById('close-forgot-modal');
+        const forgotPasswordForm = document.getElementById('forgot-password-form');
+        const forgotSuccess = document.getElementById('forgot-success');
+        const forgotError = document.getElementById('forgot-error');
 
         // Current user data
         let currentUser = null;
@@ -1068,10 +1125,26 @@
             modal.style.display = 'none';
         }
 
+        // Show message functions
+        function showMessage(element, message) {
+            element.textContent = message;
+            element.style.display = 'block';
+            setTimeout(() => {
+                element.style.display = 'none';
+            }, 5000);
+        }
+
         // Authentication state observer
         auth.onAuthStateChanged(user => {
             if (user) {
                 currentUser = user;
+                
+                // Update last login
+                db.collection('users').doc(user.uid).update({
+                    lastLogin: new Date()
+                }).catch(error => {
+                    console.log('Error updating last login:', error);
+                });
                 
                 // Check if user is admin
                 if (user.email === 'davemoline0@gmail.com') {
@@ -1118,6 +1191,21 @@
                 return;
             }
             
+            // Check if user is at least 13 years old
+            const birthDate = new Date(birthdate);
+            const today = new Date();
+            const age = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+            
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            
+            if (age < 13) {
+                alert('You must be at least 13 years old to register.');
+                return;
+            }
+            
             auth.createUserWithEmailAndPassword(email, password)
                 .then(userCredential => {
                     // Create user document in Firestore
@@ -1129,6 +1217,7 @@
                         points: 0,
                         followers: 0,
                         joined: new Date(),
+                        lastLogin: new Date(),
                         verification: 'none'
                     });
                 })
@@ -1137,6 +1226,24 @@
                 })
                 .catch(error => {
                     alert('Registration error: ' + error.message);
+                });
+        });
+
+        // Forgot password handler
+        forgotPasswordForm.addEventListener('submit', e => {
+            e.preventDefault();
+            const email = document.getElementById('reset-email').value;
+            
+            auth.sendPasswordResetEmail(email)
+                .then(() => {
+                    showMessage(forgotSuccess, 'Password reset email sent! Check your inbox.');
+                    document.getElementById('reset-email').value = '';
+                    setTimeout(() => {
+                        closeModal(forgotPasswordModal);
+                    }, 3000);
+                })
+                .catch(error => {
+                    showMessage(forgotError, 'Error: ' + error.message);
                 });
         });
 
@@ -1234,7 +1341,10 @@
         // Post type selection
         postOptions.forEach(option => {
             option.addEventListener('click', () => {
-                postOptions.forEach(opt => opt.style.background = '#f0f0f0');
+                postOptions.forEach(opt => {
+                    opt.style.background = '#f0f0f0';
+                    opt.style.color = 'black';
+                });
                 option.style.background = '#e73c7e';
                 option.style.color = 'white';
                 postType = option.getAttribute('data-type');
@@ -1269,20 +1379,22 @@
             .then(() => {
                 // Update user points
                 const newPoints = (currentUserData.points || 0) + points;
-                db.collection('users').doc(currentUser.uid).update({
+                return db.collection('users').doc(currentUser.uid).update({
                     points: newPoints
-                })
-                .then(() => {
-                    // Update local data
-                    currentUserData.points = newPoints;
-                    updateUIWithUserData();
-                    
-                    // Clear post content
-                    postContent.value = '';
-                    
-                    // Reload posts
-                    loadPosts();
                 });
+            })
+            .then(() => {
+                // Update local data
+                currentUserData.points = (currentUserData.points || 0) + points;
+                updateUIWithUserData();
+                
+                // Clear post content
+                postContent.value = '';
+                
+                // Reload posts
+                loadPosts();
+                
+                alert('Post published successfully! +' + points + ' points');
             })
             .catch(error => {
                 console.error('Error publishing post:', error);
@@ -1292,13 +1404,20 @@
 
         // Load posts
         function loadPosts() {
-            postsContainer.innerHTML = '';
+            postsContainer.innerHTML = '<div class="loading">Loading posts...</div>';
             
             db.collection('posts')
                 .orderBy('timestamp', 'desc')
                 .limit(10)
                 .get()
                 .then(snapshot => {
+                    postsContainer.innerHTML = '';
+                    
+                    if (snapshot.empty) {
+                        postsContainer.innerHTML = '<div class="loading">No posts yet. Be the first to post!</div>';
+                        return;
+                    }
+                    
                     snapshot.forEach(doc => {
                         const post = doc.data();
                         const postElement = document.createElement('div');
@@ -1311,7 +1430,7 @@
                                 <span>${post.type} post • ${post.points} points</span>
                             </div>
                             <div style="margin-top: 10px;">
-                                <button class="post-btn" style="font-size: 14px;">❤️ Like</button>
+                                <button class="post-btn" style="font-size: 14px;">❤️ Like (${post.likes})</button>
                                 <button class="post-btn" style="font-size: 14px;">💬 Comment</button>
                                 <button class="post-btn" style="font-size: 14px;">🔄 Share</button>
                             </div>
@@ -1321,6 +1440,67 @@
                 })
                 .catch(error => {
                     console.error('Error loading posts:', error);
+                    postsContainer.innerHTML = '<div class="loading">Error loading posts. Please try again.</div>';
+                });
+        }
+
+        // Load admin data
+        function loadAdminData() {
+            // Load user statistics
+            db.collection('users').get()
+                .then(snapshot => {
+                    totalUsers.textContent = snapshot.size;
+                    
+                    // Count active users (users who logged in today)
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    let activeCount = 0;
+                    let newTodayCount = 0;
+                    
+                    snapshot.forEach(doc => {
+                        const userData = doc.data();
+                        if (userData.lastLogin && userData.lastLogin.toDate() >= today) {
+                            activeCount++;
+                        }
+                        
+                        if (userData.joined && userData.joined.toDate() >= today) {
+                            newTodayCount++;
+                        }
+                    });
+                    
+                    activeUsers.textContent = activeCount;
+                    newUsersToday.textContent = newTodayCount;
+                    
+                    // Load total posts
+                    db.collection('posts').get()
+                        .then(postsSnapshot => {
+                            totalPosts.textContent = postsSnapshot.size;
+                        });
+                    
+                    // Display users list
+                    usersList.innerHTML = '';
+                    snapshot.forEach(doc => {
+                        const userData = doc.data();
+                        const userItem = document.createElement('div');
+                        userItem.className = 'user-item';
+                        
+                        let badgeClass = '';
+                        if (userData.verification === 'blue') badgeClass = 'blue-badge';
+                        else if (userData.verification === 'gold') badgeClass = 'gold-badge';
+                        else if (userData.verification === 'silver') badgeClass = 'silver-badge';
+                        
+                        userItem.innerHTML = `
+                            <div class="user-info">
+                                <span>${userData.name} ${userData.lastname}</span>
+                                ${badgeClass ? `<div class="verification-badge ${badgeClass}"></div>` : ''}
+                            </div>
+                            <div>${userData.points || 0} points</div>
+                        `;
+                        usersList.appendChild(userItem);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading admin data:', error);
                 });
         }
 
@@ -1351,154 +1531,42 @@
             loadAdminData();
         }
 
-        // Load admin data
-        function loadAdminData() {
-            // Load user statistics
-            db.collection('users').get()
-                .then(snapshot => {
-                    totalUsers.textContent = snapshot.size;
-                    
-                    // Count active users (users who logged in today)
-                    const today = new Date();
-                    today.setHours(0, 0, 0, 0);
-                    let activeCount = 0;
-                    let newTodayCount = 0;
-                    
-                    snapshot.forEach(doc => {
-                        const userData = doc.data();
-                        if (userData.lastLogin && userData.lastLogin.toDate() >= today) {
-                            activeCount++;
-                        }
-                        
-                        if (userData.joined && userData.joined.toDate() >= today) {
-                            newTodayCount++;
-                        }
-                    });
-                    
-                    activeUsers.textContent = activeCount;
-                    newUsersToday.textContent = newTodayCount;
-                    
-                    // Display users list
-                    usersList.innerHTML = '';
-                    snapshot.forEach(doc => {
-                        const userData = doc.data();
-                        const userItem = document.createElement('div');
-                        userItem.className = 'user-item';
-                        
-                        let badgeClass = '';
-                        if (userData.verification === 'blue') badgeClass = 'blue-badge';
-                        else if (userData.verification === 'gold') badgeClass = 'gold-badge';
-                        else if (userData.verification === 'silver') badgeClass = 'silver-badge';
-                        
-                        userItem.innerHTML = `
-                            <div class="user-info">
-                                <span>${userData.name} ${userData.lastname}</span>
-                                ${badgeClass ? `<div class="verification-badge ${badgeClass}"></div>` : ''}
-                            </div>
-                            <div>${userData.points || 0} points</div>
-                        `;
-                        usersList.appendChild(userItem);
-                    });
-                })
-                .catch(error => {
-                    console.error('Error loading admin data:', error);
-                });
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Modal event listeners
+            aboutLink.addEventListener('click', () => openModal(aboutModal));
+            closeAboutModal.addEventListener('click', () => closeModal(aboutModal));
             
-            // Load posts count
-            db.collection('posts').get()
-                .then(snapshot => {
-                    totalPosts.textContent = snapshot.size;
-                })
-                .catch(error => {
-                    console.error('Error loading posts count:', error);
+            contactLink.addEventListener('click', () => openModal(contactModal));
+            closeContactModal.addEventListener('click', () => closeModal(contactModal));
+            
+            termsLink.addEventListener('click', () => openModal(termsModal));
+            closeTermsModal.addEventListener('click', () => closeModal(termsModal));
+            
+            forgotPasswordLink.addEventListener('click', () => openModal(forgotPasswordModal));
+            closeForgotModal.addEventListener('click', () => closeModal(forgotPasswordModal));
+            
+            // Profile modal
+            profilePic.addEventListener('click', () => openModal(profileModal));
+            closeProfileModal.addEventListener('click', () => closeModal(profileModal));
+            
+            // Logout
+            logoutBtn.addEventListener('click', () => {
+                auth.signOut().then(() => {
+                    console.log('User signed out');
                 });
-        }
-
-        // Profile modal handlers
-        profilePic.addEventListener('click', () => {
-            openModal(profileModal);
-        });
-
-        closeProfileModal.addEventListener('click', () => {
-            closeModal(profileModal);
-        });
-
-        logoutBtn.addEventListener('click', () => {
-            auth.signOut()
-                .then(() => {
-                    closeModal(profileModal);
-                    showAuth();
-                })
-                .catch(error => {
-                    console.error('Logout error:', error);
-                });
-        });
-
-        // Modal event listeners
-        aboutLink.addEventListener('click', () => {
-            openModal(aboutModal);
-        });
-
-        closeAboutModal.addEventListener('click', () => {
-            closeModal(aboutModal);
-        });
-
-        contactLink.addEventListener('click', () => {
-            openModal(contactModal);
-        });
-
-        closeContactModal.addEventListener('click', () => {
-            closeModal(contactModal);
-        });
-
-        termsLink.addEventListener('click', () => {
-            openModal(termsModal);
-        });
-
-        closeTermsModal.addEventListener('click', () => {
-            closeModal(termsModal);
-        });
-
-        // Theme toggle
-        themeToggle.addEventListener('change', () => {
-            if (themeToggle.checked) {
-                document.body.style.filter = 'invert(1) hue-rotate(180deg)';
-            } else {
-                document.body.style.filter = 'none';
-            }
-        });
-
-        // Chat badge interaction
-        chatList.addEventListener('click', (e) => {
-            if (e.target.classList.contains('chat-item')) {
-                // Remove active class from all items
-                document.querySelectorAll('.chat-item').forEach(item => {
-                    item.classList.remove('active');
-                });
-                
-                // Add active class to clicked item
-                e.target.classList.add('active');
-                
-                // Decrease chat badge count
-                let currentCount = parseInt(chatBadge.textContent);
-                if (currentCount > 0) {
-                    currentCount--;
-                    chatBadge.textContent = currentCount;
-                    chatHeaderBadge.textContent = currentCount;
+            });
+            
+            // Theme toggle
+            themeToggle.addEventListener('change', function() {
+                if (this.checked) {
+                    document.body.style.background = '#1a1a1a';
+                    document.body.style.color = 'white';
+                } else {
+                    document.body.style.background = '';
+                    document.body.style.color = '';
                 }
-            }
-        });
-
-        // Initialize the app
-        function initApp() {
-            // Set minimum date for birthdate (18 years ago)
-            const today = new Date();
-            const minDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
-            document.getElementById('birthdate').max = minDate.toISOString().split('T')[0];
-            
-            // Set active post type
-            postOptions[0].style.background = '#e73c7e';
-            postOptions[0].style.color = 'white';
+            });
             
             // Close modals when clicking outside
             window.addEventListener('click', (e) => {
@@ -1506,10 +1574,13 @@
                     e.target.style.display = 'none';
                 }
             });
-        }
+        });
 
-        // Run initialization when DOM is loaded
-        document.addEventListener('DOMContentLoaded', initApp);
+        // Initialize first post button as active
+        if (postOptions.length > 0) {
+            postOptions[0].style.background = '#e73c7e';
+            postOptions[0].style.color = 'white';
+        }
     </script>
 </body>
 </html>
